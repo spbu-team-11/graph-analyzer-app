@@ -8,6 +8,7 @@ import nl.cwts.networkanalysis.Clustering
 import nl.cwts.networkanalysis.LeidenAlgorithm
 import nl.cwts.networkanalysis.Network
 import tornadofx.alert
+import utils.Alerter
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -17,7 +18,7 @@ class CommunitiesFinder<V, E> {
         val doubleResolution = resolution.toDoubleOrNull()
         val intNIterations = nIterations.toIntOrNull()
         if(doubleResolution == null || intNIterations == null){
-            alert(Alert.AlertType.ERROR, "Конченный?")
+            Alerter().alertIncorrectArgs("Incorrect arguments for find community, for details click [Help]")
             return false
         }
         log("community finding started $doubleResolution, $intNIterations")

@@ -10,8 +10,8 @@ class MainApp: App(MainView::class, Styles::class) {
         log("Starting the application...")
 
         with(stage) {
-            width = 1366.0
-            height = 768.0
+            width = 800.0
+            height = 600.0
         }
         super.start(stage)
 

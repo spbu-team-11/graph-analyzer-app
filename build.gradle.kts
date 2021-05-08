@@ -28,7 +28,9 @@ dependencies {
     implementation("no.tornado:tornadofx:$`tornadofx-version`") {
         exclude("org.jetbrains.kotlin")
     }
+
     implementation("nl.cwts", "networkanalysis", "1.1.0-5-ga3f342d.dirty")
+  
     implementation(files("libs/force-atlas2.jar", "libs/force-atlas2-tools.jar"))
 }
 
