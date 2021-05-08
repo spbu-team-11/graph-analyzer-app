@@ -6,7 +6,7 @@ import tornadofx.px
 
 class Styles : Stylesheet() {
     companion object {
-        private val jbmono = loadFont("/fonts/jb-mono-regular.ttf", 8)
+        private val jbmono = loadFont("/fonts/jb-mono-regular.ttf", 10)
     }
 
     init {

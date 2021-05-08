@@ -44,7 +44,8 @@ class MainView : View("Graph visualizer") {
 
                 }
             }
-            button("Make layout") {
+
+            button("Force Atlas 2 layout") {
                 minWidth = defaultMinWidthLeft
                 action {
 
