@@ -6,7 +6,8 @@ import javafx.stage.StageStyle
 import tornadofx.App
 import tornadofx.launch
 
-class MainApp: App(MainView::class, Styles::class) {
+class MainApp : App(MainView::class, Styles::class) {
+
     override fun start(stage: Stage) {
         log("Starting the application...")
 

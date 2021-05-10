@@ -1,20 +1,15 @@
 package controller
 
-import com.example.demo.logger.log
-import model.finders.CommunitiesFinder
-import view.GraphView
 import view.VertexView
 import javafx.geometry.Point2D
 import javafx.scene.paint.Color
-import javafx.scene.text.Text
-import model.UndirectedGraph
 import tornadofx.Controller
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
-import kotlin.random.Random
 
-class CircularPlacementStrategy: Controller(), RepresentationStrategy {
+class CircularPlacementStrategy : Controller(), RepresentationStrategy {
+
     override fun <V> place(width: Double, height: Double, vertices: Collection<VertexView<V>>) {
         if (vertices.isEmpty()) {
             println("CircularPlacementStrategy.place: there is nothing to place 👐🏻")
@@ -38,7 +33,6 @@ class CircularPlacementStrategy: Controller(), RepresentationStrategy {
                 it.color = Color.GRAY
             }
     }
-
 
 
     private fun Point2D.rotate(pivot: Point2D, degrees: Double): Point2D {

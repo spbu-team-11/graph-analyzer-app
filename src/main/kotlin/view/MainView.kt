@@ -32,8 +32,6 @@ class MainView : View("Graph visualizer") {
         var resolution = textfield { }
         var index = choicebox<String> { }
 
-
-
         top = setupMenuBar()
 
         left = vbox(10) {
