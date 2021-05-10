@@ -36,9 +36,9 @@ class VertexView<V>(
         yProperty().bind(centerYProperty().add(radiusProperty()).add(layoutBounds.height))
     }
 
-    val community = text(vertex.community.toString()){
+    var community = text{
         visibleProperty().bind(props.vertex.community)
-        xProperty().bind(centerXProperty().subtract(layoutBounds.width / 2 + 10))
-        yProperty().bind(centerYProperty().add(radiusProperty()).add(layoutBounds.height))
+        xProperty().bind(centerXProperty().subtract(layoutBounds.width / 2 + 15))
+        yProperty().bind(centerYProperty().add(radiusProperty()).add(layoutBounds.height + 15))
     }
 }

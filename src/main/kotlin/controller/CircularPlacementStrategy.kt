@@ -1,13 +1,13 @@
 package controller
 
 import com.example.demo.logger.log
-import model.UndirectedGraph
 import model.finders.CommunitiesFinder
 import view.GraphView
 import view.VertexView
-import view.props
 import javafx.geometry.Point2D
 import javafx.scene.paint.Color
+import javafx.scene.text.Text
+import model.UndirectedGraph
 import tornadofx.Controller
 import kotlin.math.cos
 import kotlin.math.min
@@ -39,15 +39,16 @@ class CircularPlacementStrategy: Controller(), RepresentationStrategy {
             }
     }
 
-    override fun <V, E> showCommunities(graph: GraphView<String, Long>, nIteration: String, resolution: String){
+    override fun <V, E> showCommunities(graph: UndirectedGraph<String, Long>, graphView: GraphView<String, Long>, nIteration: String, resolution: String){
         log("community finding starting...")
 
         val finder = CommunitiesFinder<V, E>()
-        val returnCode = finder.findCommunity(props.SAMPLE_GRAPH as UndirectedGraph<V, E>, nIteration, resolution)
+        val returnCode = finder.findCommunity(graph, nIteration, resolution)
         if(!returnCode) return
-        graph.vertices()
+        graphView.vertices()
             .onEach {
                 val com = it.vertex.community
+                it.community.text = com.toString()
                 it.color = generateRandomColor(com * 100)
             }
     }

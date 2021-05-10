@@ -1,5 +1,7 @@
 package styles
 
+import javafx.scene.paint.Color
+import javafx.stage.StageStyle
 import tornadofx.Stylesheet
 import tornadofx.loadFont
 import tornadofx.px
@@ -13,6 +15,8 @@ class Styles : Stylesheet() {
         root {
             jbmono?.let { font = it }
             fontSize = 10.px
+            baseColor = Color.WHITE
         }
     }
+
 }
