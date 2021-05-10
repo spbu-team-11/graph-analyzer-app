@@ -88,7 +88,11 @@ object props {
                     if (i < j) addEdge(i.toString(), j.toString(), (i * 10000 + j).toLong())
                 }
             }
-
+        }),
+        Pair("Little example", UndirectedGraph<String, Long>().apply {
+            addVertex("a")
+            addVertex("b")
+            addEdge("a", "b", 1)
         })
     )
 }

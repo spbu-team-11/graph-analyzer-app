@@ -1,11 +1,8 @@
 package view
 
-import controller.CircularPlacementStrategy
-import controller.RepresentationStrategy
 import com.example.demo.logger.log
 import com.sun.javafx.scene.control.MenuBarButton
-import controller.PaintingByCommunitiesStrategy
-import controller.PaintingStrategy
+import controller.*
 import javafx.beans.property.BooleanProperty
 import javafx.beans.property.BooleanPropertyBase
 import javafx.collections.FXCollections
@@ -23,13 +20,15 @@ class MainView : View("Graph visualizer") {
 
     private var graph = readSampleGraph("1")
     private var graphView = GraphView(graph)
-    private val placementStrategy: RepresentationStrategy by inject<CircularPlacementStrategy>()
+    private val circularPlacementStrategy: RepresentationStrategy by inject<CircularPlacementStrategy>()
+    private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
 
 
     override val root = borderpane {
 
         var nIteration = textfield { }
+        var nIteration2 = textfield {  }
         var resolution = textfield { }
         var index = choicebox<String> { }
 
@@ -47,14 +46,14 @@ class MainView : View("Graph visualizer") {
                 }
             }
             hbox(5 / 3) {
-                textfield { maxWidth = 50.0 }
+                nIteration2 = textfield { maxWidth = 50.0 }
                 textfield { maxWidth = 50.0 }
                 textfield { maxWidth = 50.0 }
             }
             button("Make layout") {
                 minWidth = defaultMinWidthLeft
                 action {
-
+                    forceLayout(nIteration2.text)
                 }
 
             }
@@ -107,10 +106,21 @@ class MainView : View("Graph visualizer") {
 
     private fun arrangeVertices() {
         currentStage?.apply {
-            placementStrategy.place(
+            circularPlacementStrategy.place(
                 width - props.vertex.radius.get() * 5,
                 height - props.vertex.radius.get() * 5,
                 graphView.vertices(),
+            )
+        }
+    }
+
+    private fun forceLayout(nIteration: String) {
+        currentStage?.apply {
+            forcePlacementStrategy.place(
+                graphView,
+                nIteration,
+                width - props.vertex.radius.get() * 5,
+                height - props.vertex.radius.get() * 5,
             )
         }
     }
