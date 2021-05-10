@@ -93,6 +93,12 @@ object props {
             addVertex("a")
             addVertex("b")
             addEdge("a", "b", 1)
+            addVertex("c")
+            addVertex("d")
+            addEdge("c", "d", 2)
+            addVertex("e")
+            addVertex("f")
+            addEdge("e", "f", 3)
         })
     )
 }
