@@ -8,14 +8,14 @@ import javafx.collections.FXCollections
 import javafx.scene.control.Alert
 import javafx.scene.control.TextField
 import tornadofx.*
-import utils.Alerter
+//import utils.Alerter
 
 
 class MainView : View("Graph visualizer") {
     private var graph = readGraph()
     private val defaultMinWidthLeft = 150.0
     private val defaultMinWidthBottom = 70.0
-    private val alerter =  Alerter()
+    //private val alerter =  Alerter()
     private val graphView = GraphView(graph)
     private val strategy: RepresentationStrategy by inject<CircularPlacementStrategy>()
 
@@ -55,12 +55,13 @@ class MainView : View("Graph visualizer") {
             button("Reset default settings") {
                 minWidth = defaultMinWidthLeft
                 action {
+                    arrangeVertices()
                 }
             }
             button("Help") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    alerter.alertHelp()
+                    //alerter.alertHelp()
                 }
             }
         }
