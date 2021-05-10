@@ -1,4 +1,4 @@
-package model.finders
+package model.Community
 
 import com.example.demo.logger.log
 import model.UndirectedGraph

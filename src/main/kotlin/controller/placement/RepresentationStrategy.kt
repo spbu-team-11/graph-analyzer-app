@@ -1,9 +1,6 @@
-package controller
+package controller.placement
 
 
-import model.Graph
-import model.UndirectedGraph
-import view.GraphView
 import view.VertexView
 
 interface RepresentationStrategy {

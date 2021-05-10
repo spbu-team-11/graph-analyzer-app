@@ -1,4 +1,4 @@
-package controller
+package controller.painting
 
 import model.UndirectedGraph
 import view.GraphView

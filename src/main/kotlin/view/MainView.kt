@@ -1,14 +1,9 @@
 package view
 
-import controller.CircularPlacementStrategy
-import controller.RepresentationStrategy
-import com.example.demo.logger.log
-import com.sun.javafx.scene.control.MenuBarButton
-import controller.PaintingByCommunitiesStrategy
-import controller.PaintingStrategy
-import javafx.beans.property.BooleanProperty
-import javafx.beans.property.BooleanPropertyBase
-import javafx.collections.FXCollections
+import controller.placement.CircularPlacementStrategy
+import controller.placement.RepresentationStrategy
+import controller.painting.PaintingByCommunitiesStrategy
+import controller.painting.PaintingStrategy
 import javafx.scene.control.*
 import model.UndirectedGraph
 import tornadofx.*
@@ -47,7 +42,7 @@ class MainView : View("Graph visualizer") {
                     showCommunities<String, Long>(nIteration.text, resolution.text)
                 }
             }
-            hbox(5 /3){
+            hbox(5 / 3) {
                 textfield { maxWidth = 50.0 }
                 textfield { maxWidth = 50.0 }
                 textfield { maxWidth = 50.0 }
@@ -59,7 +54,7 @@ class MainView : View("Graph visualizer") {
                 }
 
             }
-            textfield{maxWidth = defaultMinWidthLeft}
+            textfield { maxWidth = defaultMinWidthLeft }
             button("Find ...") {
                 minWidth = defaultMinWidthLeft
                 action {
@@ -75,30 +70,6 @@ class MainView : View("Graph visualizer") {
             }
 
         }
-
-        bottom = vbox(5) {
-//            hbox(5) {
-//                button("Save as") {
-//                    minWidth = defaultMinWidthBottom
-//                    action {
-//                        val dir = chooseDirectory("save")
-//                    }
-//                }
-//                saveInfoDataBase = choicebox {
-//                    minWidth = defaultMinWidthBottom
-//                    items = FXCollections.observableArrayList("MySQL", "txt", "Neo4j")
-//                }
-//            }
-//            hbox(5) {
-//                button("Open") {
-//                    minWidth = defaultMinWidthBottom
-//                    action {
-//                        val file = chooseFile("load", arrayOf())
-//                    }
-//                }
-//            }
-        }
-
     }
 
 

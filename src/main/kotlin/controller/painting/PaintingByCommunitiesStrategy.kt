@@ -1,9 +1,9 @@
-package controller
+package controller.painting
 
 import com.example.demo.logger.log
 import javafx.scene.paint.Color
 import model.UndirectedGraph
-import model.finders.CommunitiesFinder
+import model.Community.CommunitiesFinder
 import tornadofx.Controller
 import view.GraphView
 import kotlin.random.Random

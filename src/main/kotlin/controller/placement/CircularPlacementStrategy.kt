@@ -1,18 +1,12 @@
-package controller
+package controller.placement
 
-import com.example.demo.logger.log
-import model.finders.CommunitiesFinder
-import view.GraphView
 import view.VertexView
 import javafx.geometry.Point2D
 import javafx.scene.paint.Color
-import javafx.scene.text.Text
-import model.UndirectedGraph
 import tornadofx.Controller
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
-import kotlin.random.Random
 
 class CircularPlacementStrategy: Controller(), RepresentationStrategy {
     override fun <V> place(width: Double, height: Double, vertices: Collection<VertexView<V>>) {
