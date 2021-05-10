@@ -25,4 +25,6 @@ class MainApp: App(MainView::class, Styles::class) {
 
 fun main(args: Array<String>) {
     launch<MainApp>(args)
+
+    log("The application has finished")
 }
