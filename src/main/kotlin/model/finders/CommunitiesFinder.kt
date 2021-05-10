@@ -3,22 +3,21 @@ package model.finders
 import com.example.demo.logger.log
 import model.UndirectedGraph
 import model.Vertex
-import javafx.scene.control.Alert
 import nl.cwts.networkanalysis.Clustering
 import nl.cwts.networkanalysis.LeidenAlgorithm
 import nl.cwts.networkanalysis.Network
-import tornadofx.alert
 import utils.Alerter
 import java.util.*
 import kotlin.collections.HashMap
 
 
 class CommunitiesFinder<V, E> {
-    fun findCommunity(graph: UndirectedGraph<V, E>,nIterations: String, resolution: String): Boolean{
+
+    fun findCommunity(graph: UndirectedGraph<String, Long>, nIterations: String, resolution: String): Boolean {
         val doubleResolution = resolution.toDoubleOrNull()
         val intNIterations = nIterations.toIntOrNull()
-        if(doubleResolution == null || intNIterations == null){
-            Alerter().alertIncorrectArgs("Incorrect arguments for find community, for details click [Help]")
+        if (doubleResolution == null || intNIterations == null) {
+            Alerter().alertIncorrectArgs("Incorrect arguments for find community")
             return false
         }
         log("community finding started $doubleResolution, $intNIterations")
@@ -32,31 +31,30 @@ class CommunitiesFinder<V, E> {
         return true
     }
 
-    private fun<V, E> UndirectedGraph<V, E>.toNetwork(): Network { // Затычка
-        val size = vertices().size
+    private fun <V, E> UndirectedGraph<V, E>.toNetwork(): Network { // Затычка
 
         val dict = makeDict()
 
-        val edges= Array(2) { IntArray(size) { 0 } }
-        for((i,edge) in edges().withIndex()){
+        val edges = Array(2) { IntArray(edges().size) { 0 } }
+        for ((i, edge) in edges().withIndex()) {
             edges[0][i] = dict[edge.vertices.first]!!
             edges[1][i] = dict[edge.vertices.second]!!
         }
 
-        return Network(size, false, edges, false, true)
+        return Network(vertices().size, false, edges, false, true)
     }
 
-    private fun<V, E> UndirectedGraph<V, E>.makeDict(): HashMap<Vertex<V>, Int> {
+    private fun <V, E> UndirectedGraph<V, E>.makeDict(): HashMap<Vertex<V>, Int> {
         val dict = hashMapOf<Vertex<V>, Int>()
-        for((i, vertex) in vertices().withIndex()){
+        for ((i, vertex) in vertices().withIndex()) {
             dict[vertex] = i
         }
 
         return dict
     }
 
-    private fun<V, E> UndirectedGraph<V, E>.setCommunity(clustering: Clustering){
-        for((i,vertex) in vertices().withIndex()){
+    private fun <V, E> UndirectedGraph<V, E>.setCommunity(clustering: Clustering) {
+        for ((i, vertex) in vertices().withIndex()) {
             vertex.community = clustering.clusters[i]
         }
     }

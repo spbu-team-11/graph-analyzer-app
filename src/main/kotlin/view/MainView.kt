@@ -3,110 +3,100 @@ package view
 import controller.CircularPlacementStrategy
 import controller.RepresentationStrategy
 import com.example.demo.logger.log
-import model.Graph
+import com.sun.javafx.scene.control.MenuBarButton
+import controller.PaintingByCommunitiesStrategy
+import controller.PaintingStrategy
+import javafx.beans.property.BooleanProperty
+import javafx.beans.property.BooleanPropertyBase
 import javafx.collections.FXCollections
-import javafx.scene.control.Alert
-import javafx.scene.control.TextField
+import javafx.scene.control.*
+import model.UndirectedGraph
 import tornadofx.*
 import utils.Alerter
 
 
 class MainView : View("Graph visualizer") {
-    private var graph = readGraph()
-    private val defaultMinWidthLeft = 150.0
-    private val defaultMinWidthBottom = 70.0
-    private val alerter =  Alerter()
-    private val graphView = GraphView(graph)
-    private val strategy: RepresentationStrategy by inject<CircularPlacementStrategy>()
+    private val defaultMinWidthLeft = 155.0
+    private val defaultMinWidthBottom = 80.0
+    private val alerter = Alerter()
+
+    private var graph = readSampleGraph("1")
+    private var graphView = GraphView(graph)
+    private val placementStrategy: RepresentationStrategy by inject<CircularPlacementStrategy>()
+    private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
+
 
     override val root = borderpane {
-        var nIteration: TextField = textfield {  }
-        var resolution: TextField = textfield {  }
 
-        center {
-            add(graphView)
-        }
+        var nIteration = textfield { }
+        var resolution = textfield { }
+        var index = choicebox<String> { }
+
+        top = setupMenuBar()
+
         left = vbox(10) {
-
-            button(" Find communities") {
+            hbox(5) {
+                nIteration = textfield { maxWidth = 75.0 }
+                resolution = textfield { maxWidth = 75.0 }
+            }
+            button("Find communities") {
                 minWidth = defaultMinWidthLeft
                 action {
                     showCommunities<String, Long>(nIteration.text, resolution.text)
                 }
             }
-            hbox{
-                nIteration = textfield {  maxWidth = 75.0}
-                resolution = textfield {  maxWidth = 75.0}
+            hbox(5 /3){
+                textfield { maxWidth = 50.0 }
+                textfield { maxWidth = 50.0 }
+                textfield { maxWidth = 50.0 }
             }
+            button("Make layout") {
+                minWidth = defaultMinWidthLeft
+                action {
 
+                }
 
-            button(" Find ....") {
+            }
+            textfield{maxWidth = defaultMinWidthLeft}
+            button("Find ...") {
                 minWidth = defaultMinWidthLeft
                 action {
 
                 }
             }
 
-            button("Force Atlas 2 layout") {
-                minWidth = defaultMinWidthLeft
-                action {
-                }
-            }
             button("Reset default settings") {
                 minWidth = defaultMinWidthLeft
                 action {
+                    arrangeVertices()
                 }
             }
-            button("Help") {
-                minWidth = defaultMinWidthLeft
-                action {
-                    alerter.alertHelp()
-                }
-            }
+
         }
-        right = vbox(10) {
-            checkbox("Show vertices labels ", props.vertex.label) {
-                action {
-                    log("vertex labels are ${if (isSelected) "enabled" else "disabled"}")
-                }
-            }
-            checkbox("Show edges labels ", props.edge.label) {
-                action {
-                    log("edges labels are ${if (isSelected) "enabled" else "disabled"}")
-                }
-            }
-            checkbox("Show communities labels ", props.vertex.community) {
-                action {
-                    log("communities labels are ${if (isSelected) "enabled" else "disabled"}")
-                }
-            }
+
+        bottom = vbox(5) {
+//            hbox(5) {
+//                button("Save as") {
+//                    minWidth = defaultMinWidthBottom
+//                    action {
+//                        val dir = chooseDirectory("save")
+//                    }
+//                }
+//                saveInfoDataBase = choicebox {
+//                    minWidth = defaultMinWidthBottom
+//                    items = FXCollections.observableArrayList("MySQL", "txt", "Neo4j")
+//                }
+//            }
+//            hbox(5) {
+//                button("Open") {
+//                    minWidth = defaultMinWidthBottom
+//                    action {
+//                        val file = chooseFile("load", arrayOf())
+//                    }
+//                }
+//            }
         }
-        bottom = hbox(5) {
-            vbox(10) {
-                button("Save as") {
-                    minWidth = defaultMinWidthBottom
-                    action {
-                        val dir = chooseDirectory("save")
-                    }
-                }
-                button("Load from") {
-                    minWidth = defaultMinWidthBottom
-                    action {
-                        val file = chooseFile("load", arrayOf())
-                    }
-                }
-            }
-            vbox(10) {
-                choicebox<String> {
-                    minWidth = defaultMinWidthBottom
-                    items = FXCollections.observableArrayList("MySQL", "txt", "Neo4j")
-                }
-                choicebox<String> {
-                    minWidth = defaultMinWidthBottom
-                    items = FXCollections.observableArrayList("MySQL", "txt", "Neo4j")
-                }
-            }
-        }
+
     }
 
 
@@ -116,7 +106,7 @@ class MainView : View("Graph visualizer") {
 
     private fun arrangeVertices() {
         currentStage?.apply {
-            strategy.place(
+            placementStrategy.place(
                 width - props.vertex.radius.get() * 5,
                 height - props.vertex.radius.get() * 5,
                 graphView.vertices(),
@@ -124,13 +114,76 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun <V,E> showCommunities(nIteration: String, resolution: String) {
+    private fun <V, E> showCommunities(nIteration: String, resolution: String) {
         currentStage?.apply {
-            strategy.showCommunities<V, E>(graphView, nIteration, resolution)
+            paintingStrategy.showCommunities<V, E>(graph, graphView, nIteration, resolution)
         }
     }
 
-    private fun readGraph(): Graph<String, Long> {
-        return props.SAMPLE_GRAPH
+    private fun readSampleGraph(i: String): UndirectedGraph<String, Long> {
+        return props.SAMPLE_GRAPH[i] ?: UndirectedGraph()
     }
+
+    private fun <V, E> showGraph() {
+        graphView = GraphView(graph)
+        root.center {
+            add(graphView)
+        }
+        arrangeVertices()
+    }
+
+    private fun setupMenuBar(): MenuBar {
+        val menuBar = MenuBar()
+
+        val showMenu = Menu("Settings")
+
+        val checkShowVertexLabel = CheckMenuItem("Vertex label")
+        checkShowVertexLabel.setOnAction { e -> props.vertex.label.set(!props.vertex.label.value) }
+
+        val checkShowEdgesLabel = CheckMenuItem("Edges label")
+        checkShowEdgesLabel.setOnAction { e -> props.edge.label.set(!props.edge.label.value) }
+
+        val checkShowCommunitiesLabel = CheckMenuItem("Community label")
+        checkShowCommunitiesLabel.setOnAction { e -> props.vertex.community.set(!props.vertex.community.value) }
+
+        with(showMenu.items) {
+            add(checkShowVertexLabel)
+            add(checkShowEdgesLabel)
+            add(checkShowCommunitiesLabel)
+        }
+
+        val fileMenu = Menu("File")
+        val open = MenuItem("Open")
+        val close = MenuItem("Close")
+        with(fileMenu.items){
+            add(open)
+            add(close)
+        }
+
+        val helpMenu = Menu("Help")
+        val help = MenuItem("Help")
+        help.setOnAction { e -> alerter.alertHelp() }
+        helpMenu.items.add(help)
+
+        val examplesMenu = Menu("Examples")
+        for(exampleName in props.SAMPLE_GRAPH.keys.reversed()){
+            val example = MenuItem(exampleName)
+            example.setOnAction { e ->
+                graph = props.SAMPLE_GRAPH[exampleName]!!
+                showGraph<String, Long>()
+            }
+            examplesMenu.items.add(example)
+        }
+
+
+        with(menuBar.menus) {
+            add(fileMenu)
+            add(helpMenu)
+            add(examplesMenu)
+            add(showMenu)
+        }
+
+        return menuBar
+    }
+
 }

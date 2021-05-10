@@ -1,6 +1,7 @@
 package model
 
-class UndirectedGraph<V, E>: Graph<V, E> {
+class UndirectedGraph<V, E> : Graph<V, E> {
+
     private val vertices = hashMapOf<V, Vertex<V>>()
     private val edges = hashMapOf<E, Edge<E, V>>()
 
@@ -16,13 +17,13 @@ class UndirectedGraph<V, E>: Graph<V, E> {
         return edges.getOrPut(e) { UndirectedEdge(e, first, second) }
     }
 
-    private data class UndirectedVertex<V>(override var element: V, override var community: Int): Vertex<V>
+    private data class UndirectedVertex<V>(override var element: V, override var community: Int) : Vertex<V>
 
     private data class UndirectedEdge<E, V>(
         override var element: E,
         var first: Vertex<V>,
         var second: Vertex<V>,
-    ): Edge<E, V> {
+    ) : Edge<E, V> {
         override val vertices
             get() = first to second
     }
