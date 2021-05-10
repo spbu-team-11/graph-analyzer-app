@@ -16,6 +16,7 @@ import utils.Alerter
 
 
 class MainView : View("Graph visualizer") {
+
     private val defaultMinWidthLeft = 155.0
     private val defaultMinWidthBottom = 80.0
     private val alerter = Alerter()
@@ -45,7 +46,7 @@ class MainView : View("Graph visualizer") {
                     showCommunities<String, Long>(nIteration.text, resolution.text)
                 }
             }
-            hbox(5 /3){
+            hbox(5 / 3) {
                 textfield { maxWidth = 50.0 }
                 textfield { maxWidth = 50.0 }
                 textfield { maxWidth = 50.0 }
@@ -57,7 +58,7 @@ class MainView : View("Graph visualizer") {
                 }
 
             }
-            textfield{maxWidth = defaultMinWidthLeft}
+            textfield { maxWidth = defaultMinWidthLeft }
             button("Find ...") {
                 minWidth = defaultMinWidthLeft
                 action {
@@ -155,7 +156,7 @@ class MainView : View("Graph visualizer") {
         val fileMenu = Menu("File")
         val open = MenuItem("Open")
         val close = MenuItem("Close")
-        with(fileMenu.items){
+        with(fileMenu.items) {
             add(open)
             add(close)
         }
@@ -166,7 +167,7 @@ class MainView : View("Graph visualizer") {
         helpMenu.items.add(help)
 
         val examplesMenu = Menu("Examples")
-        for(exampleName in props.SAMPLE_GRAPH.keys.reversed()){
+        for (exampleName in props.SAMPLE_GRAPH.keys.reversed()) {
             val example = MenuItem(exampleName)
             example.setOnAction { e ->
                 graph = props.SAMPLE_GRAPH[exampleName]!!
