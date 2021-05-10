@@ -4,6 +4,8 @@ import controller.CircularPlacementStrategy
 import controller.RepresentationStrategy
 import com.example.demo.logger.log
 import com.sun.javafx.scene.control.MenuBarButton
+import controller.PaintingByCommunitiesStrategy
+import controller.PaintingStrategy
 import javafx.beans.property.BooleanProperty
 import javafx.beans.property.BooleanPropertyBase
 import javafx.collections.FXCollections
@@ -20,7 +22,9 @@ class MainView : View("Graph visualizer") {
 
     private var graph = readSampleGraph("1")
     private var graphView = GraphView(graph)
-    private val strategy: RepresentationStrategy by inject<CircularPlacementStrategy>()
+    private val placementStrategy: RepresentationStrategy by inject<CircularPlacementStrategy>()
+    private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
+
 
     override val root = borderpane {
 
@@ -104,7 +108,7 @@ class MainView : View("Graph visualizer") {
 
     private fun arrangeVertices() {
         currentStage?.apply {
-            strategy.place(
+            placementStrategy.place(
                 width - props.vertex.radius.get() * 5,
                 height - props.vertex.radius.get() * 5,
                 graphView.vertices(),
@@ -114,7 +118,7 @@ class MainView : View("Graph visualizer") {
 
     private fun <V, E> showCommunities(nIteration: String, resolution: String) {
         currentStage?.apply {
-            strategy.showCommunities<V, E>(graph, graphView, nIteration, resolution)
+            paintingStrategy.showCommunities<V, E>(graph, graphView, nIteration, resolution)
         }
     }
 
