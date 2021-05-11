@@ -24,7 +24,7 @@ object props {
 
     object GUI {
         val darkTheme = booleanProperty(false)
-        val leftMenu = booleanProperty(false)
+        val leftMenu = booleanProperty(true)
     }
 
     val SAMPLE_GRAPH = hashMapOf(
