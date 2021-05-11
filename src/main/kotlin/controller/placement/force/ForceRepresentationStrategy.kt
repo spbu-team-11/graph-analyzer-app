@@ -1,4 +1,4 @@
-package controller.placement
+package controller.placement.force
 
 import view.GraphView
 

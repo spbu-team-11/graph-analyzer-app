@@ -4,10 +4,10 @@ import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
 import javafx.scene.control.*
 import model.UndirectedGraph
-import controller.placement.CircularPlacementStrategy
-import controller.placement.ForcePlacementStrategy
-import controller.placement.ForceRepresentationStrategy
-import controller.placement.RepresentationStrategy
+import controller.placement.circular.CircularPlacementStrategy
+import controller.placement.force.ForcePlacementStrategy
+import controller.placement.force.ForceRepresentationStrategy
+import controller.placement.circular.CircularRepresentationStrategy
 import tornadofx.*
 import utils.Alerter
 
@@ -20,7 +20,7 @@ class MainView : View("Graph visualizer") {
 
     private var graph = readSampleGraph("1")
     private var graphView = GraphView(graph)
-    private val circularPlacementStrategy: RepresentationStrategy by inject<CircularPlacementStrategy>()
+    private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
 
@@ -35,11 +35,8 @@ class MainView : View("Graph visualizer") {
         value = 0.5
     }
 
-
-
-
-        var nIteration2 = textfield {  }
-        var gravity = textfield {}
+    var nIteration2 = textfield {  }
+    var gravity = textfield { }
 
 
 

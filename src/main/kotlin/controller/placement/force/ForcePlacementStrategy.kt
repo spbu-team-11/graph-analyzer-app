@@ -1,4 +1,4 @@
-package controller.placement
+package controller.placement.force
 
 import com.example.demo.logger.log
 import javafx.geometry.Point2D
@@ -36,7 +36,9 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         forcePlacement.setGraphModel(graphModel)
         forcePlacement.gravity = gravity?.toDoubleOrNull() ?: 1.0
         if (vertices.size > 2000) forcePlacement.isBarnesHutOptimize = true
-        forcePlacement.scalingRatio = 15.0
+//        forcePlacement.scalingRatio
+        //forcePlacement.isStrongGravityMode = true
+        forcePlacement.isLinLogMode = true
 
         val graphVertices = mutableSetOf<VertexView<V>>()
         val allNodes = hashMapOf<V, NodeImpl>()
@@ -80,7 +82,7 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
 
         val max = nodes.maxOf { abs(it.x()) / 2 } to nodes.maxOf { abs(it.y()) / 2 }
         val coefficient =
-            (if (max.first > width / 2) max.first / width * 4.0 else 1.0) to (if (max.second > height / 2) max.second / height * 4.0 else 1.0)
+            (if (max.first > width / 2) max.first / width * 4.5 else 1.0) to (if (max.second > height / 2) max.second / height * 4.5 else 1.0)
         val maxCoeff = maxOf(coefficient.first, coefficient.second)
 
         i = 0

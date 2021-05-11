@@ -1,4 +1,4 @@
-package controller.placement
+package controller.placement.circular
 
 import view.VertexView
 import javafx.geometry.Point2D
@@ -8,7 +8,7 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
-class CircularPlacementStrategy : Controller(), RepresentationStrategy {
+class CircularPlacementStrategy : Controller(), CircularRepresentationStrategy {
 
     override fun <V> place(width: Double, height: Double, vertices: Collection<VertexView<V>>) {
         if (vertices.isEmpty()) {
