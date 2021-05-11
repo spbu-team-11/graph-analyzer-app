@@ -26,4 +26,6 @@ class UndirectedGraph<V, E>: Graph<V, E> {
         override val vertices
             get() = first to second
     }
+
+    fun isEmpty() = vertices.isEmpty()
 }

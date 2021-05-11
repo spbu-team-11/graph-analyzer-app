@@ -6,9 +6,9 @@ import tornadofx.text
 
 class EdgeView<E, V>(
     edge: Edge<E, V>,
-    first: VertexView<V>,
-    second: VertexView<V>,)
-    : Line() {
+    val first: VertexView<V>,
+    val second: VertexView<V>,
+) : Line() {
 
     init {
         startXProperty().bind(first.centerXProperty())
