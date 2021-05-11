@@ -70,15 +70,7 @@ class ForceLayout<V, E> {
         }
         graphModel.graph.addAllEdges(allEdges)
 
-        forcePlacement.initAlgo()
-        var i = 0
-        while (i < countOfIterations) {
-            forcePlacement.goAlgo()
-            i++
-            log("Force Atlas 2: $i iteration" + (if (i > 1) "s" else "") + " behind")
-        }
-        forcePlacement.endAlgo()
-        log("Force Atlas 2 has finished")
+        forcePlacement.runAlgo(countOfIterations)
 
         val nodes = graphModel.store.nodes.toArray()
 
@@ -87,7 +79,7 @@ class ForceLayout<V, E> {
             (if (max.first > width / 2) max.first / width * 4.5 else 1.0) to (if (max.second > height / 2) max.second / height * 4.5 else 1.0)
         val maxCoefficient = maxOf(coefficient.first, coefficient.second)
 
-        i = 0
+        var i = 0
         graphVertices.onEach {
             it.position =
                 nodes[i].x() / maxCoefficient + center.x to nodes[i].y() / maxCoefficient + center.y
@@ -99,4 +91,16 @@ class ForceLayout<V, E> {
 
     private fun initGravity(gravity: String?) = gravity?.toDoubleOrNull() ?: 1.0
 
+    private fun ForceAtlas2.runAlgo(countOfIterations: Int) {
+        initAlgo()
+        var i = 0
+        while (i < countOfIterations) {
+            goAlgo()
+            i++
+            log("Force Atlas 2: $i iteration" + (if (i > 1) "s" else "") + " behind")
+        }
+
+        endAlgo()
+        log("Force Atlas 2 has finished")
+    }
 }
