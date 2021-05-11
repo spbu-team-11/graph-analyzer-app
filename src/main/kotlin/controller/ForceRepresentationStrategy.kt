@@ -1,6 +1,5 @@
 package controller
 
-import model.UndirectedGraph
 import view.GraphView
 
 interface ForceRepresentationStrategy {

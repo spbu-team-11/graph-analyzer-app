@@ -61,7 +61,6 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         for (i in allNodes) {
             graphModel.graph.addNode(i.value)
         }
-
         graphModel.graph.addAllEdges(allEdges)
 
         forcePlacement.initAlgo()
