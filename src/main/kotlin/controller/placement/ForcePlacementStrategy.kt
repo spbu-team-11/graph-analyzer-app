@@ -71,15 +71,16 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         while (i < nIterations.toInt()) {
             forcePlacement.goAlgo()
             i++
+            log("Force Atlas 2: $i iteration" + (if(i > 1) "s" else "") + " behind")
         }
         forcePlacement.endAlgo()
+        log("Force Atlas 2 has finished")
 
         val nodes = graphModel.store.nodes.toArray()
 
         val max = nodes.maxOf { abs(it.x()) / 2 } to nodes.maxOf { abs(it.y()) / 2 }
         val coefficient =
             (if (max.first > width / 2) max.first / width * 4.0 else 1.0) to (if (max.second > height / 2) max.second / height * 4.0 else 1.0)
-        log(coefficient.toString())
         val maxCoeff = maxOf(coefficient.first, coefficient.second)
 
         i = 0
