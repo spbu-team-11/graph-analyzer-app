@@ -35,11 +35,11 @@ class ForceLayout<V, E> {
         val vertices = graphView.vertices()
         val edges = graphView.edges()
 
-        val countOfIterations = initIterations(nIterations)
         val forcePlacement = ForceAtlas2(ForceAtlas2Builder(), false, false)
         val graphModel = GraphModelImpl(Configuration())
         forcePlacement.setGraphModel(graphModel)
         forcePlacement.gravity = initGravity(gravity)
+        //forcePlacement.isLinLogMode = true
         if (vertices.size > 2000) forcePlacement.isBarnesHutOptimize = true
 
         val graphVertices = mutableSetOf<VertexView<V>>()
@@ -70,7 +70,7 @@ class ForceLayout<V, E> {
         }
         graphModel.graph.addAllEdges(allEdges)
 
-        forcePlacement.runAlgo(countOfIterations)
+        forcePlacement.runAlgo(initIterations(nIterations))
 
         graphModel.translateToGraphView(graphVertices, center)
     }
@@ -92,14 +92,10 @@ class ForceLayout<V, E> {
         log("Force Atlas 2 has finished")
     }
 
-    private fun GraphModelImpl.translateToGraphView(
-        graphVertices: MutableCollection<VertexView<V>>,
-        center: Point2D
-    ) {
+    private fun GraphModelImpl.translateToGraphView(graphVertices: MutableCollection<VertexView<V>>, center: Point2D) {
         val nodes = store.nodes.toArray()
         val max = nodes.maxOf { abs(it.x()) / 2 } to nodes.maxOf { abs(it.y()) / 2 }
-        val coefficient =
-            (if (max.first > center.x) max.first / center.x * 2.25 else 1.0) to (if (max.second > center.y) max.second / center.y * 2.25 else 1.0)
+        val coefficient = calcCoefficient(max.first, center.x) to calcCoefficient(max.second, center.y)
         val maxCoefficient = maxOf(coefficient.first, coefficient.second)
 
         var i = 0
@@ -109,4 +105,7 @@ class ForceLayout<V, E> {
             i++
         }
     }
+
+    private fun calcCoefficient(first: Float, second: Double) =
+        if (first > second) first / second * 2.25 else 1.0
 }

@@ -4,6 +4,7 @@ import model.UndirectedGraph
 
 import tornadofx.booleanProperty
 import tornadofx.doubleProperty
+import kotlin.random.Random
 
 @Suppress("ClassName")
 object props {
@@ -84,14 +85,17 @@ object props {
 
             }),
         Pair("Big graph", UndirectedGraph<String, Long>().apply {
-            for (i in 0..10000) {
+            for (i in 0..1000) {
                 addVertex(i.toString())
             }
 
-            for (i in 0..9999) {
-                for (j in 0..250) {
-                    if (i < j) addEdge(i.toString(), j.toString(), (i * 10000 + j).toLong())
-                }
+            val random = Random(234)
+            for (i in 0..1000) {
+                val first = random.nextInt() % 1000
+                val second = random.nextInt() % 1000
+                addEdge(first.toString(),  second.toString(), first.toLong() * 1000 + second.toLong())
+                addEdge(first.toString(),  (second + 1).toString(), first.toLong() * 1000 + second.toLong())
+                addEdge((first + 1).toString(),  second.toString(), first.toLong() * 1000 + second.toLong())
             }
         }),
         Pair("Little example", UndirectedGraph<String, Long>().apply {
