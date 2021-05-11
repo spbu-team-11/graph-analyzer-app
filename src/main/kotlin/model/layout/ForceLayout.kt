@@ -72,19 +72,7 @@ class ForceLayout<V, E> {
 
         forcePlacement.runAlgo(countOfIterations)
 
-        val nodes = graphModel.store.nodes.toArray()
-
-        val max = nodes.maxOf { abs(it.x()) / 2 } to nodes.maxOf { abs(it.y()) / 2 }
-        val coefficient =
-            (if (max.first > width / 2) max.first / width * 4.5 else 1.0) to (if (max.second > height / 2) max.second / height * 4.5 else 1.0)
-        val maxCoefficient = maxOf(coefficient.first, coefficient.second)
-
-        var i = 0
-        graphVertices.onEach {
-            it.position =
-                nodes[i].x() / maxCoefficient + center.x to nodes[i].y() / maxCoefficient + center.y
-            i++
-        }
+        graphModel.translateToGraphView(graphVertices, center)
     }
 
     private fun initIterations(nIterations: String) = nIterations.toInt()
@@ -102,5 +90,23 @@ class ForceLayout<V, E> {
 
         endAlgo()
         log("Force Atlas 2 has finished")
+    }
+
+    private fun GraphModelImpl.translateToGraphView(
+        graphVertices: MutableCollection<VertexView<V>>,
+        center: Point2D
+    ) {
+        val nodes = store.nodes.toArray()
+        val max = nodes.maxOf { abs(it.x()) / 2 } to nodes.maxOf { abs(it.y()) / 2 }
+        val coefficient =
+            (if (max.first > center.x) max.first / center.x * 2.25 else 1.0) to (if (max.second > center.y) max.second / center.y * 2.25 else 1.0)
+        val maxCoefficient = maxOf(coefficient.first, coefficient.second)
+
+        var i = 0
+        graphVertices.onEach {
+            it.position =
+                nodes[i].x() / maxCoefficient + center.x to nodes[i].y() / maxCoefficient + center.y
+            i++
+        }
     }
 }
