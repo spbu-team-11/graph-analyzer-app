@@ -7,7 +7,6 @@ import javafx.scene.shape.Circle
 import tornadofx.text
 
 class VertexView<V>(
-
     val vertex: Vertex<V>,
     x: Double,
     y: Double,
@@ -37,7 +36,7 @@ class VertexView<V>(
         yProperty().bind(centerYProperty().add(radiusProperty()).add(layoutBounds.height))
     }
 
-    var community = text {
+    var community = text{
         visibleProperty().bind(props.vertex.community)
         xProperty().bind(centerXProperty().subtract(layoutBounds.width / 2 + 15))
         yProperty().bind(centerYProperty().add(radiusProperty()).add(layoutBounds.height + 15))

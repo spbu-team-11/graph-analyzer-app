@@ -7,7 +7,6 @@ import javafx.scene.input.MouseEvent
 import tornadofx.Controller
 
 class VertexDragController: Controller() {
-
     fun entered(event: MouseEvent) {
         val v = check(event)
         if (!event.isPrimaryButtonDown)
