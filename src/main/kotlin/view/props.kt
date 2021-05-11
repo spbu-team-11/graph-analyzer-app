@@ -1,7 +1,7 @@
 package view
 
-import model.Graph
 import model.UndirectedGraph
+
 import tornadofx.booleanProperty
 import tornadofx.doubleProperty
 
@@ -12,7 +12,7 @@ object props {
     }
 
     object vertex {
-        var radius = doubleProperty(10.0)
+        var radius = doubleProperty(5.0)
         val bigRadius = doubleProperty(20.0)
         val label = booleanProperty()
         val community = booleanProperty()
@@ -22,7 +22,7 @@ object props {
         val label = booleanProperty()
     }
 
-    object GUI{
+    object GUI {
         val darkTheme = booleanProperty(false)
         val leftMenu = booleanProperty(false)
     }

@@ -3,19 +3,16 @@ package view
 import controller.VertexDragController
 import model.Graph
 import model.UndirectedGraph
+
 import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
-import model.Vertex
 import tornadofx.add
 import tornadofx.find
 
 class GraphView<V, E>(private val graph: Graph<V, E> = UndirectedGraph()) : Pane() {
+
     private val dragger = find(VertexDragController::class)
 
-    //    private val vertices by lazy {
-//        graph.vertices().associateWith {
-//            VertexView(it, 0.0, 0.0, props.vertex.radius, Color.BLACK) }
-//    }
     private val vertices by lazy {
         graph.vertices().associateWith {
             VertexView(it, 0.0, 0.0, props.vertex.radius, Color.BLACK)
@@ -32,10 +29,9 @@ class GraphView<V, E>(private val graph: Graph<V, E> = UndirectedGraph()) : Pane
         }
     }
 
-
     fun vertices(): Collection<VertexView<V>> = vertices.values
-    fun edges(): Collection<EdgeView<E, V>> = edges.values
 
+    fun edges(): Collection<EdgeView<E, V>> = edges.values
 
     init {
         vertices().forEach { v ->
@@ -48,6 +44,7 @@ class GraphView<V, E>(private val graph: Graph<V, E> = UndirectedGraph()) : Pane
             v.setOnMouseReleased { e -> e?.let { dragger.released(it) } }
             v.setOnMouseExited { e -> e?.let { dragger.exited(it) } }
         }
+
         edges().forEach {
             add(it)
             add(it.label)

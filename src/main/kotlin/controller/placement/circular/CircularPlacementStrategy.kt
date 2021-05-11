@@ -1,6 +1,7 @@
-package controller.placement
+package controller.placement.circular
 
 import view.VertexView
+
 import javafx.geometry.Point2D
 import javafx.scene.paint.Color
 import tornadofx.Controller
@@ -8,7 +9,7 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
-class CircularPlacementStrategy : Controller(), RepresentationStrategy {
+class CircularPlacementStrategy : Controller(), CircularRepresentationStrategy {
 
     override fun <V> place(width: Double, height: Double, vertices: Collection<VertexView<V>>) {
         if (vertices.isEmpty()) {
@@ -33,7 +34,6 @@ class CircularPlacementStrategy : Controller(), RepresentationStrategy {
                 it.color = Color.GRAY
             }
     }
-
 
     private fun Point2D.rotate(pivot: Point2D, degrees: Double): Point2D {
         val angle = Math.toRadians(degrees)

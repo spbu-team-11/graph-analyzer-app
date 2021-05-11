@@ -2,14 +2,15 @@ package view
 
 import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
-import javafx.scene.control.*
+import controller.placement.circular.CircularPlacementStrategy
+import controller.placement.force.ForcePlacementStrategy
+import controller.placement.force.ForceRepresentationStrategy
+import controller.placement.circular.CircularRepresentationStrategy
 import model.UndirectedGraph
-import controller.placement.CircularPlacementStrategy
-import controller.placement.ForcePlacementStrategy
-import controller.placement.ForceRepresentationStrategy
-import controller.placement.RepresentationStrategy
-import tornadofx.*
 import utils.Alerter
+
+import javafx.scene.control.*
+import tornadofx.*
 
 
 class MainView : View("Graph visualizer") {
@@ -20,35 +21,28 @@ class MainView : View("Graph visualizer") {
 
     private var graph = readSampleGraph("1")
     private var graphView = GraphView(graph)
-    private val circularPlacementStrategy: RepresentationStrategy by inject<CircularPlacementStrategy>()
+    private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
 
-    var nIteration = slider {
+    private var nIteration = slider {
         min = 0.0
         max = 100.0
         value = 50.0
     }
-    var resolution = slider {
+    private var resolution = slider {
         min = 0.0
         max = 1.0
         value = 0.5
     }
 
-
-
-
-        var nIteration2 = textfield {  }
-        var gravity = textfield {}
-
-
+    private var nIteration2 = textfield { }
+    private var gravity = textfield { }
 
     override val root = borderpane {
-
-
         top = setupMenuBar()
 
-        left =vbox(10) {
+        left = vbox(10) {
             add(nIteration)
             add(resolution)
 
@@ -88,13 +82,7 @@ class MainView : View("Graph visualizer") {
             }
         }
         left.visibleProperty().bind(props.GUI.leftMenu)
-
-
-
-
-
     }
-
 
     init {
         arrangeVertices()
@@ -146,13 +134,13 @@ class MainView : View("Graph visualizer") {
         val showMenu = Menu("Labels")
 
         val checkShowVertexLabel = CheckMenuItem("Vertex label")
-        checkShowVertexLabel.setOnAction { e -> props.vertex.label.set(!props.vertex.label.value) }
+        checkShowVertexLabel.setOnAction { props.vertex.label.set(!props.vertex.label.value) }
 
         val checkShowEdgesLabel = CheckMenuItem("Edges label")
-        checkShowEdgesLabel.setOnAction { e -> props.edge.label.set(!props.edge.label.value) }
+        checkShowEdgesLabel.setOnAction { props.edge.label.set(!props.edge.label.value) }
 
         val checkShowCommunitiesLabel = CheckMenuItem("Community label")
-        checkShowCommunitiesLabel.setOnAction { e -> props.vertex.community.set(!props.vertex.community.value) }
+        checkShowCommunitiesLabel.setOnAction { props.vertex.community.set(!props.vertex.community.value) }
 
         with(showMenu.items) {
             add(checkShowVertexLabel)
@@ -170,13 +158,13 @@ class MainView : View("Graph visualizer") {
 
         val helpMenu = Menu("Help")
         val help = MenuItem("Help")
-        help.setOnAction { e -> alerter.alertHelp() }
+        help.setOnAction { alerter.alertHelp() }
         helpMenu.items.add(help)
 
         val examplesMenu = Menu("Examples")
         for (exampleName in props.SAMPLE_GRAPH.keys.reversed()) {
             val example = MenuItem(exampleName)
-            example.setOnAction { e ->
+            example.setOnAction {
                 graph = props.SAMPLE_GRAPH[exampleName]!!
                 showGraph<String, Long>()
             }
@@ -191,14 +179,12 @@ class MainView : View("Graph visualizer") {
         val checkDarkTheme = CheckMenuItem("Dark theme")
         checkDarkTheme.setOnAction {
             props.GUI.darkTheme.set(!props.GUI.darkTheme.value)
-            root.style = if(props.GUI.darkTheme.value) "-fx-base:black" else ""
+            root.style = if (props.GUI.darkTheme.value) "-fx-base:black" else ""
         }
-        with(settingsMenu.items){
+        with(settingsMenu.items) {
             add(checkLeftMenu)
             add(checkDarkTheme)
         }
-
-
 
         with(menuBar.menus) {
             add(fileMenu)
@@ -210,5 +196,4 @@ class MainView : View("Graph visualizer") {
 
         return menuBar
     }
-
 }
