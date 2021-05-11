@@ -32,30 +32,25 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         val forcePlacement = ForceAtlas2(ForceAtlas2Builder(), false, false)
         val graphModel = GraphModelImpl(Configuration())
         forcePlacement.setGraphModel(graphModel)
-        forcePlacement.gravity = 3.0
+        forcePlacement.gravity = 10.0
 
         val graphVertices = mutableSetOf<VertexView<V>>()
-        val allNodes = mutableSetOf<Node>()
+        val allNodes = hashMapOf<V, NodeImpl>()
         val allEdges = mutableSetOf<Edge>()
 
         for(i in edges) {
-            var from = NodeImpl(i.first.label.toString())
+            var from = NodeImpl(i.first.vertex.element)
             from.setX((i.first.position.first - center.x).toFloat())
             from.setY((i.first.position.second - center.y).toFloat())
 
-            var to = NodeImpl(i.second.label.toString())
+            var to = NodeImpl(i.second.vertex.element)
             to.setX((i.second.position.first - center.x).toFloat())
             to.setY((i.second.position.second - center.y).toFloat())
 
-            if(!allNodes.contains(from)) {
-                allNodes += from
-                log(from.toString())
-            }
-            if(!allNodes.contains(to)) {
-                allNodes += to
-                log(to.toString())
-            }
-
+            if(allNodes.containsKey(i.first.vertex.element)) from = allNodes[i.first.vertex.element]!!
+            else allNodes[i.first.vertex.element] = from
+            if(allNodes.containsKey(i.second.vertex.element)) to = allNodes[i.second.vertex.element]!!
+            else allNodes[i.second.vertex.element] = to
 //            allNodes += arrayOf(from, to)
             if(!graphVertices.contains(i.first)) graphVertices += i.first
             if(!graphVertices.contains(i.second)) graphVertices += i.second
@@ -69,8 +64,11 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         log(allNodes.isEmpty().toString())
         log(allEdges.isEmpty().toString())
 
-        graphModel.store.addAllNodes(allNodes)
-        graphModel.store.addAllEdges(allEdges)
+        for (i in allNodes) {
+            graphModel.graph.addNode(i.value)
+        }
+
+        graphModel.graph.addAllEdges(allEdges)
 
         graphVertices.onEach {
             log(it.position.toString())
