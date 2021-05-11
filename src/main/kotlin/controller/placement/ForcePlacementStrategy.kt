@@ -1,4 +1,4 @@
-package controller
+package controller.placement
 
 import com.example.demo.logger.log
 import javafx.geometry.Point2D
@@ -6,7 +6,6 @@ import kco.forceatlas2.ForceAtlas2
 import kco.forceatlas2.ForceAtlas2Builder
 import org.gephi.graph.api.Configuration
 import org.gephi.graph.api.Edge
-import org.gephi.graph.api.Node
 import org.gephi.graph.impl.EdgeImpl
 import org.gephi.graph.impl.GraphModelImpl
 import org.gephi.graph.impl.NodeImpl

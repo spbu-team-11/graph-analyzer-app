@@ -1,4 +1,4 @@
-package controller
+package controller.placement
 
 import view.GraphView
 

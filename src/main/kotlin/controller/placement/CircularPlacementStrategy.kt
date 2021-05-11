@@ -1,4 +1,4 @@
-package controller
+package controller.placement
 
 import view.VertexView
 import javafx.geometry.Point2D

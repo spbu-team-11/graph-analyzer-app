@@ -1,4 +1,4 @@
-package controller
+package controller.painting
 
 import com.example.demo.logger.log
 import javafx.scene.paint.Color

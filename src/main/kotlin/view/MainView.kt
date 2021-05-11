@@ -1,17 +1,13 @@
 package view
 
-import com.example.demo.logger.log
-import com.sun.javafx.scene.control.MenuBarButton
-import controller.*
-import javafx.beans.property.BooleanProperty
-import javafx.beans.property.BooleanPropertyBase
-import javafx.collections.FXCollections
-import controller.placement.CircularPlacementStrategy
-import controller.placement.RepresentationStrategy
 import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
 import javafx.scene.control.*
 import model.UndirectedGraph
+import controller.placement.CircularPlacementStrategy
+import controller.placement.ForcePlacementStrategy
+import controller.placement.ForceRepresentationStrategy
+import controller.placement.RepresentationStrategy
 import tornadofx.*
 import utils.Alerter
 
