@@ -35,6 +35,7 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         forcePlacement.setGraphModel(graphModel)
         forcePlacement.gravity = gravity?.toDoubleOrNull()?: 1.0
 
+
         val graphVertices = mutableSetOf<VertexView<V>>()
         val allNodes = hashMapOf<V, NodeImpl>()
         val allEdges = mutableSetOf<Edge>()
