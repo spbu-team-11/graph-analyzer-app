@@ -11,6 +11,7 @@ import utils.Alerter
 
 
 class MainView : View("Graph visualizer") {
+
     private val defaultMinWidthLeft = 155.0
     private val defaultMinWidthBottom = 80.0
     private val alerter = Alerter()
@@ -26,8 +27,6 @@ class MainView : View("Graph visualizer") {
         var nIteration = textfield { }
         var resolution = textfield { }
         var index = choicebox<String> { }
-
-
 
         top = setupMenuBar()
 
@@ -128,7 +127,7 @@ class MainView : View("Graph visualizer") {
         val fileMenu = Menu("File")
         val open = MenuItem("Open")
         val close = MenuItem("Close")
-        with(fileMenu.items){
+        with(fileMenu.items) {
             add(open)
             add(close)
         }
@@ -139,7 +138,7 @@ class MainView : View("Graph visualizer") {
         helpMenu.items.add(help)
 
         val examplesMenu = Menu("Examples")
-        for(exampleName in props.SAMPLE_GRAPH.keys.reversed()){
+        for (exampleName in props.SAMPLE_GRAPH.keys.reversed()) {
             val example = MenuItem(exampleName)
             example.setOnAction { e ->
                 graph = props.SAMPLE_GRAPH[exampleName]!!

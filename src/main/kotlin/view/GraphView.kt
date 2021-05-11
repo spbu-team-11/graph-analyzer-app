@@ -5,11 +5,11 @@ import model.Graph
 import model.UndirectedGraph
 import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
-import model.Vertex
 import tornadofx.add
 import tornadofx.find
 
 class GraphView<V, E>(private val graph: Graph<V, E> = UndirectedGraph()) : Pane() {
+
     private val dragger = find(VertexDragController::class)
 
     //    private val vertices by lazy {

@@ -8,13 +8,19 @@ import tornadofx.Controller
 import view.GraphView
 import kotlin.random.Random
 
-class PaintingByCommunitiesStrategy: Controller(), PaintingStrategy {
-    override fun <V, E> showCommunities(graph: UndirectedGraph<String, Long>, graphView: GraphView<String, Long>, nIteration: String, resolution: String){
+class PaintingByCommunitiesStrategy : Controller(), PaintingStrategy {
+
+    override fun <V, E> showCommunities(
+        graph: UndirectedGraph<String, Long>,
+        graphView: GraphView<String, Long>,
+        nIteration: String,
+        resolution: String
+    ) {
         log("community finding starting...")
 
         val finder = CommunitiesFinder<V, E>()
         val returnCode = finder.findCommunity(graph, nIteration, resolution)
-        if(!returnCode) return
+        if (!returnCode) return
         graphView.vertices()
             .onEach {
                 val com = it.vertex.community
@@ -29,6 +35,6 @@ class PaintingByCommunitiesStrategy: Controller(), PaintingStrategy {
         val red: Int = (base + mRandom.nextInt(256)) / 2
         val green: Int = (base + mRandom.nextInt(256)) / 2
         val blue: Int = (base + mRandom.nextInt(256)) / 2
-        return Color.rgb(red % 256, green % 256 , blue % 256)
+        return Color.rgb(red % 256, green % 256, blue % 256)
     }
 }
