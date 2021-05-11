@@ -18,6 +18,7 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
     override fun <V, E> place(
         graphView: GraphView<V, E>,
         nIterations: String,
+        gravity: String?,
         width: Double,
         height: Double
     ) {
@@ -26,53 +27,41 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         }
         log("Force Atlas 2 has started")
         val center = Point2D(width / 2, height / 2)
-        log(center.toString())
 
+        val vertices = graphView.vertices()
         val edges = graphView.edges()
         val forcePlacement = ForceAtlas2(ForceAtlas2Builder(), false, false)
         val graphModel = GraphModelImpl(Configuration())
         forcePlacement.setGraphModel(graphModel)
-        forcePlacement.gravity = 10.0
+        forcePlacement.gravity = gravity?.toDoubleOrNull()?: 1.0
 
         val graphVertices = mutableSetOf<VertexView<V>>()
         val allNodes = hashMapOf<V, NodeImpl>()
         val allEdges = mutableSetOf<Edge>()
 
-        for(i in edges) {
-            var from = NodeImpl(i.first.vertex.element)
-            from.setX((i.first.position.first - center.x).toFloat())
-            from.setY((i.first.position.second - center.y).toFloat())
+        for(i in vertices) {
+            val node = NodeImpl(i.vertex.element)
+            node.setX(i.centerX.toFloat())
+            node.setY(i.centerY.toFloat())
 
-            var to = NodeImpl(i.second.vertex.element)
-            to.setX((i.second.position.first - center.x).toFloat())
-            to.setY((i.second.position.second - center.y).toFloat())
-
-            if(allNodes.containsKey(i.first.vertex.element)) from = allNodes[i.first.vertex.element]!!
-            else allNodes[i.first.vertex.element] = from
-            if(allNodes.containsKey(i.second.vertex.element)) to = allNodes[i.second.vertex.element]!!
-            else allNodes[i.second.vertex.element] = to
-//            allNodes += arrayOf(from, to)
-            if(!graphVertices.contains(i.first)) graphVertices += i.first
-            if(!graphVertices.contains(i.second)) graphVertices += i.second
-//            graphVertices += arrayOf(i.first, i.second)
-
-            val edge = EdgeImpl(i.label, from, to, 1, 1.0, false)
-            log("\n" + edge.source.toString() + edge.target.toString())
-            allEdges += edge
+            if(!allNodes.containsKey(i.vertex.element)) allNodes[i.vertex.element] = node
+            if(!graphVertices.contains(i)) graphVertices += i
         }
 
-        log(allNodes.isEmpty().toString())
-        log(allEdges.isEmpty().toString())
+        for(i in edges) {
+            val edge = EdgeImpl(
+                i.label,
+                allNodes[i.first.vertex.element],
+                allNodes[i.second.vertex.element],
+                1, 1.0, false)
+            allEdges += edge
+        }
 
         for (i in allNodes) {
             graphModel.graph.addNode(i.value)
         }
 
         graphModel.graph.addAllEdges(allEdges)
-
-        graphVertices.onEach {
-            log(it.position.toString())
-        }
 
         forcePlacement.initAlgo()
         var i = 0
@@ -82,11 +71,15 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         }
         forcePlacement.endAlgo()
 
-        val nodes = graphModel.graph.nodes.toArray()
+        val nodes = graphModel.store.nodes.toArray()
+        var theirCenter = 0.0 to 0.0
+        nodes.onEach {
+            theirCenter = theirCenter.first - center.x + it.x().toDouble() to theirCenter.second - center.y + it.y().toDouble()
+        }
+        theirCenter = (theirCenter.first) / nodes.size / 2 to (theirCenter.second) / nodes.size / 2
         i = 0
         graphVertices.onEach {
-            it.position = nodes[i].x().toDouble() + center.x to nodes[i].y().toDouble() + center.y
-            log(it.position.toString())
+            it.position = nodes[i].x().toDouble() - theirCenter.first to nodes[i].y().toDouble() - theirCenter.second
             i++
         }
     }

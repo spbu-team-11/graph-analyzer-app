@@ -29,6 +29,7 @@ class MainView : View("Graph visualizer") {
 
         var nIteration = textfield { }
         var nIteration2 = textfield {  }
+        var gravity = textfield {}
         var resolution = textfield { }
         var index = choicebox<String> { }
 
@@ -48,12 +49,12 @@ class MainView : View("Graph visualizer") {
             hbox(5 / 3) {
                 nIteration2 = textfield { maxWidth = 50.0 }
                 textfield { maxWidth = 50.0 }
-                textfield { maxWidth = 50.0 }
+                gravity = textfield { maxWidth = 50.0 }
             }
             button("Make layout") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    forceLayout(nIteration2.text)
+                    forceLayout(nIteration2.text, gravity.text)
                 }
 
             }
@@ -114,11 +115,12 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun forceLayout(nIteration: String) {
+    private fun forceLayout(nIteration: String, gravity: String?) {
         currentStage?.apply {
             forcePlacementStrategy.place(
                 graphView,
                 nIteration,
+                gravity,
                 width - props.vertex.radius.get() * 5,
                 height - props.vertex.radius.get() * 5,
             )
