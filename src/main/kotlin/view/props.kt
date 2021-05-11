@@ -22,6 +22,11 @@ object props {
         val label = booleanProperty()
     }
 
+    object GUI{
+        val darkTheme = booleanProperty(false)
+        val leftMenu = booleanProperty(false)
+    }
+
     val SAMPLE_GRAPH = hashMapOf(
         Pair("Example 1",
             UndirectedGraph<String, Long>().apply {
@@ -89,7 +94,6 @@ object props {
                 }
             }
 
-        })
-    )
+        }))
 }
 
