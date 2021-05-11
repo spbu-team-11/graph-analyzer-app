@@ -1,7 +1,7 @@
 package view
 
-import model.Graph
 import model.UndirectedGraph
+
 import tornadofx.booleanProperty
 import tornadofx.doubleProperty
 
@@ -22,7 +22,7 @@ object props {
         val label = booleanProperty()
     }
 
-    object GUI{
+    object GUI {
         val darkTheme = booleanProperty(false)
         val leftMenu = booleanProperty(false)
     }

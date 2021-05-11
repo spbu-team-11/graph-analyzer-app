@@ -1,12 +1,14 @@
-import com.example.demo.logger.log
 import styles.Styles
 import view.MainView
+
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 import tornadofx.App
 import tornadofx.launch
+import com.example.demo.logger.log
 
-class MainApp: App(MainView::class, Styles::class) {
+class MainApp : App(MainView::class, Styles::class) {
+
     override fun start(stage: Stage) {
         log("Starting the application...")
 

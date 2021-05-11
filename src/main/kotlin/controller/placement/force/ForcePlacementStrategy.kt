@@ -1,7 +1,5 @@
 package controller.placement.force
 
-import com.example.demo.logger.log
-import javafx.geometry.Point2D
 import kco.forceatlas2.ForceAtlas2
 import kco.forceatlas2.ForceAtlas2Builder
 import org.gephi.graph.api.Configuration
@@ -9,12 +7,17 @@ import org.gephi.graph.api.Edge
 import org.gephi.graph.impl.EdgeImpl
 import org.gephi.graph.impl.GraphModelImpl
 import org.gephi.graph.impl.NodeImpl
-import tornadofx.Controller
+
 import view.GraphView
 import view.VertexView
+
+import com.example.demo.logger.log
+import javafx.geometry.Point2D
+import tornadofx.Controller
 import kotlin.math.abs
 
 class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
+
     override fun <V, E> place(
         graphView: GraphView<V, E>,
         nIterations: String,
@@ -36,9 +39,10 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         forcePlacement.setGraphModel(graphModel)
         forcePlacement.gravity = gravity?.toDoubleOrNull() ?: 1.0
         if (vertices.size > 2000) forcePlacement.isBarnesHutOptimize = true
-//        forcePlacement.scalingRatio
-        //forcePlacement.isStrongGravityMode = true
-        forcePlacement.isLinLogMode = true
+
+        /*forcePlacement.scalingRatio
+        forcePlacement.isStrongGravityMode = true
+        forcePlacement.isLinLogMode = true*/
 
         val graphVertices = mutableSetOf<VertexView<V>>()
         val allNodes = hashMapOf<V, NodeImpl>()
@@ -73,7 +77,7 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         while (i < nIterations.toInt()) {
             forcePlacement.goAlgo()
             i++
-            log("Force Atlas 2: $i iteration" + (if(i > 1) "s" else "") + " behind")
+            log("Force Atlas 2: $i iteration" + (if (i > 1) "s" else "") + " behind")
         }
         forcePlacement.endAlgo()
         log("Force Atlas 2 has finished")

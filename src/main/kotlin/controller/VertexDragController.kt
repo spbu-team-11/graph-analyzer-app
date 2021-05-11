@@ -2,29 +2,29 @@ package controller
 
 import view.VertexView
 import view.props
+
 import javafx.scene.Cursor
 import javafx.scene.input.MouseEvent
 import tornadofx.Controller
 
-class VertexDragController: Controller() {
+class VertexDragController : Controller() {
+
     fun entered(event: MouseEvent) {
         val v = check(event)
         if (!event.isPrimaryButtonDown)
             v.scene.cursor = Cursor.HAND
     }
 
-
-
     fun pressed(event: MouseEvent) {
         val v = check(event)
         if (!event.isPrimaryButtonDown) {
-            if(v.radiusProperty().get() == props.vertex.radius.get())
+            if (v.radiusProperty().get() == props.vertex.radius.get())
                 v.radiusProperty().bind(props.vertex.bigRadius)
             else
                 v.radiusProperty().bind(props.vertex.radius)
             return
         }
-        v.scene.cursor =  Cursor.CLOSED_HAND
+        v.scene.cursor = Cursor.CLOSED_HAND
         event.consume()
     }
 

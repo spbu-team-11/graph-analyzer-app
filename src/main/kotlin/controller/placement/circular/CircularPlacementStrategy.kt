@@ -1,6 +1,7 @@
 package controller.placement.circular
 
 import view.VertexView
+
 import javafx.geometry.Point2D
 import javafx.scene.paint.Color
 import tornadofx.Controller
@@ -33,7 +34,6 @@ class CircularPlacementStrategy : Controller(), CircularRepresentationStrategy {
                 it.color = Color.GRAY
             }
     }
-
 
     private fun Point2D.rotate(pivot: Point2D, degrees: Double): Point2D {
         val angle = Math.toRadians(degrees)
