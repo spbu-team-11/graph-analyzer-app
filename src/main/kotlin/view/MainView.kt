@@ -1,5 +1,6 @@
 package view
 
+import com.sun.glass.ui.CommonDialogs
 import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
 import controller.placement.circular.CircularPlacementStrategy
@@ -10,6 +11,7 @@ import model.UndirectedGraph
 import utils.Alerter
 
 import javafx.scene.control.*
+import javafx.stage.FileChooser
 import tornadofx.*
 
 
@@ -21,6 +23,7 @@ class MainView : View("Graph visualizer") {
 
     private var graph = readSampleGraph("1")
     private var graphView = GraphView(graph)
+
     private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
@@ -30,6 +33,7 @@ class MainView : View("Graph visualizer") {
         max = 100.0
         value = 50.0
     }
+
     private var resolution = slider {
         min = 0.0
         max = 1.0
@@ -128,6 +132,26 @@ class MainView : View("Graph visualizer") {
         arrangeVertices()
     }
 
+    private fun openGraph(){
+        val chooser = FileChooser()
+        with(chooser){
+            title = "Open graph"
+            extensionFilters.add(FileChooser.ExtensionFilter("kek","*.pdf"))
+        }
+
+        val file = chooser.showOpenDialog(this.currentWindow)
+    }
+
+    private fun saveGraph(){
+        val chooser = FileChooser()
+        with(chooser){
+            title = "Save graph"
+            extensionFilters.add(FileChooser.ExtensionFilter("kek","*.pdf"))
+        }
+
+        val file = chooser.showSaveDialog(this.currentWindow)
+    }
+
     private fun setupMenuBar(): MenuBar {
         val menuBar = MenuBar()
 
@@ -150,10 +174,12 @@ class MainView : View("Graph visualizer") {
 
         val fileMenu = Menu("File")
         val open = MenuItem("Open")
-        val close = MenuItem("Close")
+        open.setOnAction { openGraph() }
+        val save = MenuItem("Save")
+        save.setOnAction { saveGraph() }
         with(fileMenu.items) {
             add(open)
-            add(close)
+            add(save)
         }
 
         val helpMenu = Menu("Help")
