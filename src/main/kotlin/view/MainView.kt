@@ -6,6 +6,10 @@ import controller.*
 import javafx.beans.property.BooleanProperty
 import javafx.beans.property.BooleanPropertyBase
 import javafx.collections.FXCollections
+import controller.placement.CircularPlacementStrategy
+import controller.placement.RepresentationStrategy
+import controller.painting.PaintingByCommunitiesStrategy
+import controller.painting.PaintingStrategy
 import javafx.scene.control.*
 import model.UndirectedGraph
 import tornadofx.*
@@ -24,33 +28,47 @@ class MainView : View("Graph visualizer") {
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
 
+    var nIteration = slider {
+        min = 0.0
+        max = 100.0
+        value = 50.0
+    }
+    var resolution = slider {
+        min = 0.0
+        max = 1.0
+        value = 0.5
+    }
+
+
+
+
+        var nIteration2 = textfield {  }
+        var gravity = textfield {}
+
+
 
     override val root = borderpane {
 
-        var nIteration = textfield { }
-        var nIteration2 = textfield {  }
-        var gravity = textfield {}
-        var resolution = textfield { }
-        var index = choicebox<String> { }
 
         top = setupMenuBar()
 
-        left = vbox(10) {
-            hbox(5) {
-                nIteration = textfield { maxWidth = 75.0 }
-                resolution = textfield { maxWidth = 75.0 }
-            }
+        left =vbox(10) {
+            add(nIteration)
+            add(resolution)
+
             button("Find communities") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    showCommunities<String, Long>(nIteration.text, resolution.text)
+                    showCommunities<String, Long>(nIteration.value.toInt().toString(), resolution.value.toString())
                 }
             }
+
             hbox(5 / 3) {
                 nIteration2 = textfield { maxWidth = 50.0 }
                 textfield { maxWidth = 50.0 }
                 gravity = textfield { maxWidth = 50.0 }
             }
+
             button("Make layout") {
                 minWidth = defaultMinWidthLeft
                 action {
@@ -58,7 +76,7 @@ class MainView : View("Graph visualizer") {
                 }
 
             }
-            textfield { maxWidth = defaultMinWidthLeft }
+
             button("Find ...") {
                 minWidth = defaultMinWidthLeft
                 action {
@@ -72,31 +90,12 @@ class MainView : View("Graph visualizer") {
                     arrangeVertices()
                 }
             }
-
         }
+        left.visibleProperty().bind(props.GUI.leftMenu)
 
-        bottom = vbox(5) {
-//            hbox(5) {
-//                button("Save as") {
-//                    minWidth = defaultMinWidthBottom
-//                    action {
-//                        val dir = chooseDirectory("save")
-//                    }
-//                }
-//                saveInfoDataBase = choicebox {
-//                    minWidth = defaultMinWidthBottom
-//                    items = FXCollections.observableArrayList("MySQL", "txt", "Neo4j")
-//                }
-//            }
-//            hbox(5) {
-//                button("Open") {
-//                    minWidth = defaultMinWidthBottom
-//                    action {
-//                        val file = chooseFile("load", arrayOf())
-//                    }
-//                }
-//            }
-        }
+
+
+
 
     }
 
@@ -148,7 +147,7 @@ class MainView : View("Graph visualizer") {
     private fun setupMenuBar(): MenuBar {
         val menuBar = MenuBar()
 
-        val showMenu = Menu("Settings")
+        val showMenu = Menu("Labels")
 
         val checkShowVertexLabel = CheckMenuItem("Vertex label")
         checkShowVertexLabel.setOnAction { e -> props.vertex.label.set(!props.vertex.label.value) }
@@ -188,12 +187,29 @@ class MainView : View("Graph visualizer") {
             examplesMenu.items.add(example)
         }
 
+        val settingsMenu = Menu("Settings")
+
+        val checkLeftMenu = CheckMenuItem("Left menu")
+        checkLeftMenu.setOnAction { props.GUI.leftMenu.set(!props.GUI.leftMenu.value) }
+
+        val checkDarkTheme = CheckMenuItem("Dark theme")
+        checkDarkTheme.setOnAction {
+            props.GUI.darkTheme.set(!props.GUI.darkTheme.value)
+            root.style = if(props.GUI.darkTheme.value) "-fx-base:black" else ""
+        }
+        with(settingsMenu.items){
+            add(checkLeftMenu)
+            add(checkDarkTheme)
+        }
+
+
 
         with(menuBar.menus) {
             add(fileMenu)
             add(helpMenu)
             add(examplesMenu)
             add(showMenu)
+            add(settingsMenu)
         }
 
         return menuBar
