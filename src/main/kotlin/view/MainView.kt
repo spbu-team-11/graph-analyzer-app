@@ -173,7 +173,7 @@ class MainView : View("Graph visualizer") {
 
         val settingsMenu = Menu("Settings")
 
-        val checkLeftMenu = CheckMenuItem("Left menu")
+        val checkLeftMenu = CheckMenuItem("Hide left menu")
         checkLeftMenu.setOnAction { props.GUI.leftMenu.set(!props.GUI.leftMenu.value) }
 
         val checkDarkTheme = CheckMenuItem("Dark theme")
