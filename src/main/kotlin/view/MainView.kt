@@ -53,7 +53,7 @@ class MainView : View("Graph visualizer") {
             add(nIteration)
             add(resolution)
 
-            button("Find communities") {
+            button("Detect communities") {
                 minWidth = defaultMinWidthLeft
                 action {
                     showCommunities<String, Long>(nIteration.value.toInt().toString(), resolution.value.toString())
@@ -66,7 +66,7 @@ class MainView : View("Graph visualizer") {
                 isLinLogMode = checkbox("LinLog Mode") { }
             }
 
-            button("Make layout") {
+            button("Layout") {
                 minWidth = defaultMinWidthLeft
                 action {
                     forceLayout(nIteration2.text, gravity.text, isLinLogMode.isSelected)
@@ -74,14 +74,7 @@ class MainView : View("Graph visualizer") {
 
             }
 
-            button("Find ...") {
-                minWidth = defaultMinWidthLeft
-                action {
-
-                }
-            }
-
-            button("Reset default settings") {
+            button("Reset default properties") {
                 minWidth = defaultMinWidthLeft
                 action {
                     arrangeVertices()
@@ -143,7 +136,8 @@ class MainView : View("Graph visualizer") {
         val chooser = FileChooser()
         with(chooser) {
             title = "Open graph"
-            extensionFilters.add(FileChooser.ExtensionFilter("kek", "*.pdf"))
+            extensionFilters.add(FileChooser.ExtensionFilter("SQLite", "*.db"))
+            extensionFilters.add(FileChooser.ExtensionFilter("CSV", ".csv"))
         }
 
         val file = chooser.showOpenDialog(this.currentWindow)
@@ -153,7 +147,8 @@ class MainView : View("Graph visualizer") {
         val chooser = FileChooser()
         with(chooser) {
             title = "Save graph"
-            extensionFilters.add(FileChooser.ExtensionFilter("kek", "*.pdf"))
+            extensionFilters.add(FileChooser.ExtensionFilter("SQLite", "*.db"))
+            extensionFilters.add(FileChooser.ExtensionFilter("CSV", ".csv"))
         }
 
         val file = chooser.showSaveDialog(this.currentWindow)
@@ -174,7 +169,7 @@ class MainView : View("Graph visualizer") {
     }
 
     private fun setupShowMenu(): Menu {
-        val showMenu = Menu("Labels")
+        val showMenu = Menu("Show")
 
         val checkShowVertexLabel = CheckMenuItem("Vertex label")
         checkShowVertexLabel.setOnAction { props.vertex.label.set(!props.vertex.label.value) }
