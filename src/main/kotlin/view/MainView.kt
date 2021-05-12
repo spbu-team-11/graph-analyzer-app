@@ -188,8 +188,10 @@ class MainView : View("Graph visualizer") {
 
     private fun setupFileMenu(): Menu {
         val fileMenu = Menu("File")
+
         val open = MenuItem("Open")
         open.setOnAction { openGraph() }
+
         val save = MenuItem("Save")
         save.setOnAction { saveGraph() }
         with(fileMenu.items) {
@@ -211,12 +213,14 @@ class MainView : View("Graph visualizer") {
 
     private fun setupExamplesMenu(): Menu {
         val examplesMenu = Menu("Examples")
+
         for (exampleName in props.SAMPLE_GRAPH.keys.reversed()) {
             val example = MenuItem(exampleName)
             example.setOnAction {
                 graph = props.SAMPLE_GRAPH[exampleName]!!
                 showGraph<String, Long>()
             }
+
             examplesMenu.items.add(example)
         }
         return examplesMenu
@@ -233,10 +237,12 @@ class MainView : View("Graph visualizer") {
             props.GUI.darkTheme.set(!props.GUI.darkTheme.value)
             root.style = if (props.GUI.darkTheme.value) "-fx-base:black" else ""
         }
+
         with(settingsMenu.items) {
             add(checkLeftMenu)
             add(checkDarkTheme)
         }
+
         return settingsMenu
     }
 }
