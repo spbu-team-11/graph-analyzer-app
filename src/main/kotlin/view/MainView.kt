@@ -42,6 +42,9 @@ class MainView : View("Graph visualizer") {
 
     private var nIteration2 = textfield { }
     private var gravity = textfield { }
+    private var isLinLogMode = checkbox("LinLog Mode") {
+        isIndeterminate = false
+    }
 
     override val root = borderpane {
         top = setupMenuBar()
@@ -59,14 +62,14 @@ class MainView : View("Graph visualizer") {
 
             hbox(5 / 3) {
                 nIteration2 = textfield { maxWidth = 50.0 }
-                textfield { maxWidth = 50.0 }
                 gravity = textfield { maxWidth = 50.0 }
+                isLinLogMode = checkbox("LinLog Mode") { }
             }
 
             button("Make layout") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    forceLayout(nIteration2.text, gravity.text)
+                    forceLayout(nIteration2.text, gravity.text, isLinLogMode.isSelected)
                 }
 
             }
@@ -105,12 +108,13 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun forceLayout(nIteration: String, gravity: String?) {
+    private fun forceLayout(nIteration: String, gravity: String?, isLinLogMode: Boolean) {
         currentStage?.apply {
             forcePlacementStrategy.place(
                 graphView,
                 nIteration,
                 gravity,
+                isLinLogMode,
                 width - props.vertex.radius.get() * 5,
                 height - props.vertex.radius.get() * 5,
             )

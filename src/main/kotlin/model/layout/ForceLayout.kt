@@ -12,6 +12,7 @@ import org.gephi.graph.api.Edge
 import org.gephi.graph.impl.EdgeImpl
 import org.gephi.graph.impl.GraphModelImpl
 import org.gephi.graph.impl.NodeImpl
+import view.EdgeView
 import kotlin.math.abs
 
 class ForceLayout<V, E> {
@@ -27,6 +28,7 @@ class ForceLayout<V, E> {
         graphView: GraphView<V, E>,
         nIterations: String,
         gravity: String?,
+        isLinLogMode: Boolean,
         width: Double,
         height: Double
     ) {
@@ -37,38 +39,11 @@ class ForceLayout<V, E> {
 
         val forcePlacement = ForceAtlas2(ForceAtlas2Builder(), false, false)
         val graphModel = GraphModelImpl(Configuration())
-        forcePlacement.setGraphModel(graphModel)
-        forcePlacement.gravity = initGravity(gravity)
-        //forcePlacement.isLinLogMode = true
-        if (vertices.size > 2000) forcePlacement.isBarnesHutOptimize = true
+        forcePlacement.initLayout(graphModel, initGravity(gravity), isLinLogMode, vertices.size)
 
         val graphVertices = mutableSetOf<VertexView<V>>()
-        val allNodes = hashMapOf<V, NodeImpl>()
-        val allEdges = mutableSetOf<Edge>()
 
-        for (i in vertices) {
-            val node = NodeImpl(i.vertex.element)
-            node.setX(i.centerX.toFloat() - center.x.toFloat())
-            node.setY(i.centerY.toFloat() - center.y.toFloat())
-
-            if (!allNodes.containsKey(i.vertex.element)) allNodes[i.vertex.element] = node
-            if (!graphVertices.contains(i)) graphVertices += i
-        }
-
-        for (i in edges) {
-            val edge = EdgeImpl(
-                i.label,
-                allNodes[i.first.vertex.element],
-                allNodes[i.second.vertex.element],
-                1, 1.0, false
-            )
-            allEdges += edge
-        }
-
-        for (i in allNodes) {
-            graphModel.graph.addNode(i.value)
-        }
-        graphModel.graph.addAllEdges(allEdges)
+        graphModel.translateFromGraphView(graphVertices, vertices, edges, center)
 
         forcePlacement.runAlgo(initIterations(nIterations))
 
@@ -92,8 +67,21 @@ class ForceLayout<V, E> {
         log("Force Atlas 2 has finished")
     }
 
+    private fun ForceAtlas2.initLayout(
+        graphModel: GraphModelImpl,
+        gravity: Double,
+        isLinLogMode: Boolean,
+        countOfVertices: Int
+    ) {
+        setGraphModel(graphModel)
+        this.gravity = gravity
+        this.isLinLogMode = isLinLogMode
+        if (countOfVertices > 2000) isBarnesHutOptimize = true
+    }
+
     private fun GraphModelImpl.translateToGraphView(graphVertices: MutableCollection<VertexView<V>>, center: Point2D) {
         val nodes = store.nodes.toArray()
+
         val max = nodes.maxOf { abs(it.x()) / 2 } to nodes.maxOf { abs(it.y()) / 2 }
         val coefficient = calcCoefficient(max.first, center.x) to calcCoefficient(max.second, center.y)
         val maxCoefficient = maxOf(coefficient.first, coefficient.second)
@@ -104,6 +92,40 @@ class ForceLayout<V, E> {
                 nodes[i].x() / maxCoefficient + center.x to nodes[i].y() / maxCoefficient + center.y
             i++
         }
+    }
+
+    private fun GraphModelImpl.translateFromGraphView(
+        graphVertices: MutableCollection<VertexView<V>>,
+        vertices: Collection<VertexView<V>>,
+        edges: Collection<EdgeView<E, V>>,
+        center: Point2D
+    ) {
+        val allNodes = hashMapOf<V, NodeImpl>()
+        val allEdges = mutableSetOf<Edge>()
+
+        for (i in vertices) {
+            val node = NodeImpl(i.vertex.element)
+            node.setX(i.centerX.toFloat() - center.x.toFloat())
+            node.setY(i.centerY.toFloat() - center.y.toFloat())
+
+            if (!allNodes.containsKey(i.vertex.element)) allNodes[i.vertex.element] = node
+            if (!graphVertices.contains(i)) graphVertices += i
+        }
+
+        for (i in edges) {
+            val edge = EdgeImpl(
+                i.label,
+                allNodes[i.first.vertex.element],
+                allNodes[i.second.vertex.element],
+                1, 1.0, false
+            )
+            allEdges += edge
+        }
+
+        for (i in allNodes) {
+            graph.addNode(i.value)
+        }
+        graph.addAllEdges(allEdges)
     }
 
     private fun calcCoefficient(first: Float, second: Double) =
