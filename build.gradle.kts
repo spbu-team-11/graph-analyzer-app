@@ -29,11 +29,14 @@ dependencies {
         exclude("org.jetbrains.kotlin")
     }
 
-    implementation("nl.cwts", "networkanalysis", "1.1.0-5-ga3f342d.dirty")
-    implementation(files("libs/force-atlas2.jar", "libs/force-atlas2-tools.jar"))
     implementation("org.jetbrains.exposed", "exposed-core", "0.31.1")
     implementation("org.jetbrains.exposed", "exposed-dao", "0.31.1")
     implementation("org.jetbrains.exposed", "exposed-jdbc", "0.31.1")
+    implementation("org.xerial", "sqlite-jdbc","3.34.0")
+    implementation("org.slf4j", "slf4j-simple", "1.7.29")
+
+    implementation("nl.cwts", "networkanalysis", "1.1.0-5-ga3f342d.dirty")
+    implementation(files("libs/force-atlas2.jar", "libs/force-atlas2-tools.jar"))
 }
 
 application {

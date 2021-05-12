@@ -1,5 +1,7 @@
 package view
 
+import controller.fileHandler.FileHandlingStrategy
+import controller.fileHandler.SQLiteFileHandlingStrategy
 import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
 import controller.placement.circular.CircularPlacementStrategy
@@ -27,6 +29,7 @@ class MainView : View("Graph visualizer") {
     private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
+    private val saveStrategy: FileHandlingStrategy<String, Long> by inject<SQLiteFileHandlingStrategy<String, Long>>()
 
     private var nIteration = slider {
         min = 0.0
@@ -149,10 +152,11 @@ class MainView : View("Graph visualizer") {
         val chooser = FileChooser()
         with(chooser) {
             title = "Save graph"
-            extensionFilters.add(FileChooser.ExtensionFilter("kek", "*.pdf"))
+            extensionFilters.add(FileChooser.ExtensionFilter("kek", "*.db"))
         }
 
         val file = chooser.showSaveDialog(this.currentWindow)
+        saveStrategy.save(file, graph, graphView)
     }
 
     private fun setupMenuBar(): MenuBar {
