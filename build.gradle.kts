@@ -7,7 +7,7 @@ plugins {
 }
 
 repositories {
-    //mavenLocal()
+    mavenCentral()
     jcenter()
     flatDir {
         dirs("libs")
@@ -31,6 +31,7 @@ dependencies {
 
     implementation("nl.cwts", "networkanalysis", "1.1.0-5-ga3f342d.dirty")
     implementation(files("libs/force-atlas2.jar", "libs/force-atlas2-tools.jar"))
+    implementation("org.xerial", "sqlite-jdbc", "3.8.11.2")
 }
 
 application {

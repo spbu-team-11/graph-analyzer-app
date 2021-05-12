@@ -22,6 +22,7 @@ class MainView : View("Graph visualizer") {
 
     private var graph = readSampleGraph("1")
     private var graphView = GraphView(graph)
+    private var graphInfo =text( "")
 
     private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
@@ -83,6 +84,9 @@ class MainView : View("Graph visualizer") {
                     arrangeVertices()
                 }
             }
+
+            add(graphInfo)
+
         }
         left.visibleProperty().bind(props.GUI.leftMenu)
     }
