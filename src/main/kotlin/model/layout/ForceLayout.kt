@@ -27,6 +27,7 @@ class ForceLayout<V, E> {
         graphView: GraphView<V, E>,
         nIterations: String,
         gravity: String?,
+        isLinLogMode: Boolean,
         width: Double,
         height: Double
     ) {
@@ -39,7 +40,7 @@ class ForceLayout<V, E> {
         val graphModel = GraphModelImpl(Configuration())
         forcePlacement.setGraphModel(graphModel)
         forcePlacement.gravity = initGravity(gravity)
-        //forcePlacement.isLinLogMode = true
+        forcePlacement.isLinLogMode = isLinLogMode
         if (vertices.size > 2000) forcePlacement.isBarnesHutOptimize = true
 
         val graphVertices = mutableSetOf<VertexView<V>>()
@@ -94,6 +95,7 @@ class ForceLayout<V, E> {
 
     private fun GraphModelImpl.translateToGraphView(graphVertices: MutableCollection<VertexView<V>>, center: Point2D) {
         val nodes = store.nodes.toArray()
+
         val max = nodes.maxOf { abs(it.x()) / 2 } to nodes.maxOf { abs(it.y()) / 2 }
         val coefficient = calcCoefficient(max.first, center.x) to calcCoefficient(max.second, center.y)
         val maxCoefficient = maxOf(coefficient.first, coefficient.second)
