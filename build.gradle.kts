@@ -31,6 +31,9 @@ dependencies {
 
     implementation("nl.cwts", "networkanalysis", "1.1.0-5-ga3f342d.dirty")
     implementation(files("libs/force-atlas2.jar", "libs/force-atlas2-tools.jar"))
+    implementation("org.jetbrains.exposed", "exposed-core", "0.31.1")
+    implementation("org.jetbrains.exposed", "exposed-dao", "0.31.1")
+    implementation("org.jetbrains.exposed", "exposed-jdbc", "0.31.1")
 }
 
 application {
