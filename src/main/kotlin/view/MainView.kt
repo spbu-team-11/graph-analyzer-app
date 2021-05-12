@@ -1,6 +1,5 @@
 package view
 
-import com.sun.glass.ui.CommonDialogs
 import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
 import controller.placement.circular.CircularPlacementStrategy
@@ -132,21 +131,21 @@ class MainView : View("Graph visualizer") {
         arrangeVertices()
     }
 
-    private fun openGraph(){
+    private fun openGraph() {
         val chooser = FileChooser()
-        with(chooser){
+        with(chooser) {
             title = "Open graph"
-            extensionFilters.add(FileChooser.ExtensionFilter("kek","*.pdf"))
+            extensionFilters.add(FileChooser.ExtensionFilter("kek", "*.pdf"))
         }
 
         val file = chooser.showOpenDialog(this.currentWindow)
     }
 
-    private fun saveGraph(){
+    private fun saveGraph() {
         val chooser = FileChooser()
-        with(chooser){
+        with(chooser) {
             title = "Save graph"
-            extensionFilters.add(FileChooser.ExtensionFilter("kek","*.pdf"))
+            extensionFilters.add(FileChooser.ExtensionFilter("kek", "*.pdf"))
         }
 
         val file = chooser.showSaveDialog(this.currentWindow)
@@ -155,6 +154,18 @@ class MainView : View("Graph visualizer") {
     private fun setupMenuBar(): MenuBar {
         val menuBar = MenuBar()
 
+        with(menuBar.menus) {
+            add(setupFileMenu())
+            add(setupExamplesMenu())
+            add(setupShowMenu())
+            add(setupSettingsMenu())
+            add(setupHelpMenu())
+        }
+
+        return menuBar
+    }
+
+    private fun setupShowMenu(): Menu {
         val showMenu = Menu("Labels")
 
         val checkShowVertexLabel = CheckMenuItem("Vertex label")
@@ -172,9 +183,15 @@ class MainView : View("Graph visualizer") {
             add(checkShowCommunitiesLabel)
         }
 
+        return showMenu
+    }
+
+    private fun setupFileMenu(): Menu {
         val fileMenu = Menu("File")
+
         val open = MenuItem("Open")
         open.setOnAction { openGraph() }
+
         val save = MenuItem("Save")
         save.setOnAction { saveGraph() }
         with(fileMenu.items) {
@@ -182,21 +199,34 @@ class MainView : View("Graph visualizer") {
             add(save)
         }
 
+        return fileMenu
+    }
+
+    private fun setupHelpMenu(): Menu {
         val helpMenu = Menu("Help")
         val help = MenuItem("Help")
         help.setOnAction { alerter.alertHelp() }
         helpMenu.items.add(help)
 
+        return helpMenu
+    }
+
+    private fun setupExamplesMenu(): Menu {
         val examplesMenu = Menu("Examples")
+
         for (exampleName in props.SAMPLE_GRAPH.keys.reversed()) {
             val example = MenuItem(exampleName)
             example.setOnAction {
                 graph = props.SAMPLE_GRAPH[exampleName]!!
                 showGraph<String, Long>()
             }
+
             examplesMenu.items.add(example)
         }
+        return examplesMenu
+    }
 
+    private fun setupSettingsMenu(): Menu {
         val settingsMenu = Menu("Settings")
 
         val checkLeftMenu = CheckMenuItem("Hide left menu")
@@ -207,19 +237,12 @@ class MainView : View("Graph visualizer") {
             props.GUI.darkTheme.set(!props.GUI.darkTheme.value)
             root.style = if (props.GUI.darkTheme.value) "-fx-base:black" else ""
         }
+
         with(settingsMenu.items) {
             add(checkLeftMenu)
             add(checkDarkTheme)
         }
 
-        with(menuBar.menus) {
-            add(fileMenu)
-            add(helpMenu)
-            add(examplesMenu)
-            add(showMenu)
-            add(settingsMenu)
-        }
-
-        return menuBar
+        return settingsMenu
     }
 }
