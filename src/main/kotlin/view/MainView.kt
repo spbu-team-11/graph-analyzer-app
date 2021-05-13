@@ -25,8 +25,10 @@ class MainView : View("Graph visualizer") {
     private val defaultMinWidthBottom = 80.0
     private val alerter = Alerter()
 
-    private var graph = readSampleGraph("1")
+    private var graph = UndirectedGraph()
     private var graphView = GraphView(graph)
+    private var startGraph = graph
+    private var startGraphView = graphView
 
     private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
@@ -123,22 +125,19 @@ class MainView : View("Graph visualizer") {
 
             }
 
-            button("Reset default properties") {
-                minWidth = defaultMinWidthLeft
-                action {
-                    arrangeVertices()
-                }
-            }
+//            button("Reset default properties") {
+//                minWidth = defaultMinWidthLeft
+//                action {
+//                    graph = startGraph
+//                    graphView = startGraphView
+//                    showGraphWithGraphView()
+//                }
+//            }
 
         }
         left.visibleProperty().bind(props.GUI.leftMenu)
 
         bottom = graphInfo
-    }
-
-
-    init {
-        arrangeVertices()
     }
 
     private fun arrangeVertices() {
@@ -169,10 +168,6 @@ class MainView : View("Graph visualizer") {
             paintingStrategy.showCommunities(graph, graphView, nIteration, resolution)
             updateGraphInfo()
         }
-    }
-
-    private fun readSampleGraph(i: String): UndirectedGraph {
-        return props.SAMPLE_GRAPH[i] ?: UndirectedGraph()
     }
 
     private fun updateGraphInfo(){
