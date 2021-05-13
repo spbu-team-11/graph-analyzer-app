@@ -35,16 +35,24 @@ class MainView : View("Graph visualizer") {
     private val SQliteFileHandlingStrategy: FileHandlingStrategy by inject<SQLiteFileHandlingStrategy>()
     private val csvStrategy: FileHandlingStrategy by inject<CSVFileHandlingStrategy>()
 
-    private var nIteration = slider {
+    private var nIterationLeiden = slider {
         min = 0.0
-        max = 100.0
+        max = 1000.0
         value = 50.0
+        isShowTickMarks = true
+        isShowTickLabels = true
+        majorTickUnit = 200.0
+        minWidth = 150.0
     }
 
     private var resolution = slider {
         min = 0.0
         max = 1.0
         value = 0.5
+        isShowTickMarks = true
+        isShowTickLabels = true
+        majorTickUnit = 0.2
+        minWidth = 150.0
     }
 
     private var nIteration2 = textfield { }
@@ -57,13 +65,19 @@ class MainView : View("Graph visualizer") {
         top = setupMenuBar()
 
         left = vbox(10) {
-            add(nIteration)
-            add(resolution)
+            hbox(10){
+                text("Iteration: ")
+                add(nIterationLeiden)
+            }
+            hbox(10){
+                text("Resolution:")
+                add(resolution)
+            }
 
             button("Detect communities") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    showCommunities(nIteration.value.toInt().toString(), resolution.value.toString())
+                    showCommunities(nIterationLeiden.value.toInt().toString(), resolution.value.toString())
                 }
             }
 
@@ -178,12 +192,10 @@ class MainView : View("Graph visualizer") {
         }
 
         val file = chooser.showSaveDialog(this.currentWindow)
-        if (file != null) {
-            when (file.extension) {
-                "db" -> SQliteFileHandlingStrategy.save(file, graph, graphView)
-            }
-        }
-    }
+        if (file != null){
+            when(file.extension){
+            "db" -> SQliteFileHandlingStrategy.save(file, graph, graphView)}
+    }}
 
     private fun setupMenuBar(): MenuBar {
         val menuBar = MenuBar()
