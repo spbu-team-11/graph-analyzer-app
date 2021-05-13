@@ -14,6 +14,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
 import com.example.demo.logger.log
+import javafx.scene.paint.Color
 import javafx.scene.text.Text
 
 class SQLiteFileHandler {
@@ -32,7 +33,7 @@ class SQLiteFileHandler {
             }
             graph.edges().forEach {
                 Edge.new {
-                    element = it.element.toString()
+                    element = it.element
                     first = Vertex.find { Vertices.element eq it.vertices.first.element }.first()
                     second = Vertex.find { Vertices.element eq it.vertices.second.element }.first()
                 }
@@ -40,7 +41,7 @@ class SQLiteFileHandler {
             graphView.vertices().forEach {
                 VertexView.new {
                     vertex = Vertex.find { Vertices.element eq it.vertex.element }.first()
-                    color = it.color.toString()
+                    color = it.color.red.toString() + "/" +  it.color.green.toString() +"/"+ it.color.blue.toString()
                     x = it.centerX
                     y = it.centerY
                 }
@@ -70,6 +71,8 @@ class SQLiteFileHandler {
                     it.centerX = tmp.x
                     it.centerY = tmp.y
                     it.community = Text(vertex.community.toString())
+                    val rgb = tmp.color.split("/").map{color -> color.toDouble()}
+                    it.color = Color.color(rgb[0], rgb[1], rgb[2])
                 }
 
             }
