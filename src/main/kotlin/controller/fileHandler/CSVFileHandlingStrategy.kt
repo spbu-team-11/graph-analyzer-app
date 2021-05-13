@@ -1,6 +1,7 @@
 package controller.fileHandler
 
 import model.Graph
+import model.UndirectedGraph
 import model.databases.CSV.CSVFileHandler
 import view.GraphView
 
@@ -9,13 +10,13 @@ import java.io.File
 
 @ExperimentalStdlibApi
 class CSVFileHandlingStrategy : Controller(), FileHandlingStrategy {
-    override fun <V, E> open(file: File, graph: Graph<V, E>, graphView: GraphView<V, E>) {
 
-    }
-
-    override fun <V, E> save(file: File, graph: Graph<String, Long>, graphView: GraphView<String, Long>) {
+    override fun save(file: File, graph: Graph, graphView: GraphView) {
         val handler = CSVFileHandler()
         handler.save(file, graph, graphView)
     }
 
+    override fun open(file: File): Pair<UndirectedGraph, GraphView?> {
+        TODO("Not yet implemented")
+    }
 }

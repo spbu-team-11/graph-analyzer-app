@@ -4,5 +4,5 @@ import view.VertexView
 
 interface CircularRepresentationStrategy {
 
-    fun <V> place(width: Double, height: Double, vertices: Collection<VertexView<V>>)
+    fun place(width: Double, height: Double, vertices: Collection<VertexView>)
 }

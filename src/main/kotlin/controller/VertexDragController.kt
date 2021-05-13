@@ -49,10 +49,10 @@ class VertexDragController : Controller() {
             v.scene.cursor = Cursor.DEFAULT
     }
 
-    private fun check(event: MouseEvent): VertexView<*> {
-        require(event.target is VertexView<*>)
+    private fun check(event: MouseEvent): VertexView {
+        require(event.target is VertexView)
         { "handler supposed to process events only for vertices: $event" }
-        return event.target as VertexView<*>
+        return event.target as VertexView
     }
 
     private fun bound(value: Double, min: Double, max: Double, pad: Double) = when {

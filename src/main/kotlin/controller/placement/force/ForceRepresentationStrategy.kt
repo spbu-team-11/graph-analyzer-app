@@ -4,8 +4,8 @@ import view.GraphView
 
 interface ForceRepresentationStrategy {
 
-    fun <V, E> place(
-        graphView: GraphView<V, E>,
+    fun place(
+        graphView: GraphView,
         nIterations: String,
         gravity: String?,
         isLinLogMode: Boolean,

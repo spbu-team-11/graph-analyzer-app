@@ -31,9 +31,8 @@ class MainView : View("Graph visualizer") {
     private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
-    private val SQliteFileHandlingStrategy: FileHandlingStrategy<String, Long> by inject<SQLiteFileHandlingStrategy<String, Long>>()
 
-
+    private val SQliteFileHandlingStrategy: FileHandlingStrategy by inject<SQLiteFileHandlingStrategy>()
     private val csvStrategy: FileHandlingStrategy by inject<CSVFileHandlingStrategy>()
 
     private var nIteration = slider {
@@ -64,7 +63,7 @@ class MainView : View("Graph visualizer") {
             button("Detect communities") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    showCommunities<String, Long>(nIteration.value.toInt().toString(), resolution.value.toString())
+                    showCommunities(nIteration.value.toInt().toString(), resolution.value.toString())
                 }
             }
 
@@ -122,23 +121,23 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun <V, E> showCommunities(nIteration: String, resolution: String) {
+    private fun showCommunities(nIteration: String, resolution: String) {
         currentStage?.apply {
-            paintingStrategy.showCommunities<V, E>(graph, graphView, nIteration, resolution)
+            paintingStrategy.showCommunities(graph, graphView, nIteration, resolution)
         }
     }
 
-    private fun readSampleGraph(i: String): UndirectedGraph<String, Long> {
+    private fun readSampleGraph(i: String): UndirectedGraph {
         return props.SAMPLE_GRAPH[i] ?: UndirectedGraph()
     }
 
-    private fun <V, E> showGraphWithGraphView() {
+    private fun showGraphWithGraphView() {
         root.center {
             add(graphView)
         }
     }
 
-    private fun <V, E> showGraphWithoutGraphView() {
+    private fun showGraphWithoutGraphView() {
         graphView = GraphView(graph)
         root.center {
             add(graphView)
@@ -160,9 +159,9 @@ class MainView : View("Graph visualizer") {
             graph = data.first
             if (data.second != null) {
                 graphView = data.second!!
-                showGraphWithGraphView<String, Long>()
+                showGraphWithGraphView()
             } else
-                showGraphWithoutGraphView<String, Long>()
+                showGraphWithoutGraphView()
         }
     }
 
@@ -245,7 +244,7 @@ class MainView : View("Graph visualizer") {
             val example = MenuItem(exampleName)
             example.setOnAction {
                 graph = props.SAMPLE_GRAPH[exampleName]!!
-                showGraphWithoutGraphView<String, Long>()
+                showGraphWithoutGraphView()
             }
 
             examplesMenu.items.add(example)

@@ -11,7 +11,7 @@ import kotlin.math.sin
 
 class CircularPlacementStrategy : Controller(), CircularRepresentationStrategy {
 
-    override fun <V> place(width: Double, height: Double, vertices: Collection<VertexView<V>>) {
+    override fun place(width: Double, height: Double, vertices: Collection<VertexView>) {
         if (vertices.isEmpty()) {
             println("CircularPlacementStrategy.place: there is nothing to place 👐🏻")
             return

@@ -1,7 +1,6 @@
 package model.databases.SQLite
 
-import com.example.demo.logger.log
-import javafx.scene.text.Text
+import view.GraphView
 import model.Graph
 import model.UndirectedGraph
 import model.databases.SQLite.dao.edges.Edge
@@ -10,15 +9,15 @@ import model.databases.SQLite.dao.vertices.Vertex
 import model.databases.SQLite.dao.vertices.Vertices
 import model.databases.SQLite.dao.verticesView.VertexView
 import model.databases.SQLite.dao.verticesView.VerticesView
+
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import view.GraphView
 import java.io.File
-import java.sql.Connection
+import com.example.demo.logger.log
+import javafx.scene.text.Text
 
 class SQLiteFileHandler {
-    fun save(file: File, graph: Graph<String, Long>, graphView: GraphView<String, Long>) {
+    fun save(file: File, graph: Graph, graphView: GraphView) {
         Database.connect("jdbc:sqlite:$file", driver = "org.sqlite.JDBC")
         transaction {
             SchemaUtils.create(Edges)
@@ -49,16 +48,16 @@ class SQLiteFileHandler {
         }
     }
 
-    fun open(file: File): Pair<UndirectedGraph<String, Long>, GraphView<String, Long>?> {
+    fun open(file: File): Pair<UndirectedGraph, GraphView?> {
         Database.connect("jdbc:sqlite:$file", driver = "org.sqlite.JDBC")
-        val newGraph = UndirectedGraph<String, Long>()
+        val newGraph = UndirectedGraph()
         var exists = false
         transaction {
             Vertex.all().forEach {
                 newGraph.addVertex(it.element)
             }
             Edge.all().forEach {
-                newGraph.addEdge(it.first!!.element, it.second!!.element, it.element.toLong())
+                newGraph.addEdge(it.first!!.element, it.second!!.element, it.element)
             }
             exists = VerticesView.exists()
         }
@@ -75,8 +74,7 @@ class SQLiteFileHandler {
 
             }
             return newGraph to newGraphView
-        }
-        else{
+        } else {
             return newGraph to null
         }
     }

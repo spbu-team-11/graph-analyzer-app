@@ -1,21 +1,21 @@
 package model
 
-interface Vertex<V> {
+interface Vertex {
     var community: Int
-    var element: V
+    var element: String
 }
 
-interface Edge<E, V> {
-    var element: E
-    val vertices: Pair<Vertex<V>, Vertex<V>>
+interface Edge {
+    var element: String
+    val vertices: Pair<Vertex, Vertex>
 
-    fun incident(v: Vertex<V>) = v == vertices.first || v == vertices.second
+    fun incident(v: Vertex) = v == vertices.first || v == vertices.second
 }
 
-interface Graph<V, E> {
-    fun vertices(): Collection<Vertex<V>>
-    fun edges(): Collection<Edge<E, V>>
+interface Graph {
+    fun vertices(): Collection<Vertex>
+    fun edges(): Collection<Edge>
 
-    fun addVertex(v: V): Vertex<V>
-    fun addEdge(u: V, v: V, e: E): Edge<E, V>
+    fun addVertex(v: String): Vertex
+    fun addEdge(u: String, v: String, e: String): Edge
 }

@@ -5,9 +5,9 @@ import view.GraphView
 
 interface PaintingStrategy {
 
-    fun <V, E> showCommunities(
-        graph: UndirectedGraph<String, Long>,
-        graphView: GraphView<String, Long>,
+    fun showCommunities(
+        graph: UndirectedGraph,
+        graphView: GraphView,
         nIteration: String,
         resolution: String
     )

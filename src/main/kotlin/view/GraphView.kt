@@ -9,7 +9,7 @@ import javafx.scene.paint.Color
 import tornadofx.add
 import tornadofx.find
 
-class GraphView<V, E>(private val graph: Graph<V, E> = UndirectedGraph()) : Pane() {
+class GraphView(private val graph: Graph = UndirectedGraph()) : Pane() {
 
     private val dragger = find(VertexDragController::class)
 
@@ -29,9 +29,9 @@ class GraphView<V, E>(private val graph: Graph<V, E> = UndirectedGraph()) : Pane
         }
     }
 
-    fun vertices(): Collection<VertexView<V>> = vertices.values
+    fun vertices(): Collection<VertexView> = vertices.values
 
-    fun edges(): Collection<EdgeView<E, V>> = edges.values
+    fun edges(): Collection<EdgeView> = edges.values
 
     init {
         vertices().forEach { v ->

@@ -1,19 +1,20 @@
 package model.finders
 
-import com.example.demo.logger.log
 import model.UndirectedGraph
 import model.Vertex
+import utils.Alerter
+
 import nl.cwts.networkanalysis.Clustering
 import nl.cwts.networkanalysis.LeidenAlgorithm
 import nl.cwts.networkanalysis.Network
-import utils.Alerter
+import com.example.demo.logger.log
 import java.util.*
 import kotlin.collections.HashMap
 
 
-class CommunitiesFinder<V, E> {
+class CommunitiesFinder {
 
-    fun findCommunity(graph: UndirectedGraph<String, Long>, nIterations: String, resolution: String): Boolean {
+    fun findCommunity(graph: UndirectedGraph, nIterations: String, resolution: String): Boolean {
         val doubleResolution = resolution.toDoubleOrNull()
         val intNIterations = nIterations.toIntOrNull()
         if (doubleResolution == null || intNIterations == null) {
@@ -31,7 +32,7 @@ class CommunitiesFinder<V, E> {
         return true
     }
 
-    private fun <V, E> UndirectedGraph<V, E>.toNetwork(): Network { // Затычка
+    private fun UndirectedGraph.toNetwork(): Network { // Затычка
 
         val dict = makeDict()
 
@@ -44,8 +45,8 @@ class CommunitiesFinder<V, E> {
         return Network(vertices().size, false, edges, false, true)
     }
 
-    private fun <V, E> UndirectedGraph<V, E>.makeDict(): HashMap<Vertex<V>, Int> {
-        val dict = hashMapOf<Vertex<V>, Int>()
+    private fun UndirectedGraph.makeDict(): HashMap<Vertex, Int> {
+        val dict = hashMapOf<Vertex, Int>()
         for ((i, vertex) in vertices().withIndex()) {
             dict[vertex] = i
         }
@@ -53,7 +54,7 @@ class CommunitiesFinder<V, E> {
         return dict
     }
 
-    private fun <V, E> UndirectedGraph<V, E>.setCommunity(clustering: Clustering) {
+    private fun UndirectedGraph.setCommunity(clustering: Clustering) {
         for ((i, vertex) in vertices().withIndex()) {
             vertex.community = clustering.clusters[i]
         }

@@ -1,24 +1,25 @@
 package controller.painting
 
-import com.example.demo.logger.log
-import javafx.scene.paint.Color
+import view.GraphView
 import model.UndirectedGraph
 import model.finders.CommunitiesFinder
+
+import com.example.demo.logger.log
+import javafx.scene.paint.Color
 import tornadofx.Controller
-import view.GraphView
 import kotlin.random.Random
 
 class PaintingByCommunitiesStrategy : Controller(), PaintingStrategy {
 
-    override fun <V, E> showCommunities(
-        graph: UndirectedGraph<String, Long>,
-        graphView: GraphView<String, Long>,
+    override fun showCommunities(
+        graph: UndirectedGraph,
+        graphView: GraphView,
         nIteration: String,
         resolution: String
     ) {
         log("community finding starting...")
 
-        val finder = CommunitiesFinder<V, E>()
+        val finder = CommunitiesFinder()
         val returnCode = finder.findCommunity(graph, nIteration, resolution)
         if (!returnCode) return
         graphView.vertices()

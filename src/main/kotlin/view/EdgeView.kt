@@ -5,11 +5,11 @@ import model.Edge
 import javafx.scene.shape.Line
 import tornadofx.text
 
-class EdgeView<E, V>(
+class EdgeView(
 
-    edge: Edge<E, V>,
-    val first: VertexView<V>,
-    val second: VertexView<V>,
+    edge: Edge,
+    val first: VertexView,
+    val second: VertexView,
 ) : Line() {
 
     init {

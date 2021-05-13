@@ -30,7 +30,7 @@ object props {
 
     val SAMPLE_GRAPH = hashMapOf(
         Pair("Example 1",
-            UndirectedGraph<String, Long>().apply {
+            UndirectedGraph().apply {
                 addVertex("A")
                 addVertex("B")
                 addVertex("C")
@@ -39,12 +39,12 @@ object props {
                 addVertex("F")
                 addVertex("G")
 
-                addEdge("A", "B", 1)
-                addEdge("A", "C", 2)
-                addEdge("A", "D", 3)
-                addEdge("A", "E", 4)
-                addEdge("A", "F", 5)
-                addEdge("A", "G", 6)
+                addEdge("A", "B", "1")
+                addEdge("A", "C", "2")
+                addEdge("A", "D", "3")
+                addEdge("A", "E", "4")
+                addEdge("A", "F", "5")
+                addEdge("A", "G", "6")
 
                 addVertex("H")
                 addVertex("I")
@@ -54,17 +54,17 @@ object props {
                 addVertex("M")
                 addVertex("N")
 
-                addEdge("H", "I", 7)
-                addEdge("H", "J", 8)
-                addEdge("H", "K", 9)
-                addEdge("H", "L", 10)
-                addEdge("H", "M", 11)
-                addEdge("H", "N", 12)
+                addEdge("H", "I", "7")
+                addEdge("H", "J", "8")
+                addEdge("H", "K", "9")
+                addEdge("H", "L", "10")
+                addEdge("H", "M", "11")
+                addEdge("H", "N", "12")
 
-                addEdge("A", "H", 0)
+                addEdge("A", "H", "0")
             }),
         Pair("Example 2",
-            UndirectedGraph<String, Long>().apply {
+            UndirectedGraph().apply {
                 addVertex("A")
                 addVertex("B")
                 addVertex("C")
@@ -73,18 +73,18 @@ object props {
                 addVertex("F")
                 addVertex("G")
 
-                addEdge("A", "B", 1)
-                addEdge("A", "C", 2)
-                addEdge("B", "C", 3)
-                addEdge("F", "E", 4)
-                addEdge("G", "F", 5)
-                addEdge("E", "G", 6)
-                addEdge("C", "D", 7)
-                addEdge("E", "D", 0)
+                addEdge("A", "B", "1")
+                addEdge("A", "C", "2")
+                addEdge("B", "C", "3")
+                addEdge("F", "E", "4")
+                addEdge("G", "F", "5")
+                addEdge("E", "G", "6")
+                addEdge("C", "D", "7")
+                addEdge("E", "D", "0")
 
 
             }),
-        Pair("Big graph", UndirectedGraph<String, Long>().apply {
+        Pair("Big graph", UndirectedGraph().apply {
             for (i in 0..1000) {
                 addVertex(i.toString())
             }
@@ -93,21 +93,21 @@ object props {
             for (i in 0..1000) {
                 val first = random.nextInt() % 1000
                 val second = random.nextInt() % 1000
-                addEdge(first.toString(),  second.toString(), first.toLong() * 1000 + second.toLong())
-                addEdge(first.toString(),  (second + 1).toString(), first.toLong() * 1000 + second.toLong())
-                addEdge((first + 1).toString(),  second.toString(), first.toLong() * 1000 + second.toLong())
+                addEdge(first.toString(), second.toString(), (first.toLong() * 1000).toString() + second)
+                addEdge(first.toString(), (second + 1).toString(), (first.toLong() * 1000).toString() + second)
+                addEdge((first + 1).toString(), second.toString(), (first.toLong() * 1000).toString() + second)
             }
         }),
-        Pair("Little example", UndirectedGraph<String, Long>().apply {
+        Pair("Little example", UndirectedGraph().apply {
             addVertex("a")
             addVertex("b")
-            addEdge("a", "b", 1)
+            addEdge("a", "b", "1")
             addVertex("c")
             addVertex("d")
-            addEdge("c", "d", 2)
+            addEdge("c", "d", "2")
             addVertex("e")
             addVertex("f")
-            addEdge("e", "f", 3)
+            addEdge("e", "f", "3")
         })
     )
 }

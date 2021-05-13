@@ -1,29 +1,29 @@
 package model
 
-class UndirectedGraph<V, E> : Graph<V, E> {
+class UndirectedGraph : Graph {
 
-    private val vertices = hashMapOf<V, Vertex<V>>()
-    private val edges = hashMapOf<E, Edge<E, V>>()
+    private val vertices = hashMapOf<String, Vertex>()
+    private val edges = hashMapOf<String, Edge>()
 
-    override fun vertices(): Collection<Vertex<V>> = vertices.values
+    override fun vertices(): Collection<Vertex> = vertices.values
 
-    override fun edges(): Collection<Edge<E, V>> = edges.values
+    override fun edges(): Collection<Edge> = edges.values
 
-    override fun addVertex(v: V): Vertex<V> = vertices.getOrPut(v) { UndirectedVertex(v, -1) }
+    override fun addVertex(v: String): Vertex = vertices.getOrPut(v) { UndirectedVertex(v, -1) }
 
-    override fun addEdge(u: V, v: V, e: E): Edge<E, V> {
+    override fun addEdge(u: String, v: String, e: String): Edge {
         val first = addVertex(u)
         val second = addVertex(v)
         return edges.getOrPut(e) { UndirectedEdge(e, first, second) }
     }
 
-    private data class UndirectedVertex<V>(override var element: V, override var community: Int) : Vertex<V>
+    private data class UndirectedVertex(override var element: String, override var community: Int) : Vertex
 
-    private data class UndirectedEdge<E, V>(
-        override var element: E,
-        var first: Vertex<V>,
-        var second: Vertex<V>,
-    ) : Edge<E, V> {
+    private data class UndirectedEdge(
+        override var element: String,
+        var first: Vertex,
+        var second: Vertex,
+    ) : Edge {
         override val vertices
             get() = first to second
     }

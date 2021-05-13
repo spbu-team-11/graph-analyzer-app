@@ -15,9 +15,9 @@ import org.gephi.graph.impl.GraphModelImpl
 import org.gephi.graph.impl.NodeImpl
 import kotlin.math.abs
 
-class ForceLayout<V, E> {
+class ForceLayout {
 
-    fun canLayout(graphView: GraphView<V, E>): Boolean {
+    fun canLayout(graphView: GraphView): Boolean {
         if (graphView.vertices().isEmpty())
             log("Force Atlas 2: there is nothing to place")
         else log("Force Atlas 2 has started")
@@ -25,7 +25,7 @@ class ForceLayout<V, E> {
     }
 
     fun layout(
-        graphView: GraphView<V, E>,
+        graphView: GraphView,
         nIterations: String,
         gravity: String?,
         isLinLogMode: Boolean,
@@ -41,7 +41,7 @@ class ForceLayout<V, E> {
         val graphModel = GraphModelImpl(Configuration())
         forcePlacement.initLayout(graphModel, initGravity(gravity), isLinLogMode, vertices.size)
 
-        val graphVertices = mutableSetOf<VertexView<V>>()
+        val graphVertices = mutableSetOf<VertexView>()
 
         graphModel.translateFromGraphView(graphVertices, vertices, edges, center)
 
@@ -79,7 +79,7 @@ class ForceLayout<V, E> {
         if (countOfVertices > 2000) isBarnesHutOptimize = true
     }
 
-    private fun GraphModelImpl.translateToGraphView(graphVertices: MutableCollection<VertexView<V>>, center: Point2D) {
+    private fun GraphModelImpl.translateToGraphView(graphVertices: MutableCollection<VertexView>, center: Point2D) {
         val nodes = store.nodes.toArray()
 
         val max = nodes.maxOf { abs(it.x()) / 2 } to nodes.maxOf { abs(it.y()) / 2 }
@@ -95,12 +95,12 @@ class ForceLayout<V, E> {
     }
 
     private fun GraphModelImpl.translateFromGraphView(
-        graphVertices: MutableCollection<VertexView<V>>,
-        vertices: Collection<VertexView<V>>,
-        edges: Collection<EdgeView<E, V>>,
+        graphVertices: MutableCollection<VertexView>,
+        vertices: Collection<VertexView>,
+        edges: Collection<EdgeView>,
         center: Point2D
     ) {
-        val allNodes = hashMapOf<V, NodeImpl>()
+        val allNodes = hashMapOf<String, NodeImpl>()
         val allEdges = mutableSetOf<Edge>()
 
         for (i in vertices) {
