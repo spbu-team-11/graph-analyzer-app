@@ -57,7 +57,8 @@ class CSVFileHandler {
                 val vertex = vertices[it.vertex.element]!!
                 it.centerX = vertex.x
                 it.centerY = vertex.y
-                it.community = vertex.community
+                it.vertex.community = vertex.community.text.toInt()
+                it.community.text = vertex.community.text
                 it.color = vertex.color
             }
             return newGraph to newGraphView

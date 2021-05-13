@@ -16,7 +16,6 @@ import utils.Alerter
 import javafx.scene.control.*
 import javafx.stage.FileChooser
 import tornadofx.*
-import kotlin.math.absoluteValue
 
 @ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {
@@ -218,12 +217,13 @@ class MainView : View("Graph visualizer") {
                 "csv" -> {
                     val data = csvStrategy.open(file)
                     graph = data.first
-                    if(data.second != null) {
+                    if (data.second != null) {
                         graphView = data.second!!
                         showGraphWithGraphView()
                     } else showGraphWithoutGraphView()
                 }
             }
+            updateGraphInfo()
         }
     }
 

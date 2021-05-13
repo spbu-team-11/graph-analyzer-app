@@ -72,7 +72,8 @@ class SQLiteFileHandler {
                         val tmp = VertexView.find { VerticesView.vertex eq vertex.id }.first()
                         it.centerX = tmp.x
                         it.centerY = tmp.y
-                        it.community = Text(vertex.community.toString())
+                        it.vertex.community = vertex.community
+                        it.community.text = vertex.community.toString()
                         val rgb = tmp.color.split("/").map { color -> color.toDouble() }
                         it.color = Color.color(rgb[0], rgb[1], rgb[2])
                     }
