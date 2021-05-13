@@ -76,20 +76,29 @@ class ForceLayout {
         setGraphModel(graphModel)
         this.gravity = gravity
         this.isLinLogMode = isLinLogMode
-        if (countOfVertices > 2000) isBarnesHutOptimize = true
+        if (countOfVertices >= 1000) isBarnesHutOptimize = true
     }
 
     private fun GraphModelImpl.translateToGraphView(graphVertices: MutableCollection<VertexView>, center: Point2D) {
-        val nodes = store.nodes.toArray()
+        val nodes = graph.nodes.toArray()
 
-        val max = nodes.maxOf { abs(it.x()) / 2 } to nodes.maxOf { abs(it.y()) / 2 }
-        val coefficient = calcCoefficient(max.first, center.x) to calcCoefficient(max.second, center.y)
-        val maxCoefficient = maxOf(coefficient.first, coefficient.second)
+        var maxX = 0.0
+        nodes.onEach {
+            maxX = maxOf(maxX, abs(it.x().toDouble()))
+        }
+        var maxY = 0.0
+        nodes.onEach {
+            maxY = maxOf(maxY, abs(it.y().toDouble()))
+        }
+
+        val max = maxX to maxY
+        log("$max $center")
+        val coefficient = maxOf(calcCoefficient(max.first.toFloat(), center.x), calcCoefficient(max.second.toFloat(), center.y))
 
         var i = 0
         graphVertices.onEach {
             it.position =
-                nodes[i].x() / maxCoefficient + center.x to nodes[i].y() / maxCoefficient + center.y
+                nodes[i].x() / coefficient + center.x to nodes[i].y() / coefficient + center.y
             i++
         }
     }
@@ -129,5 +138,5 @@ class ForceLayout {
     }
 
     private fun calcCoefficient(first: Float, second: Double) =
-        if (first > second) first / second * 2.25 else 1.0
+        if (first > second) first / second * 1.05 else 1.0
 }
