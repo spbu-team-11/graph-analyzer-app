@@ -1,4 +1,4 @@
-package model.databases.CSV
+package model.databases.CSV.data
 
 data class CSVGraphData(
 
@@ -6,7 +6,7 @@ data class CSVGraphData(
     var name: String,
     var x: Double?,
     var y: Double?,
-    var color: Double?,
+    var color: String?,
     var community: Int?,
 
     var from: String?,

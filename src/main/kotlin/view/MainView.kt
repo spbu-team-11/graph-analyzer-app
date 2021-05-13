@@ -87,11 +87,11 @@ class MainView : View("Graph visualizer") {
         top = setupMenuBar()
 
         left = vbox(10) {
-            hbox(10){
+            hbox(10) {
                 text(" Iteration: ")
                 add(nIterationLeiden)
             }
-            hbox(10){
+            hbox(10) {
                 text(" Resolution:")
                 add(resolution)
             }
@@ -103,15 +103,15 @@ class MainView : View("Graph visualizer") {
                 }
             }
 
-            hbox(10){
+            hbox(10) {
                 text(" Iteration:")
                 add(nIteration2)
             }
-            hbox(10){
+            hbox(10) {
                 text(" Gravity:  ")
                 add(gravity)
             }
-            hbox(10){
+            hbox(10) {
                 text("LinLog Mode: ")
                 add(isLinLogMode)
             }
@@ -170,13 +170,13 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun updateGraphInfo(){
+    private fun updateGraphInfo() {
         var maxCommunity = -1
         graph.vertices().forEach {
-            if(it.community > maxCommunity) maxCommunity = it.community
+            if (it.community > maxCommunity) maxCommunity = it.community
         }
         graphInfo.text = " Vertices: ${graph.vertices().size} \n Edges: ${graph.edges().size} " +
-                "\n Communities: ${if(maxCommunity == -1) "-" else (maxCommunity + 1)}"
+                "\n Communities: ${if (maxCommunity == -1) "-" else (maxCommunity + 1)}"
     }
 
     private fun showGraphWithGraphView() {
@@ -215,6 +215,14 @@ class MainView : View("Graph visualizer") {
                     } else
                         showGraphWithoutGraphView()
                 }
+                "csv" -> {
+                    val data = csvStrategy.open(file)
+                    graph = data.first
+                    if(data.second != null) {
+                        graphView = data.second!!
+                        showGraphWithGraphView()
+                    } else showGraphWithoutGraphView()
+                }
             }
         }
     }
@@ -228,10 +236,13 @@ class MainView : View("Graph visualizer") {
         }
 
         val file = chooser.showSaveDialog(this.currentWindow)
-        if (file != null){
-            when(file.extension){
-            "db" -> SQliteFileHandlingStrategy.save(file, graph, graphView)}
-    }}
+        if (file != null) {
+            when (file.extension) {
+                "db" -> SQliteFileHandlingStrategy.save(file, graph, graphView)
+                "csv" -> csvStrategy.save(file, graph, graphView)
+            }
+        }
+    }
 
     private fun setupMenuBar(): MenuBar {
         val menuBar = MenuBar()
