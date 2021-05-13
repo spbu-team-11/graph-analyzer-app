@@ -7,6 +7,8 @@ import tornadofx.App
 import tornadofx.launch
 import com.example.demo.logger.log
 
+
+@ExperimentalStdlibApi
 class MainApp : App(MainView::class, Styles::class) {
 
     override fun start(stage: Stage) {
@@ -25,6 +27,7 @@ class MainApp : App(MainView::class, Styles::class) {
     }
 }
 
+@ExperimentalStdlibApi
 fun main(args: Array<String>) {
     launch<MainApp>(args)
 }

@@ -1,18 +1,21 @@
 package controller.fileHandler
 
 import model.Graph
+import model.databases.CSV.CSVFileHandler
 import view.GraphView
 
 import tornadofx.Controller
 import java.io.File
 
-class CSVFileHandlingStrategy<V, E> : Controller(), FileHandlingStrategy<V, E> {
-    override fun open(file: File, graph: Graph<V, E>, graphView: GraphView<V, E>) {
-        TODO("Not yet implemented")
+@ExperimentalStdlibApi
+class CSVFileHandlingStrategy : Controller(), FileHandlingStrategy {
+    override fun <V, E> open(file: File, graph: Graph<V, E>, graphView: GraphView<V, E>) {
+
     }
 
-    override fun save(file: File, graph: Graph<V, E>, graphView: GraphView<V, E>) {
-        TODO("Not yet implemented")
+    override fun <V, E> save(file: File, graph: Graph<String, Long>, graphView: GraphView<String, Long>) {
+        val handler = CSVFileHandler()
+        handler.save(file, graph, graphView)
     }
 
 }

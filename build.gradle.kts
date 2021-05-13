@@ -32,6 +32,11 @@ dependencies {
     implementation("nl.cwts", "networkanalysis", "1.1.0-5-ga3f342d.dirty")
     implementation(files("libs/force-atlas2.jar", "libs/force-atlas2-tools.jar"))
     implementation("org.xerial", "sqlite-jdbc", "3.8.11.2")
+    //implementation("org.gephi:gephi-toolkit:0.9.2")
+    //implementation("kco.klarman-cell-observatory:forceatlas2:0.9.2")
+
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
+    implementation("io.github.blackmo18:kotlin-grass-jvm:0.7.1")
 }
 
 application {

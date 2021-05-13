@@ -1,5 +1,7 @@
 package view
 
+import controller.fileHandler.CSVFileHandlingStrategy
+import controller.fileHandler.FileHandlingStrategy
 import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
 import controller.placement.circular.CircularPlacementStrategy
@@ -13,7 +15,7 @@ import javafx.scene.control.*
 import javafx.stage.FileChooser
 import tornadofx.*
 
-
+@ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {
 
     private val defaultMinWidthLeft = 155.0
@@ -27,6 +29,9 @@ class MainView : View("Graph visualizer") {
     private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
+
+
+    private val csvStrategy: FileHandlingStrategy by inject<CSVFileHandlingStrategy>()
 
     private var nIteration = slider {
         min = 0.0
@@ -124,6 +129,7 @@ class MainView : View("Graph visualizer") {
         return props.SAMPLE_GRAPH[i] ?: UndirectedGraph()
     }
 
+
     private fun <V, E> showGraph() {
         graphView = GraphView(graph)
         root.center {
@@ -147,11 +153,12 @@ class MainView : View("Graph visualizer") {
         val chooser = FileChooser()
         with(chooser) {
             title = "Save graph"
-            extensionFilters.add(FileChooser.ExtensionFilter("SQLite", "*.db"))
             extensionFilters.add(FileChooser.ExtensionFilter("CSV", ".csv"))
         }
 
         val file = chooser.showSaveDialog(this.currentWindow)
+
+        csvStrategy.save<String, Long>(file, graph, graphView)
     }
 
     private fun setupMenuBar(): MenuBar {
