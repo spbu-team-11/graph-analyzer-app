@@ -16,6 +16,7 @@ import java.io.File
 import com.example.demo.logger.log
 import javafx.scene.paint.Color
 import javafx.scene.text.Text
+import utils.Alerter
 
 class SQLiteFileHandler {
     fun save(file: File, graph: Graph, graphView: GraphView) {
@@ -41,7 +42,7 @@ class SQLiteFileHandler {
             graphView.vertices().forEach {
                 VertexView.new {
                     vertex = Vertex.find { Vertices.element eq it.vertex.element }.first()
-                    color = it.color.red.toString() + "/" +  it.color.green.toString() +"/"+ it.color.blue.toString()
+                    color = it.color.red.toString() + "/" + it.color.green.toString() + "/" + it.color.blue.toString()
                     x = it.centerX
                     y = it.centerY
                 }
@@ -50,35 +51,41 @@ class SQLiteFileHandler {
     }
 
     fun open(file: File): Pair<UndirectedGraph, GraphView?> {
-        Database.connect("jdbc:sqlite:$file", driver = "org.sqlite.JDBC")
-        val newGraph = UndirectedGraph()
-        var exists = false
-        transaction {
-            Vertex.all().forEach {
-                newGraph.addVertex(it.element)
-            }
-            Edge.all().forEach {
-                newGraph.addEdge(it.first!!.element, it.second!!.element, it.element)
-            }
-            exists = VerticesView.exists()
-        }
-        if (exists) {
-            val newGraphView = GraphView(newGraph)
+        try {
+            Database.connect("jdbc:sqlite:$file", driver = "org.sqlite.JDBC")
+            val newGraph = UndirectedGraph()
+            var exists = false
             transaction {
-                newGraphView.vertices().onEach {
-                    val vertex = Vertex.find { Vertices.element eq it.vertex.element }.first()
-                    val tmp = VertexView.find { VerticesView.vertex eq vertex.id }.first()
-                    it.centerX = tmp.x
-                    it.centerY = tmp.y
-                    it.community = Text(vertex.community.toString())
-                    val rgb = tmp.color.split("/").map{color -> color.toDouble()}
-                    it.color = Color.color(rgb[0], rgb[1], rgb[2])
+                Vertex.all().forEach {
+                    newGraph.addVertex(it.element)
                 }
-
+                Edge.all().forEach {
+                    newGraph.addEdge(it.first!!.element, it.second!!.element, it.element)
+                }
+                exists = VerticesView.exists()
             }
-            return newGraph to newGraphView
-        } else {
-            return newGraph to null
+            if (exists) {
+                val newGraphView = GraphView(newGraph)
+                transaction {
+                    newGraphView.vertices().onEach {
+                        val vertex = Vertex.find { Vertices.element eq it.vertex.element }.first()
+                        val tmp = VertexView.find { VerticesView.vertex eq vertex.id }.first()
+                        it.centerX = tmp.x
+                        it.centerY = tmp.y
+                        it.community = Text(vertex.community.toString())
+                        val rgb = tmp.color.split("/").map { color -> color.toDouble() }
+                        it.color = Color.color(rgb[0], rgb[1], rgb[2])
+                    }
+
+                }
+                return newGraph to newGraphView
+            } else {
+                return newGraph to null
+            }
+        } catch (e: Exception) {
+            Alerter().alertIncorrectArgs("Incorrect database")
+            return UndirectedGraph() to null
         }
+
     }
 }
