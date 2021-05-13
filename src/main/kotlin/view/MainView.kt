@@ -150,18 +150,22 @@ class MainView : View("Graph visualizer") {
         with(chooser) {
             title = "Open graph"
             extensionFilters.add(FileChooser.ExtensionFilter("SQLite", "*.db"))
-            extensionFilters.add(FileChooser.ExtensionFilter("CSV", ".csv"))
+            extensionFilters.add(FileChooser.ExtensionFilter("CSV", "*.csv"))
         }
 
         val file = chooser.showOpenDialog(this.currentWindow)
         if (file != null) {
-            val data = SQliteFileHandlingStrategy.open(file)
-            graph = data.first
-            if (data.second != null) {
-                graphView = data.second!!
-                showGraphWithGraphView()
-            } else
-                showGraphWithoutGraphView()
+            when (file.extension) {
+                "db" -> {
+                    val data = SQliteFileHandlingStrategy.open(file)
+                    graph = data.first
+                    if (data.second != null) {
+                        graphView = data.second!!
+                        showGraphWithGraphView()
+                    } else
+                        showGraphWithoutGraphView()
+                }
+            }
         }
     }
 
@@ -170,11 +174,15 @@ class MainView : View("Graph visualizer") {
         with(chooser) {
             title = "Save graph"
             extensionFilters.add(FileChooser.ExtensionFilter("SQLite", "*.db"))
+            extensionFilters.add(FileChooser.ExtensionFilter("CSV", "*.csv"))
         }
 
         val file = chooser.showSaveDialog(this.currentWindow)
-        if (file != null)
-            SQliteFileHandlingStrategy.save(file, graph, graphView)
+        if (file != null) {
+            when (file.extension) {
+                "db" -> SQliteFileHandlingStrategy.save(file, graph, graphView)
+            }
+        }
     }
 
     private fun setupMenuBar(): MenuBar {
