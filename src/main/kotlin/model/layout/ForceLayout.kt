@@ -2,6 +2,7 @@ package model.layout
 
 import view.GraphView
 import view.VertexView
+import view.EdgeView
 
 import com.example.demo.logger.log
 import javafx.geometry.Point2D
@@ -12,7 +13,6 @@ import org.gephi.graph.api.Edge
 import org.gephi.graph.impl.EdgeImpl
 import org.gephi.graph.impl.GraphModelImpl
 import org.gephi.graph.impl.NodeImpl
-import view.EdgeView
 import kotlin.math.abs
 
 class ForceLayout<V, E> {

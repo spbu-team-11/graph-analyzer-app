@@ -1,7 +1,9 @@
 package view
 
+import controller.fileHandler.CSVFileHandlingStrategy
 import controller.fileHandler.FileHandlingStrategy
 import controller.fileHandler.SQLiteFileHandlingStrategy
+
 import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
 import controller.placement.circular.CircularPlacementStrategy
@@ -15,7 +17,7 @@ import javafx.scene.control.*
 import javafx.stage.FileChooser
 import tornadofx.*
 
-
+@ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {
 
     private val defaultMinWidthLeft = 155.0
@@ -30,6 +32,9 @@ class MainView : View("Graph visualizer") {
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
     private val SQliteFileHandlingStrategy: FileHandlingStrategy<String, Long> by inject<SQLiteFileHandlingStrategy<String, Long>>()
+
+
+    private val csvStrategy: FileHandlingStrategy by inject<CSVFileHandlingStrategy>()
 
     private var nIteration = slider {
         min = 0.0
@@ -56,7 +61,7 @@ class MainView : View("Graph visualizer") {
             add(nIteration)
             add(resolution)
 
-            button("Find communities") {
+            button("Detect communities") {
                 minWidth = defaultMinWidthLeft
                 action {
                     showCommunities<String, Long>(nIteration.value.toInt().toString(), resolution.value.toString())
@@ -69,7 +74,7 @@ class MainView : View("Graph visualizer") {
                 isLinLogMode = checkbox("LinLog Mode") { }
             }
 
-            button("Make layout") {
+            button("Layout") {
                 minWidth = defaultMinWidthLeft
                 action {
                     forceLayout(nIteration2.text, gravity.text, isLinLogMode.isSelected)
@@ -77,14 +82,7 @@ class MainView : View("Graph visualizer") {
 
             }
 
-            button("Find ...") {
-                minWidth = defaultMinWidthLeft
-                action {
-
-                }
-            }
-
-            button("Reset default settings") {
+            button("Reset default properties") {
                 minWidth = defaultMinWidthLeft
                 action {
                     arrangeVertices()
@@ -153,6 +151,7 @@ class MainView : View("Graph visualizer") {
         with(chooser) {
             title = "Open graph"
             extensionFilters.add(FileChooser.ExtensionFilter("SQLite", "*.db"))
+            extensionFilters.add(FileChooser.ExtensionFilter("CSV", ".csv"))
         }
 
         val file = chooser.showOpenDialog(this.currentWindow)
@@ -194,7 +193,7 @@ class MainView : View("Graph visualizer") {
     }
 
     private fun setupShowMenu(): Menu {
-        val showMenu = Menu("Labels")
+        val showMenu = Menu("Show")
 
         val checkShowVertexLabel = CheckMenuItem("Vertex label")
         checkShowVertexLabel.setOnAction { props.vertex.label.set(!props.vertex.label.value) }
