@@ -1,11 +1,11 @@
 package controller.fileHandler
 
 import model.Graph
+import model.UndirectedGraph
 import view.GraphView
 import java.io.File
 
-interface FileHandlingStrategy {
-
-    fun <V, E> open(file: File, graph: Graph<V, E>, graphView: GraphView<V, E>)
-    fun <V, E> save(file: File, graph: Graph<String, Long>, graphView: GraphView<String, Long>)
+interface FileHandlingStrategy<V ,E> {
+    fun open(file: File): Pair<UndirectedGraph<String, Long>, GraphView<String, Long>?>
+    fun save(file: File, graph: Graph<String, Long>, graphView: GraphView<String, Long>)
 }

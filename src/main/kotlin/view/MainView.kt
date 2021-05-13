@@ -2,6 +2,8 @@ package view
 
 import controller.fileHandler.CSVFileHandlingStrategy
 import controller.fileHandler.FileHandlingStrategy
+import controller.fileHandler.SQLiteFileHandlingStrategy
+
 import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
 import controller.placement.circular.CircularPlacementStrategy
@@ -24,11 +26,12 @@ class MainView : View("Graph visualizer") {
 
     private var graph = readSampleGraph("1")
     private var graphView = GraphView(graph)
-    private var graphInfo =text( "")
+    private var graphInfo = text("")
 
     private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
+    private val SQliteFileHandlingStrategy: FileHandlingStrategy<String, Long> by inject<SQLiteFileHandlingStrategy<String, Long>>()
 
 
     private val csvStrategy: FileHandlingStrategy by inject<CSVFileHandlingStrategy>()
@@ -129,8 +132,13 @@ class MainView : View("Graph visualizer") {
         return props.SAMPLE_GRAPH[i] ?: UndirectedGraph()
     }
 
+    private fun <V, E> showGraphWithGraphView() {
+        root.center {
+            add(graphView)
+        }
+    }
 
-    private fun <V, E> showGraph() {
+    private fun <V, E> showGraphWithoutGraphView() {
         graphView = GraphView(graph)
         root.center {
             add(graphView)
@@ -147,18 +155,27 @@ class MainView : View("Graph visualizer") {
         }
 
         val file = chooser.showOpenDialog(this.currentWindow)
+        if (file != null) {
+            val data = SQliteFileHandlingStrategy.open(file)
+            graph = data.first
+            if (data.second != null) {
+                graphView = data.second!!
+                showGraphWithGraphView<String, Long>()
+            } else
+                showGraphWithoutGraphView<String, Long>()
+        }
     }
 
     private fun saveGraph() {
         val chooser = FileChooser()
         with(chooser) {
             title = "Save graph"
-            extensionFilters.add(FileChooser.ExtensionFilter("CSV", ".csv"))
+            extensionFilters.add(FileChooser.ExtensionFilter("SQLite", "*.db"))
         }
 
         val file = chooser.showSaveDialog(this.currentWindow)
-
-        csvStrategy.save<String, Long>(file, graph, graphView)
+        if (file != null)
+            SQliteFileHandlingStrategy.save(file, graph, graphView)
     }
 
     private fun setupMenuBar(): MenuBar {
@@ -228,7 +245,7 @@ class MainView : View("Graph visualizer") {
             val example = MenuItem(exampleName)
             example.setOnAction {
                 graph = props.SAMPLE_GRAPH[exampleName]!!
-                showGraph<String, Long>()
+                showGraphWithoutGraphView<String, Long>()
             }
 
             examplesMenu.items.add(example)
