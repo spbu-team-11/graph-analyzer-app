@@ -16,6 +16,7 @@ import utils.Alerter
 import javafx.scene.control.*
 import javafx.stage.FileChooser
 import tornadofx.*
+import kotlin.math.absoluteValue
 
 @ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {
@@ -26,7 +27,6 @@ class MainView : View("Graph visualizer") {
 
     private var graph = readSampleGraph("1")
     private var graphView = GraphView(graph)
-    private var graphInfo = text("")
 
     private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
@@ -55,22 +55,42 @@ class MainView : View("Graph visualizer") {
         minWidth = 150.0
     }
 
-    private var nIteration2 = textfield { }
-    private var gravity = textfield { }
-    private var isLinLogMode = checkbox("LinLog Mode") {
+    private var nIteration2 = slider {
+        min = 0.0
+        max = 5000.0
+        value = 50.0
+        isShowTickMarks = true
+        isShowTickLabels = true
+        majorTickUnit = 1250.0
+        minWidth = 150.0
+    }
+
+    private var gravity = slider {
+        min = 0.0
+        max = 100.0
+        value = 1.0
+        isShowTickMarks = true
+        isShowTickLabels = true
+        majorTickUnit = 20.0
+        minWidth = 150.0
+    }
+
+    private var isLinLogMode = checkbox {
         isIndeterminate = false
     }
+
+    private var graphInfo = text(" Vertices: - \n Edges: - \n Communities: -")
 
     override val root = borderpane {
         top = setupMenuBar()
 
         left = vbox(10) {
             hbox(10){
-                text("Iteration: ")
+                text(" Iteration: ")
                 add(nIterationLeiden)
             }
             hbox(10){
-                text("Resolution:")
+                text(" Resolution:")
                 add(resolution)
             }
 
@@ -81,16 +101,24 @@ class MainView : View("Graph visualizer") {
                 }
             }
 
-            hbox(5 / 3) {
-                nIteration2 = textfield { maxWidth = 50.0 }
-                gravity = textfield { maxWidth = 50.0 }
-                isLinLogMode = checkbox("LinLog Mode") { }
+            hbox(10){
+                text(" Iteration:")
+                add(nIteration2)
             }
+            hbox(10){
+                text(" Gravity:  ")
+                add(gravity)
+            }
+            hbox(10){
+                text("LinLog Mode: ")
+                add(isLinLogMode)
+            }
+
 
             button("Layout") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    forceLayout(nIteration2.text, gravity.text, isLinLogMode.isSelected)
+                    forceLayout(nIteration2.value.toInt().toString(), gravity.value.toString(), isLinLogMode.isSelected)
                 }
 
             }
@@ -102,11 +130,12 @@ class MainView : View("Graph visualizer") {
                 }
             }
 
-            add(graphInfo)
-
         }
         left.visibleProperty().bind(props.GUI.leftMenu)
+
+        bottom = graphInfo
     }
+
 
     init {
         arrangeVertices()
@@ -138,6 +167,7 @@ class MainView : View("Graph visualizer") {
     private fun showCommunities(nIteration: String, resolution: String) {
         currentStage?.apply {
             paintingStrategy.showCommunities(graph, graphView, nIteration, resolution)
+            updateGraphInfo()
         }
     }
 
@@ -145,10 +175,20 @@ class MainView : View("Graph visualizer") {
         return props.SAMPLE_GRAPH[i] ?: UndirectedGraph()
     }
 
+    private fun updateGraphInfo(){
+        var maxCommunity = -1
+        graph.vertices().forEach {
+            if(it.community > maxCommunity) maxCommunity = it.community
+        }
+        graphInfo.text = " Vertices: ${graph.vertices().size} \n Edges: ${graph.edges().size} " +
+                "\n Communities: ${if(maxCommunity == -1) "-" else (maxCommunity + 1)}"
+    }
+
     private fun showGraphWithGraphView() {
         root.center {
             add(graphView)
         }
+        updateGraphInfo()
     }
 
     private fun showGraphWithoutGraphView() {
@@ -157,6 +197,7 @@ class MainView : View("Graph visualizer") {
             add(graphView)
         }
         arrangeVertices()
+        updateGraphInfo()
     }
 
     private fun openGraph() {
