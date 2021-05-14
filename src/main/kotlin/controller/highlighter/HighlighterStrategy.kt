@@ -6,10 +6,10 @@ import view.GraphView
 
 class HighlighterStrategy : Controller(), HighlightVerticesStrategy {
 
-    override fun highlight(graphView: GraphView, radius: Double) {
-        val centrality = HarmonicCentrality(graphView, radius)
+    override fun highlight(graphView: GraphView) {
+        val centrality = HarmonicCentrality(graphView)
         if(!centrality.canSelect(graphView)) return
-        centrality.selector(graphView, radius)
+        centrality.selector(graphView)
     }
 
 }

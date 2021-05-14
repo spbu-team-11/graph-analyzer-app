@@ -13,8 +13,8 @@ object props {
     }
 
     object vertex {
-        val defaultRadius = doubleProperty(5.0)
-        val bigRadius = doubleProperty(defaultRadius.value * 3.0)
+        val radius = doubleProperty(5.0)
+        val pressedRadius = doubleProperty(15.0)
         val label = booleanProperty()
         val community = booleanProperty()
     }

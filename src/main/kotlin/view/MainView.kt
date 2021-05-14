@@ -167,8 +167,8 @@ class MainView : View("Graph visualizer") {
     private fun arrangeVertices() {
         currentStage?.apply {
             circularPlacementStrategy.place(
-                width - props.vertex.defaultRadius.get() * 10,
-                height - props.vertex.defaultRadius.get() * 10,
+                width - props.vertex.radius.get() * 10,
+                height - props.vertex.radius.get() * 10,
                 graphView.vertices(),
             )
         }
@@ -181,15 +181,15 @@ class MainView : View("Graph visualizer") {
                 nIteration,
                 gravity,
                 isLinLogMode,
-                width - props.vertex.defaultRadius.get() * 10,
-                height - props.vertex.defaultRadius.get() * 10,
+                width - props.vertex.radius.get() * 10,
+                height - props.vertex.radius.get() * 10,
             )
         }
     }
 
     private fun highlight(){
         currentStage?.apply{
-            highlightVerticesStrategy.highlight(graphView, props.vertex.defaultRadius.value)
+            highlightVerticesStrategy.highlight(graphView)
         }
     }
 
