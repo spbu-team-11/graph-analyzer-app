@@ -337,14 +337,16 @@ class MainView : View("Graph visualizer") {
 
             examplesMenu.items.add(example)
         }
-        val exampleDir = "C:\\Users\\mi\\Desktop\\graph-analyzer-app\\examples"
+        val exampleDir = "examples"
         for(exampleFileName in File(exampleDir).list()){
-            val example = MenuItem(exampleFileName)
+            val example = MenuItem(exampleFileName.substringBefore("."))
             log(exampleFileName)
             example.setOnAction {
-                graph = csvStrategy.open(File("$exampleDir\\$exampleFileName")).first
+                when(exampleFileName.substringAfter(".")) {
+                    "csv" -> graph = csvStrategy.open(File("$exampleDir\\$exampleFileName")).first
+                    "db" -> graph = SQliteFileHandlingStrategy.open(File("$exampleDir\\$exampleFileName")).first
+                }
                 showGraphWithoutGraphView()
-
             }
 
             examplesMenu.items.add(example)

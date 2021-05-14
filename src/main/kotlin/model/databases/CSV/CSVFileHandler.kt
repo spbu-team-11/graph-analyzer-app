@@ -39,7 +39,7 @@ class CSVFileHandler {
             data.onEach {
                 if (it.isNode) {
                     newGraph.addVertex(it.name)
-                    val rgb = it.color!!.split("/").map { color -> color.toDouble() }
+                    val rgb = it.color?.split("/")?.map { color -> color.toDouble() }?: listOf(0.0, 0.0, 0.0)
                     val vertex = VertexViewData(
                         it.x,
                         it.y,
