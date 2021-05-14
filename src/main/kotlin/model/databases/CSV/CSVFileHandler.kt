@@ -1,5 +1,6 @@
 package model.databases.CSV
 
+import com.example.demo.logger.log
 import view.GraphView
 import model.UndirectedGraph
 import model.databases.CSV.data.CSVGraphData
@@ -66,6 +67,7 @@ class CSVFileHandler {
             return newGraph to newGraphView
         } catch (e: Exception) {
             Alerter().alertIncorrectArgs("Incorrect .csv file")
+            throw(e)
             return UndirectedGraph() to null
         }
     }
