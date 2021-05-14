@@ -181,6 +181,11 @@ class MainView : View("Graph visualizer") {
     }
 
     private fun showGraphWithGraphView() {
+        graphView.edges()
+            .onEach {
+                if(it.first.color == it.second.color)
+                    it.stroke = it.first.color
+            }
         root.center {
             add(graphView)
         }

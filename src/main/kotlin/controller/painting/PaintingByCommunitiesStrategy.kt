@@ -28,6 +28,11 @@ class PaintingByCommunitiesStrategy : Controller(), PaintingStrategy {
                 it.community.text = com.toString()
                 it.color = generateRandomColor(com * 100)
             }
+        graphView.edges()
+            .onEach {
+                if(it.first.color == it.second.color)
+                    it.stroke = it.first.color
+            }
     }
 
     private fun generateRandomColor(base: Int): Color {

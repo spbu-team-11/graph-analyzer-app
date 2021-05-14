@@ -5,6 +5,7 @@ import model.Edge
 import javafx.scene.shape.Line
 import tornadofx.text
 
+
 class EdgeView(
 
     edge: Edge,
@@ -19,7 +20,7 @@ class EdgeView(
         endYProperty().bind(second.centerYProperty())
     }
 
-    val label = text(edge.element.toString()) {
+    val label = text(edge.element) {
         visibleProperty().bind(props.edge.label)
         xProperty().bind(
             startXProperty().add(endXProperty()).divide(2).subtract(layoutBounds.width / 2)
