@@ -1,5 +1,6 @@
 package view
 
+import com.example.demo.logger.log
 import controller.fileHandler.CSVFileHandlingStrategy
 import controller.fileHandler.FileHandlingStrategy
 import controller.fileHandler.SQLiteFileHandlingStrategy
@@ -16,6 +17,8 @@ import utils.Alerter
 import javafx.scene.control.*
 import javafx.stage.FileChooser
 import tornadofx.*
+import java.io.File
+import kotlin.math.absoluteValue
 
 @ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {
@@ -325,6 +328,18 @@ class MainView : View("Graph visualizer") {
             example.setOnAction {
                 graph = props.SAMPLE_GRAPH[exampleName]!!
                 showGraphWithoutGraphView()
+            }
+
+            examplesMenu.items.add(example)
+        }
+        val exampleDir = "C:\\Users\\mi\\Desktop\\graph-analyzer-app\\examples"
+        for(exampleFileName in File(exampleDir).list()){
+            val example = MenuItem(exampleFileName)
+            log(exampleFileName)
+            example.setOnAction {
+                graph = csvStrategy.open(File("$exampleDir\\$exampleFileName")).first
+                showGraphWithoutGraphView()
+
             }
 
             examplesMenu.items.add(example)
