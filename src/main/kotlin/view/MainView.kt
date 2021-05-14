@@ -385,7 +385,7 @@ class MainView : View("Graph visualizer") {
 
         val help = MenuItem("Help")
         help.setOnAction {
-            hostServices.showDocument(File("fortunato2006.pdf").absolutePath)
+            hostServices.showDocument(File("help.pdf").absolutePath)
         }
 
         val exit = MenuItem("Exit")
