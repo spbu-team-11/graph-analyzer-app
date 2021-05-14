@@ -67,7 +67,6 @@ class CSVFileHandler {
             return newGraph to newGraphView
         } catch (e: Exception) {
             Alerter().alertIncorrectArgs("Incorrect .csv file")
-            throw(e)
             return UndirectedGraph() to null
         }
     }

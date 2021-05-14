@@ -42,7 +42,7 @@ class CommunitiesFinder {
             edges[1][i] = dict[edge.vertices.second]!!
         }
 
-        return Network(vertices().size, false, edges, false, true)
+        return Network(vertices().size, false, edges, false, false)
     }
 
     private fun UndirectedGraph.makeDict(): HashMap<Vertex, Int> {
