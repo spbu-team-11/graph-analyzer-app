@@ -9,8 +9,9 @@ import org.jgrapht.Graph
 import org.jgrapht.alg.scoring.HarmonicCentrality
 import org.jgrapht.graph.*
 import view.props
+import kotlin.math.pow
 
-class HarmonicCentrality(graphView: GraphView, radius: Double) {
+class HarmonicCentrality(graphView: GraphView, value: Double) {
 
     val vertices = graphView.vertices()
     val edges = graphView.edges()
@@ -25,7 +26,7 @@ class HarmonicCentrality(graphView: GraphView, radius: Double) {
         return !graphView.vertices().isEmpty()
     }
 
-    fun selector(graphView: GraphView, radius: Double) {
+    fun selector(graphView: GraphView, value: Double) {
 
         val con = addGraph(graphView, radius)
 
@@ -36,8 +37,8 @@ class HarmonicCentrality(graphView: GraphView, radius: Double) {
         log("banana")
 
         graphView.vertices().onEach {
-            it.radius = props.vertex.defaultRadius.value * (centrality.getScores()[it.vertex.element]!!)
-            log(centrality.getScores()[it.vertex.element].toString())
+            val cent = (centrality.getScores()[it.vertex.element]!!)
+            it.radius = props.vertex.defaultRadius.value * ( (2.7 + value).pow(cent) - (2.7 + value / 2).pow(cent) ) / (value / 2) * 5
         }
 
     }
@@ -66,5 +67,7 @@ class HarmonicCentrality(graphView: GraphView, radius: Double) {
         return g
 
     }
+
+
 
 }

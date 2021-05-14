@@ -82,12 +82,12 @@ class MainView : View("Graph visualizer") {
     }
 
     private var highlightValue = slider {
-        min = 0.0
+        min = 1.0
         max = 10.0
-        value = 5.0
+        value = 10.0
         isShowTickMarks = true
         isShowTickLabels = true
-        majorTickUnit = 1.0
+        majorTickUnit = 2.0
         minWidth = 150.0
     }
 
@@ -138,14 +138,14 @@ class MainView : View("Graph visualizer") {
                 }
             }
             hbox(10) {
-                text(" Highlight value:   ")
+                text(" K:   ")
                 add(highlightValue)
             }
 
             button("Highlight vertices") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    highlight()
+                    highlight(highlightValue.value)
                 }
             }
 
@@ -187,9 +187,9 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun highlight(){
+    private fun highlight(value: Double) {
         currentStage?.apply{
-            highlightVerticesStrategy.highlight(graphView, props.vertex.defaultRadius.value)
+            highlightVerticesStrategy.highlight(graphView, value)
         }
     }
 
