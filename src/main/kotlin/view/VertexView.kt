@@ -2,7 +2,6 @@ package view
 
 import model.Vertex
 
-import javafx.beans.property.DoubleProperty
 import javafx.scene.paint.Color
 import javafx.scene.shape.Circle
 import tornadofx.text
@@ -12,18 +11,21 @@ class VertexView(
     val vertex: Vertex,
     x: Double,
     y: Double,
-    r: DoubleProperty,
+    radius: Double,
     color: Color,
-) : Circle(x, y, r.get(), color) {
-    init {
-        radiusProperty().bind(r)
-    }
+) : Circle(x, y, radius, color) {
 
     var position: Pair<Double, Double>
         get() = centerX to centerY
         set(value) {
             centerX = value.first
             centerY = value.second
+        }
+
+    var vertexRadius: Double
+        get() = radius
+        set(value) {
+            radius = value
         }
 
     var color: Color

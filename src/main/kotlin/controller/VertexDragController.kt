@@ -18,10 +18,10 @@ class VertexDragController : Controller() {
     fun pressed(event: MouseEvent) {
         val v = check(event)
         if (!event.isPrimaryButtonDown) {
-            if (v.radiusProperty().get() == props.vertex.radius.get())
+            if (v.radiusProperty().get() == props.vertex.defaultRadius.value)
                 v.radiusProperty().bind(props.vertex.bigRadius)
             else
-                v.radiusProperty().bind(props.vertex.radius)
+                v.radiusProperty().bind(props.vertex.defaultRadius)
             return
         }
         v.scene.cursor = Cursor.CLOSED_HAND
