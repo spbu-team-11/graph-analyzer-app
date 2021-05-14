@@ -63,11 +63,11 @@ class MainView : View("Graph visualizer") {
 
     private var nIteration2 = slider {
         min = 0.0
-        max = 5000.0
+        max = 20000.0
         value = 50.0
         isShowTickMarks = true
         isShowTickLabels = true
-        majorTickUnit = 1250.0
+        majorTickUnit = 5000.0
         minWidth = 150.0
     }
 
@@ -82,12 +82,12 @@ class MainView : View("Graph visualizer") {
     }
 
     private var highlightValue = slider {
-        min = 1.0
+        min = 0.0
         max = 10.0
         value = 10.0
         isShowTickMarks = true
         isShowTickLabels = true
-        majorTickUnit = 2.0
+        majorTickUnit = 2.5
         minWidth = 150.0
     }
 
@@ -138,7 +138,7 @@ class MainView : View("Graph visualizer") {
                 }
             }
             hbox(10) {
-                text(" K:   ")
+                text(" SR-coef: ")
                 add(highlightValue)
             }
 
