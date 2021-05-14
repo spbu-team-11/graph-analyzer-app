@@ -15,7 +15,7 @@ class GraphView(private val graph: Graph = UndirectedGraph()) : Pane() {
 
     private val vertices by lazy {
         graph.vertices().associateWith {
-            VertexView(it, 0.0, 0.0, props.vertex.defaultRadius.value, Color.BLACK)
+            VertexView(it, 0.0, 0.0, props.vertex.radius.value, Color.BLACK)
         }
     }
 

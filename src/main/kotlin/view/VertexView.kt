@@ -22,7 +22,6 @@ class VertexView(
             centerY = value.second
         }
 
-
     var color: Color
         get() = fill as Color
         set(value) {

@@ -4,6 +4,6 @@ import view.GraphView
 
 interface HighlightVerticesStrategy {
 
-    fun highlight(graphView: GraphView, radius: Double)
+    fun highlight(graphView: GraphView)
 
 }
