@@ -433,6 +433,7 @@ class MainView : View("Graph visualizer") {
             for(text in texts){
                 text.fill = if (props.GUI.darkTheme.value) Color.WHITE else Color.BLACK
             }
+            graphInfo.fill =  if (props.GUI.darkTheme.value) Color.WHITE else Color.BLACK
         }
 
         with(settingsMenu.items) {
