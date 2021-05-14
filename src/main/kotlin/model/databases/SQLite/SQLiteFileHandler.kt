@@ -45,6 +45,7 @@ class SQLiteFileHandler {
                     color = it.color.red.toString() + "/" + it.color.green.toString() + "/" + it.color.blue.toString()
                     x = it.centerX
                     y = it.centerY
+                    r = it.radius
                 }
             }
         }
@@ -76,6 +77,7 @@ class SQLiteFileHandler {
                         it.community.text = vertex.community.toString()
                         val rgb = tmp.color.split("/").map { color -> color.toDouble() }
                         it.color = Color.color(rgb[0], rgb[1], rgb[2])
+                        it.radius = tmp.r
                     }
 
                 }
@@ -85,6 +87,7 @@ class SQLiteFileHandler {
             }
         } catch (e: Exception) {
             Alerter().alertIncorrectArgs("Incorrect database")
+            log(e.message!!)
             return UndirectedGraph() to null
         }
 
