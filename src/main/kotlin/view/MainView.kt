@@ -99,6 +99,10 @@ class MainView : View("Graph visualizer") {
         isIndeterminate = false
     }
 
+    private var isStrongGravity = checkbox {
+        isIndeterminate = false
+    }
+
     private var graphInfo = text(" Vertices: - \n Edges: - \n Communities: -")
 
     override val root = borderpane {
@@ -137,11 +141,21 @@ class MainView : View("Graph visualizer") {
                 text(" Outbound attraction:   ")
                 add(isOutboundAttraction)
             }
+            hbox(10) {
+                text(" Strong gravity:   ")
+                add(isStrongGravity)
+            }
 
             button("Layout") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    forceLayout(nIteration2.value.toInt().toString(), gravity.value.toString(), isLinLogMode.isSelected, isOutboundAttraction.isSelected)
+                    forceLayout(
+                        nIteration2.value.toInt().toString(),
+                        gravity.value.toString(),
+                        isLinLogMode.isSelected,
+                        isOutboundAttraction.isSelected,
+                        isStrongGravity.isSelected
+                    )
                 }
             }
             hbox(10) {
@@ -181,7 +195,13 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun forceLayout(nIteration: String, gravity: String?, isLinLogMode: Boolean, isOutboundAttraction: Boolean) {
+    private fun forceLayout(
+        nIteration: String,
+        gravity: String?,
+        isLinLogMode: Boolean,
+        isOutboundAttraction: Boolean,
+        isStrongGravity: Boolean
+    ) {
         currentStage?.apply {
             forcePlacementStrategy.place(
                 graphView,
@@ -189,6 +209,7 @@ class MainView : View("Graph visualizer") {
                 gravity,
                 isLinLogMode,
                 isOutboundAttraction,
+                isStrongGravity,
                 width - props.vertex.defaultRadius.get() * 10,
                 height - props.vertex.defaultRadius.get() * 10,
             )
@@ -196,7 +217,7 @@ class MainView : View("Graph visualizer") {
     }
 
     private fun highlight(value: Double) {
-        currentStage?.apply{
+        currentStage?.apply {
             highlightVerticesStrategy.highlight(graphView, value)
         }
     }
@@ -220,7 +241,7 @@ class MainView : View("Graph visualizer") {
     private fun showGraphWithGraphView() {
         graphView.edges()
             .onEach {
-                if(it.first.color == it.second.color)
+                if (it.first.color == it.second.color)
                     it.stroke = it.first.color
             }
         root.center {
@@ -270,7 +291,7 @@ class MainView : View("Graph visualizer") {
                                 return@onEach
                             }
                         }
-                        if(!hasCoordinates) showGraphWithoutGraphView()
+                        if (!hasCoordinates) showGraphWithoutGraphView()
                         else showGraphWithGraphView()
                     } else showGraphWithoutGraphView()
                 }
@@ -375,11 +396,11 @@ class MainView : View("Graph visualizer") {
             examplesMenu.items.add(example)
         }
         val exampleDir = "examples"
-        for(exampleFileName in File(exampleDir).list()){
+        for (exampleFileName in File(exampleDir).list()) {
             val example = MenuItem(exampleFileName.substringBefore("."))
             log(exampleFileName)
             example.setOnAction {
-                when(exampleFileName.substringAfter(".")) {
+                when (exampleFileName.substringAfter(".")) {
                     "csv" -> graph = csvStrategy.open(File("$exampleDir\\$exampleFileName")).first
                     "db" -> graph = SQliteFileHandlingStrategy.open(File("$exampleDir\\$exampleFileName")).first
                 }

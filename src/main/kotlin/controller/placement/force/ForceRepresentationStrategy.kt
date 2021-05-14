@@ -10,6 +10,7 @@ interface ForceRepresentationStrategy {
         gravity: String?,
         isLinLogMode: Boolean,
         isOutboundAttraction: Boolean,
+        isStrongGravity: Boolean,
         width: Double,
         height: Double
     )
