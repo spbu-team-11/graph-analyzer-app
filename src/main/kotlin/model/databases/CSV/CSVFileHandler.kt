@@ -22,7 +22,7 @@ class CSVFileHandler {
         graphView.addEdgesToData(data)
 
         val csvWriter = csvWriter { delimiter = ',' }
-        val header = listOf("isNode", "name", "x", "y", "color", "community", "from", "to")
+        val header = listOf("isNode", "name", "x", "y", "color", "radius","community", "from", "to")
 
         csvWriter.writeAll(listOf(header), file)
         csvWriter.writeAll(data, file, append = true)
@@ -44,6 +44,7 @@ class CSVFileHandler {
                         it.x,
                         it.y,
                         Text(it.community?.toString() ?: "-1"),
+                        it.radius?: 2.5,
                         Color.color(rgb[0], rgb[1], rgb[2])
                     )
                     vertices[it.name] = vertex
@@ -59,6 +60,7 @@ class CSVFileHandler {
                 vertex.y?.let { y -> it.centerY = y }
                 it.vertex.community = vertex.community.text.toInt()
                 it.community.text = vertex.community.text
+                it.radius = vertex.radius?: 2.5
                 it.color = vertex.color
             }
             return newGraph to newGraphView
@@ -76,6 +78,7 @@ class CSVFileHandler {
                 it.centerX.toString(),
                 it.centerY.toString(),
                 it.color.red.toString() + "/" + it.color.green.toString() + "/" + it.color.blue.toString(),
+                it.radius.toString(),
                 it.community.text.toString(),
                 "",
                 ""
@@ -89,6 +92,7 @@ class CSVFileHandler {
             val csvRow = mutableListOf(
                 "false",
                 it.label.text,
+                "",
                 "",
                 "",
                 "",

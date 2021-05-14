@@ -7,6 +7,7 @@ data class CSVGraphData(
     var x: Double?,
     var y: Double?,
     var color: String?,
+    var radius: Double?,
     var community: Int?,
 
     var from: String?,
