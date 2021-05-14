@@ -17,6 +17,7 @@ import model.UndirectedGraph
 import utils.Alerter
 
 import javafx.scene.control.*
+import javafx.scene.paint.Color
 import javafx.stage.FileChooser
 import tornadofx.*
 import java.io.File
@@ -103,6 +104,17 @@ class MainView : View("Graph visualizer") {
         isIndeterminate = false
     }
 
+    private var texts = arrayOf(
+        text(" Iteration: "),
+        text(" Resolution:"),
+        text(" Iteration:"),
+        text(" Gravity:  "),
+        text(" Logarithmic attraction mode:    "),
+        text(" Outbound attraction mode:       "),
+        text(" Strong gravity mode:            "),
+        text(" SR-coef: ")
+    )
+
     private var graphInfo = text(" Vertices: - \n Edges: - \n Communities: -")
 
     override val root = borderpane {
@@ -110,11 +122,11 @@ class MainView : View("Graph visualizer") {
 
         left = vbox(10) {
             hbox(10) {
-                text(" Iteration: ")
+                add(texts[0])
                 add(nIterationLeiden)
             }
             hbox(10) {
-                text(" Resolution:")
+                add(texts[1])
                 add(resolution)
             }
 
@@ -126,23 +138,23 @@ class MainView : View("Graph visualizer") {
             }
 
             hbox(10) {
-                text(" Iteration:")
+                add(texts[2])
                 add(nIteration2)
             }
             hbox(10) {
-                text(" Gravity:  ")
+                add(texts[3])
                 add(gravity)
             }
             hbox(10) {
-                text(" Logarithmic attraction mode:    ")
+                add(texts[4])
                 add(isLinLogMode)
             }
             hbox(10) {
-                text(" Outbound attraction mode:       ")
+                add(texts[5])
                 add(isOutboundAttraction)
             }
             hbox(10) {
-                text(" Strong gravity mode:            ")
+                add(texts[6])
                 add(isStrongGravity)
             }
 
@@ -159,7 +171,7 @@ class MainView : View("Graph visualizer") {
                 }
             }
             hbox(10) {
-                text(" SR-coef: ")
+                add(texts[7])
                 add(highlightValue)
             }
 
@@ -332,15 +344,15 @@ class MainView : View("Graph visualizer") {
     }
 
     private fun setupShowMenu(): Menu {
-        val showMenu = Menu("Show")
+        val showMenu = Menu("Labels")
 
-        val checkShowVertexLabel = CheckMenuItem("Vertex label")
+        val checkShowVertexLabel = CheckMenuItem("Vertex")
         checkShowVertexLabel.setOnAction { props.vertex.label.set(!props.vertex.label.value) }
 
-        val checkShowEdgesLabel = CheckMenuItem("Edges label")
+        val checkShowEdgesLabel = CheckMenuItem("Edge")
         checkShowEdgesLabel.setOnAction { props.edge.label.set(!props.edge.label.value) }
 
-        val checkShowCommunitiesLabel = CheckMenuItem("Community label")
+        val checkShowCommunitiesLabel = CheckMenuItem("Community")
         checkShowCommunitiesLabel.setOnAction { props.vertex.community.set(!props.vertex.community.value) }
 
         with(showMenu.items) {
@@ -372,7 +384,9 @@ class MainView : View("Graph visualizer") {
         val helpMenu = Menu("Help")
 
         val help = MenuItem("Help")
-        help.setOnAction { alerter.alertHelp() }
+        help.setOnAction {
+            hostServices.showDocument(File("fortunato2006.pdf").absolutePath)
+        }
 
         val exit = MenuItem("Exit")
         exit.setOnAction { close() }
@@ -416,6 +430,9 @@ class MainView : View("Graph visualizer") {
         checkDarkTheme.setOnAction {
             props.GUI.darkTheme.set(!props.GUI.darkTheme.value)
             root.style = if (props.GUI.darkTheme.value) "-fx-base:black" else ""
+            for(text in texts){
+                text.fill = if (props.GUI.darkTheme.value) Color.WHITE else Color.BLACK
+            }
         }
 
         with(settingsMenu.items) {
