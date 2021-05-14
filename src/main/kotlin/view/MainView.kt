@@ -134,15 +134,15 @@ class MainView : View("Graph visualizer") {
                 add(gravity)
             }
             hbox(10) {
-                text(" LinLog:   ")
+                text(" Logarithmic attraction mode:    ")
                 add(isLinLogMode)
             }
             hbox(10) {
-                text(" Outbound attraction:   ")
+                text(" Outbound attraction mode:       ")
                 add(isOutboundAttraction)
             }
             hbox(10) {
-                text(" Strong gravity:   ")
+                text(" Strong gravity mode:            ")
                 add(isStrongGravity)
             }
 
