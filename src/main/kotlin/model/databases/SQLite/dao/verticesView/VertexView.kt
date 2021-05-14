@@ -13,5 +13,6 @@ class VertexView(id: EntityID<Int>) : IntEntity(id) {
     var vertex by Vertex optionalReferencedOn VerticesView.vertex
     var x by VerticesView.x
     var y by VerticesView.y
+    var r by VerticesView.r
     var color by VerticesView.color
 }

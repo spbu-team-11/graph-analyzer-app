@@ -63,11 +63,11 @@ class MainView : View("Graph visualizer") {
 
     private var nIteration2 = slider {
         min = 0.0
-        max = 5000.0
+        max = 20000.0
         value = 50.0
         isShowTickMarks = true
         isShowTickLabels = true
-        majorTickUnit = 1250.0
+        majorTickUnit = 5000.0
         minWidth = 150.0
     }
 
@@ -84,14 +84,22 @@ class MainView : View("Graph visualizer") {
     private var highlightValue = slider {
         min = 0.0
         max = 10.0
-        value = 5.0
+        value = 10.0
         isShowTickMarks = true
         isShowTickLabels = true
-        majorTickUnit = 1.0
+        majorTickUnit = 2.5
         minWidth = 150.0
     }
 
     private var isLinLogMode = checkbox {
+        isIndeterminate = false
+    }
+
+    private var isOutboundAttraction = checkbox {
+        isIndeterminate = false
+    }
+
+    private var isStrongGravity = checkbox {
         isIndeterminate = false
     }
 
@@ -126,26 +134,39 @@ class MainView : View("Graph visualizer") {
                 add(gravity)
             }
             hbox(10) {
-                text(" LinLog:   ")
+                text(" Logarithmic attraction mode:    ")
                 add(isLinLogMode)
             }
-
+            hbox(10) {
+                text(" Outbound attraction mode:       ")
+                add(isOutboundAttraction)
+            }
+            hbox(10) {
+                text(" Strong gravity mode:            ")
+                add(isStrongGravity)
+            }
 
             button("Layout") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    forceLayout(nIteration2.value.toInt().toString(), gravity.value.toString(), isLinLogMode.isSelected)
+                    forceLayout(
+                        nIteration2.value.toInt().toString(),
+                        gravity.value.toString(),
+                        isLinLogMode.isSelected,
+                        isOutboundAttraction.isSelected,
+                        isStrongGravity.isSelected
+                    )
                 }
             }
             hbox(10) {
-                text(" Highlight value:   ")
+                text(" SR-coef: ")
                 add(highlightValue)
             }
 
             button("Highlight vertices") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    highlight()
+                    highlight(highlightValue.value)
                 }
             }
 
@@ -174,15 +195,23 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun forceLayout(nIteration: String, gravity: String?, isLinLogMode: Boolean) {
+    private fun forceLayout(
+        nIteration: String,
+        gravity: String?,
+        isLinLogMode: Boolean,
+        isOutboundAttraction: Boolean,
+        isStrongGravity: Boolean
+    ) {
         currentStage?.apply {
             forcePlacementStrategy.place(
                 graphView,
                 nIteration,
                 gravity,
                 isLinLogMode,
+                isOutboundAttraction,
+                isStrongGravity,
                 width - props.vertex.radius.get() * 10,
-                height - props.vertex.radius.get() * 10,
+                height - props.vertex.radius.get() * 10
             )
         }
     }
@@ -212,7 +241,7 @@ class MainView : View("Graph visualizer") {
     private fun showGraphWithGraphView() {
         graphView.edges()
             .onEach {
-                if(it.first.color == it.second.color)
+                if (it.first.color == it.second.color)
                     it.stroke = it.first.color
             }
         root.center {
@@ -262,7 +291,7 @@ class MainView : View("Graph visualizer") {
                                 return@onEach
                             }
                         }
-                        if(!hasCoordinates) showGraphWithoutGraphView()
+                        if (!hasCoordinates) showGraphWithoutGraphView()
                         else showGraphWithGraphView()
                     } else showGraphWithoutGraphView()
                 }
@@ -367,11 +396,11 @@ class MainView : View("Graph visualizer") {
             examplesMenu.items.add(example)
         }
         val exampleDir = "examples"
-        for(exampleFileName in File(exampleDir).list()){
+        for (exampleFileName in File(exampleDir).list()) {
             val example = MenuItem(exampleFileName.substringBefore("."))
             log(exampleFileName)
             example.setOnAction {
-                when(exampleFileName.substringAfter(".")) {
+                when (exampleFileName.substringAfter(".")) {
                     "csv" -> graph = csvStrategy.open(File("$exampleDir\\$exampleFileName")).first
                     "db" -> graph = SQliteFileHandlingStrategy.open(File("$exampleDir\\$exampleFileName")).first
                 }

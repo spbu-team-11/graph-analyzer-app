@@ -11,5 +11,4 @@ class HighlighterStrategy : Controller(), HighlightVerticesStrategy {
         if(!centrality.canSelect(graphView)) return
         centrality.selector(graphView)
     }
-
 }

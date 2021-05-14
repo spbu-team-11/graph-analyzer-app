@@ -24,14 +24,14 @@ class CircularPlacementStrategy : Controller(), CircularRepresentationStrategy {
         val first = sorted.first()
         var point = Point2D(center.x, center.y - min(width, height) / 2 + first.radius * 2)
         first.position = point.x to point.y
-        first.color = Color.GRAY
+        first.color = Color.BLACK
 
         sorted
             .drop(1)
             .onEach {
                 point = point.rotate(center, angle)
                 it.position = point.x to point.y
-                it.color = Color.GRAY
+                it.color = Color.BLACK
             }
     }
 

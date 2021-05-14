@@ -29,6 +29,8 @@ class ForceLayout {
         nIterations: String,
         gravity: String?,
         isLinLogMode: Boolean,
+        isOutboundAttraction: Boolean,
+        isStrongGravity: Boolean,
         width: Double,
         height: Double
     ) {
@@ -39,7 +41,14 @@ class ForceLayout {
 
         val forcePlacement = ForceAtlas2(ForceAtlas2Builder(), false, false)
         val graphModel = GraphModelImpl(Configuration())
-        forcePlacement.initLayout(graphModel, initGravity(gravity), isLinLogMode, vertices.size)
+        forcePlacement.initLayout(
+            graphModel,
+            initGravity(gravity),
+            isLinLogMode,
+            isOutboundAttraction,
+            isStrongGravity,
+            vertices.size
+        )
 
         val graphVertices = mutableSetOf<VertexView>()
 
@@ -71,11 +80,15 @@ class ForceLayout {
         graphModel: GraphModelImpl,
         gravity: Double,
         isLinLogMode: Boolean,
+        isOutboundAttraction: Boolean,
+        isStrongGravity: Boolean,
         countOfVertices: Int
     ) {
         setGraphModel(graphModel)
         this.gravity = gravity
         this.isLinLogMode = isLinLogMode
+        isStrongGravityMode = isStrongGravity
+        isOutboundAttractionDistribution = isOutboundAttraction
         if (countOfVertices >= 1000) isBarnesHutOptimize = true
     }
 
@@ -93,7 +106,8 @@ class ForceLayout {
 
         val max = maxX to maxY
         log("$max $center")
-        val coefficient = maxOf(calcCoefficient(max.first.toFloat(), center.x), calcCoefficient(max.second.toFloat(), center.y))
+        val coefficient =
+            maxOf(calcCoefficient(max.first.toFloat(), center.x), calcCoefficient(max.second.toFloat(), center.y))
 
         var i = 0
         graphVertices.onEach {

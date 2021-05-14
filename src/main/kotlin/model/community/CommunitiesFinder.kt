@@ -1,4 +1,4 @@
-package model.finders
+package model.community
 
 import model.UndirectedGraph
 import model.Vertex

@@ -8,5 +8,6 @@ data class VertexViewData(
     var x: Double?,
     var y: Double?,
     var community: Text,
+    var radius: Double?,
     var color: Color
 )

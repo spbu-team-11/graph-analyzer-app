@@ -9,6 +9,8 @@ interface ForceRepresentationStrategy {
         nIterations: String,
         gravity: String?,
         isLinLogMode: Boolean,
+        isOutboundAttraction: Boolean,
+        isStrongGravity: Boolean,
         width: Double,
         height: Double
     )

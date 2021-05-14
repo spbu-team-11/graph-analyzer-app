@@ -2,7 +2,7 @@ package controller.painting
 
 import view.GraphView
 import model.UndirectedGraph
-import model.finders.CommunitiesFinder
+import model.community.CommunitiesFinder
 
 import com.example.demo.logger.log
 import javafx.scene.paint.Color
