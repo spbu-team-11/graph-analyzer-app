@@ -6,9 +6,9 @@ import view.GraphView
 
 class HighlighterStrategy : Controller(), HighlightVerticesStrategy {
 
-    override fun highlight(graphView: GraphView) {
+    override fun highlight(graphView: GraphView, value: Double) {
         val centrality = HarmonicCentrality(graphView)
         if(!centrality.canSelect(graphView)) return
-        centrality.selector(graphView)
+        centrality.selector(graphView, value)
     }
 }

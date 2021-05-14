@@ -216,9 +216,9 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun highlight(){
+    private fun highlight(value: Double){
         currentStage?.apply{
-            highlightVerticesStrategy.highlight(graphView)
+            highlightVerticesStrategy.highlight(graphView, value)
         }
     }
 

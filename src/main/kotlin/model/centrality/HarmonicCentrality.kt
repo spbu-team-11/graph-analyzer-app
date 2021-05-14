@@ -22,7 +22,7 @@ class HarmonicCentrality(graphView: GraphView) {
         return !graphView.vertices().isEmpty()
     }
 
-    fun selector(graphView: GraphView) {
+    fun selector(graphView: GraphView, value: Double) {
 
         val graph = addGraph()
         val centrality = HarmonicCentrality(graph)
