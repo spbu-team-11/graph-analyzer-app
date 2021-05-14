@@ -31,7 +31,7 @@ class CircularPlacementStrategy : Controller(), CircularRepresentationStrategy {
             .onEach {
                 point = point.rotate(center, angle)
                 it.position = point.x to point.y
-                it.color = Color.GRAY
+                it.color = Color.BLACK
             }
     }
 
