@@ -41,8 +41,8 @@ class CSVFileHandler {
                     newGraph.addVertex(it.name)
                     val rgb = it.color!!.split("/").map { color -> color.toDouble() }
                     val vertex = VertexViewData(
-                        it.x!!,
-                        it.y!!,
+                        it.x,
+                        it.y,
                         Text(it.community?.toString() ?: "-1"),
                         Color.color(rgb[0], rgb[1], rgb[2])
                     )
@@ -55,8 +55,8 @@ class CSVFileHandler {
             val newGraphView = GraphView(newGraph)
             newGraphView.vertices().onEach {
                 val vertex = vertices[it.vertex.element]!!
-                it.centerX = vertex.x
-                it.centerY = vertex.y
+                vertex.x?.let { x -> it.centerX = x }
+                vertex.y?.let { y -> it.centerY = y }
                 it.vertex.community = vertex.community.text.toInt()
                 it.community.text = vertex.community.text
                 it.color = vertex.color

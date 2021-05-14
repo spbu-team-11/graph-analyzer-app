@@ -111,7 +111,7 @@ class MainView : View("Graph visualizer") {
                 add(gravity)
             }
             hbox(10) {
-                text("LinLog Mode: ")
+                text(" LinLog:   ")
                 add(isLinLogMode)
             }
 
@@ -121,7 +121,6 @@ class MainView : View("Graph visualizer") {
                 action {
                     forceLayout(nIteration2.value.toInt().toString(), gravity.value.toString(), isLinLogMode.isSelected)
                 }
-
             }
 
 //            button("Reset default properties") {
@@ -219,7 +218,15 @@ class MainView : View("Graph visualizer") {
                     graph = data.first
                     if (data.second != null) {
                         graphView = data.second!!
-                        showGraphWithGraphView()
+                        var hasCoordinates = false
+                        graphView.vertices().onEach {
+                            if (it.centerX != 0.0 || it.centerY != 0.0) {
+                                hasCoordinates = true
+                                return@onEach
+                            }
+                        }
+                        if(!hasCoordinates) showGraphWithoutGraphView()
+                        else showGraphWithGraphView()
                     } else showGraphWithoutGraphView()
                 }
             }
@@ -297,9 +304,15 @@ class MainView : View("Graph visualizer") {
 
     private fun setupHelpMenu(): Menu {
         val helpMenu = Menu("Help")
+
         val help = MenuItem("Help")
         help.setOnAction { alerter.alertHelp() }
+
+        val exit = MenuItem("Exit")
+        exit.setOnAction { close() }
+
         helpMenu.items.add(help)
+        helpMenu.items.add(exit)
 
         return helpMenu
     }
@@ -322,8 +335,11 @@ class MainView : View("Graph visualizer") {
     private fun setupSettingsMenu(): Menu {
         val settingsMenu = Menu("Settings")
 
-        val checkLeftMenu = CheckMenuItem("Hide left menu")
-        checkLeftMenu.setOnAction { props.GUI.leftMenu.set(!props.GUI.leftMenu.value) }
+        val checkLeftMenu = CheckMenuItem("Hide menu")
+        checkLeftMenu.setOnAction {
+            props.GUI.leftMenu.set(!props.GUI.leftMenu.value)
+
+        }
 
         val checkDarkTheme = CheckMenuItem("Dark theme")
         checkDarkTheme.setOnAction {

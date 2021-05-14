@@ -14,6 +14,16 @@ repositories {
     }
 }
 
+/*repositories {
+    maven {
+        // Look for POMs and artifacts, such as JARs, here
+        url = uri("https://github.com/klarman-cell-observatory/forceatlas2")
+        // Look for artifacts here if not found at the above location
+        artifactUrls("https://github.com/klarman-cell-observatory/forceatlas2/releases/download/1.0.3")
+        //artifactUrls("http://repo.mycompany.com/jars2")
+    }
+}*/
+
 val `tornadofx-version`: String by project
 
 dependencies {
@@ -38,6 +48,7 @@ dependencies {
     //implementation("org.gephi:gephi-toolkit:0.9.2")
     implementation("nl.cwts", "networkanalysis", "1.1.0-5-ga3f342d.dirty")
     implementation(files("libs/force-atlas2.jar", "libs/force-atlas2-tools.jar"))
+    //implementation("com.github.kco:forceatlas2")
     implementation("org.xerial", "sqlite-jdbc", "3.8.11.2")
 
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")

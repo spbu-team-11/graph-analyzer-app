@@ -7,7 +7,6 @@ import tornadofx.App
 import tornadofx.launch
 import com.example.demo.logger.log
 
-
 @ExperimentalStdlibApi
 class MainApp : App(MainView::class, Styles::class) {
 

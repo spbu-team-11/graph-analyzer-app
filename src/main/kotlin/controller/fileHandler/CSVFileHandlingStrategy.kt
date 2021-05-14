@@ -3,7 +3,6 @@ package controller.fileHandler
 import model.Graph
 import model.UndirectedGraph
 import model.databases.CSV.CSVFileHandler
-import model.databases.SQLite.SQLiteFileHandler
 import view.GraphView
 
 import tornadofx.Controller
