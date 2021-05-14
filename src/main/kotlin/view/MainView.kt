@@ -386,15 +386,6 @@ class MainView : View("Graph visualizer") {
     private fun setupExamplesMenu(): Menu {
         val examplesMenu = Menu("Examples")
 
-        for (exampleName in props.SAMPLE_GRAPH.keys.reversed()) {
-            val example = MenuItem(exampleName)
-            example.setOnAction {
-                graph = props.SAMPLE_GRAPH[exampleName]!!
-                showGraphWithoutGraphView()
-            }
-
-            examplesMenu.items.add(example)
-        }
         val exampleDir = "examples"
         for (exampleFileName in File(exampleDir).list()) {
             val example = MenuItem(exampleFileName.substringBefore("."))
