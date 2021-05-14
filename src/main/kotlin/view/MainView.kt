@@ -4,6 +4,8 @@ import com.example.demo.logger.log
 import controller.fileHandler.CSVFileHandlingStrategy
 import controller.fileHandler.FileHandlingStrategy
 import controller.fileHandler.SQLiteFileHandlingStrategy
+import controller.highlighter.HighlightVerticesStrategy
+import controller.highlighter.HighlighterStrategy
 
 import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
@@ -18,7 +20,6 @@ import javafx.scene.control.*
 import javafx.stage.FileChooser
 import tornadofx.*
 import java.io.File
-import kotlin.math.absoluteValue
 
 @ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {
@@ -34,6 +35,7 @@ class MainView : View("Graph visualizer") {
 
     private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
     private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
+    private val highlightVerticesStrategy: HighlightVerticesStrategy by inject<HighlighterStrategy>()
     private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
 
     private val SQliteFileHandlingStrategy: FileHandlingStrategy by inject<SQLiteFileHandlingStrategy>()
@@ -76,6 +78,16 @@ class MainView : View("Graph visualizer") {
         isShowTickMarks = true
         isShowTickLabels = true
         majorTickUnit = 20.0
+        minWidth = 150.0
+    }
+
+    private var highlightValue = slider {
+        min = 0.0
+        max = 10.0
+        value = 5.0
+        isShowTickMarks = true
+        isShowTickLabels = true
+        majorTickUnit = 1.0
         minWidth = 150.0
     }
 
@@ -125,6 +137,17 @@ class MainView : View("Graph visualizer") {
                     forceLayout(nIteration2.value.toInt().toString(), gravity.value.toString(), isLinLogMode.isSelected)
                 }
             }
+            hbox(10) {
+                text(" Highlight value:   ")
+                add(highlightValue)
+            }
+
+            button("Highlight vertices") {
+                minWidth = defaultMinWidthLeft
+                action {
+                    highlight()
+                }
+            }
 
 //            button("Reset default properties") {
 //                minWidth = defaultMinWidthLeft
@@ -144,8 +167,8 @@ class MainView : View("Graph visualizer") {
     private fun arrangeVertices() {
         currentStage?.apply {
             circularPlacementStrategy.place(
-                width - props.vertex.radius.get() * 10,
-                height - props.vertex.radius.get() * 10,
+                width - props.vertex.defaultRadius.get() * 10,
+                height - props.vertex.defaultRadius.get() * 10,
                 graphView.vertices(),
             )
         }
@@ -158,9 +181,15 @@ class MainView : View("Graph visualizer") {
                 nIteration,
                 gravity,
                 isLinLogMode,
-                width - props.vertex.radius.get() * 10,
-                height - props.vertex.radius.get() * 10,
+                width - props.vertex.defaultRadius.get() * 10,
+                height - props.vertex.defaultRadius.get() * 10,
             )
+        }
+    }
+
+    private fun highlight(){
+        currentStage?.apply{
+            highlightVerticesStrategy.highlight(graphView, props.vertex.defaultRadius.value)
         }
     }
 
