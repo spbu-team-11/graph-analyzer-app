@@ -29,6 +29,7 @@ class ForceLayout {
         nIterations: String,
         gravity: String?,
         isLinLogMode: Boolean,
+        isOutboundAttraction: Boolean,
         width: Double,
         height: Double
     ) {
@@ -39,7 +40,7 @@ class ForceLayout {
 
         val forcePlacement = ForceAtlas2(ForceAtlas2Builder(), false, false)
         val graphModel = GraphModelImpl(Configuration())
-        forcePlacement.initLayout(graphModel, initGravity(gravity), isLinLogMode, vertices.size)
+        forcePlacement.initLayout(graphModel, initGravity(gravity), isLinLogMode, isOutboundAttraction, vertices.size)
 
         val graphVertices = mutableSetOf<VertexView>()
 
@@ -71,11 +72,13 @@ class ForceLayout {
         graphModel: GraphModelImpl,
         gravity: Double,
         isLinLogMode: Boolean,
+        isOutboundAttraction: Boolean,
         countOfVertices: Int
     ) {
         setGraphModel(graphModel)
         this.gravity = gravity
         this.isLinLogMode = isLinLogMode
+        isOutboundAttractionDistribution = isOutboundAttraction
         if (countOfVertices >= 1000) isBarnesHutOptimize = true
     }
 

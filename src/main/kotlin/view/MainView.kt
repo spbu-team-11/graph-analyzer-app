@@ -95,6 +95,10 @@ class MainView : View("Graph visualizer") {
         isIndeterminate = false
     }
 
+    private var isOutboundAttraction = checkbox {
+        isIndeterminate = false
+    }
+
     private var graphInfo = text(" Vertices: - \n Edges: - \n Communities: -")
 
     override val root = borderpane {
@@ -129,12 +133,15 @@ class MainView : View("Graph visualizer") {
                 text(" LinLog:   ")
                 add(isLinLogMode)
             }
-
+            hbox(10) {
+                text(" Outbound attraction:   ")
+                add(isOutboundAttraction)
+            }
 
             button("Layout") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    forceLayout(nIteration2.value.toInt().toString(), gravity.value.toString(), isLinLogMode.isSelected)
+                    forceLayout(nIteration2.value.toInt().toString(), gravity.value.toString(), isLinLogMode.isSelected, isOutboundAttraction.isSelected)
                 }
             }
             hbox(10) {
@@ -174,13 +181,14 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun forceLayout(nIteration: String, gravity: String?, isLinLogMode: Boolean) {
+    private fun forceLayout(nIteration: String, gravity: String?, isLinLogMode: Boolean, isOutboundAttraction: Boolean) {
         currentStage?.apply {
             forcePlacementStrategy.place(
                 graphView,
                 nIteration,
                 gravity,
                 isLinLogMode,
+                isOutboundAttraction,
                 width - props.vertex.defaultRadius.get() * 10,
                 height - props.vertex.defaultRadius.get() * 10,
             )

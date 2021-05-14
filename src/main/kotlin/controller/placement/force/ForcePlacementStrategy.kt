@@ -12,11 +12,12 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         nIterations: String,
         gravity: String?,
         isLinLogMode: Boolean,
+        isOutboundAttraction: Boolean,
         width: Double,
         height: Double
     ) {
         val forcePlacement = ForceLayout()
         if(!forcePlacement.canLayout(graphView)) return
-        forcePlacement.layout(graphView, nIterations, gravity, isLinLogMode, width, height)
+        forcePlacement.layout(graphView, nIterations, gravity, isLinLogMode, isOutboundAttraction, width, height)
     }
 }
