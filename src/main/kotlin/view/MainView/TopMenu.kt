@@ -6,12 +6,11 @@ import javafx.scene.control.Menu
 import javafx.scene.control.MenuBar
 import javafx.scene.control.MenuItem
 import javafx.scene.paint.Color
-import tornadofx.View
 import view.props
 import java.io.File
 
 @ExperimentalStdlibApi
-class TopMenu(private val mainView: MainView) {
+class TopMenu(private val mainView: MainView, private val drawer: GraphDrawer, private val fileHandlerView: FileHandlerView) {
 
     fun setupMenuBar(): MenuBar {
         val menuBar = MenuBar()
@@ -52,10 +51,10 @@ class TopMenu(private val mainView: MainView) {
         val fileMenu = Menu("File")
 
         val open = MenuItem("Open")
-        open.setOnAction { mainView.openGraph() }
+        open.setOnAction { fileHandlerView.openGraph() }
 
         val save = MenuItem("Save")
-        save.setOnAction { mainView.saveGraph() }
+        save.setOnAction { fileHandlerView.saveGraph() }
         with(fileMenu.items) {
             add(open)
             add(save)
@@ -93,7 +92,7 @@ class TopMenu(private val mainView: MainView) {
                     "csv" -> mainView.graph = mainView.csvStrategy.open(File("$exampleDir\\$exampleFileName")).first
                     "db" -> mainView.graph = mainView.SQliteFileHandlingStrategy.open(File("$exampleDir\\$exampleFileName")).first
                 }
-                mainView.showGraphWithoutGraphView()
+                drawer.showGraphWithoutGraphView()
             }
 
             examplesMenu.items.add(example)
