@@ -1,13 +1,13 @@
 package view.MainView
 
+import view.props
 
 import javafx.event.EventDispatchChain
 import javafx.event.EventTarget
 import javafx.scene.text.Text
 import tornadofx.*
-import view.props
 
-class Texts: EventTarget{
+class Texts : EventTarget {
 
     override fun buildEventDispatchChain(tail: EventDispatchChain?): EventDispatchChain {
         throw UnsupportedOperationException("not implemented")
@@ -24,12 +24,9 @@ class Texts: EventTarget{
         text(" SR-coef: ")
     )
 
-    init{
-        for(i in texts){
+    init {
+        for (i in texts) {
             i.fillProperty().bind(props.GUI.darkThemeText)
         }
     }
-
-
-
 }

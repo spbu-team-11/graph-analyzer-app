@@ -1,12 +1,14 @@
 package view.MainView
 
-import tornadofx.add
-import tornadofx.center
 import view.GraphView
 import view.props
 
+import tornadofx.add
+import tornadofx.center
+
 @ExperimentalStdlibApi
 class GraphDrawer(private val mainView: MainView) {
+
     internal fun arrangeVertices() {
         mainView.currentStage?.apply {
             mainView.circularPlacementStrategy.place(
@@ -56,8 +58,9 @@ class GraphDrawer(private val mainView: MainView) {
         mainView.graph.vertices().forEach {
             if (it.community > maxCommunity) maxCommunity = it.community
         }
-        mainView.graphInfo.text = " Vertices: ${mainView.graph.vertices().size} \n Edges: ${mainView.graph.edges().size} " +
-                "\n Communities: ${if (maxCommunity == -1) "-" else (maxCommunity + 1)}"
+        mainView.graphInfo.text =
+            " Vertices: ${mainView.graph.vertices().size} \n Edges: ${mainView.graph.edges().size} " +
+                    "\n Communities: ${if (maxCommunity == -1) "-" else (maxCommunity + 1)}"
     }
 
     internal fun showGraphWithGraphView() {

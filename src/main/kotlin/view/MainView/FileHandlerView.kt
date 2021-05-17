@@ -4,6 +4,7 @@ import javafx.stage.FileChooser
 
 @ExperimentalStdlibApi
 class FileHandlerView(private val mainView: MainView, private val drawer: GraphDrawer) {
+
     internal fun openGraph() {
         val chooser = FileChooser()
         with(chooser) {

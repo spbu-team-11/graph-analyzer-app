@@ -1,16 +1,21 @@
 package view.MainView
 
+import view.props
+
 import com.example.demo.logger.log
 import javafx.scene.control.CheckMenuItem
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuBar
 import javafx.scene.control.MenuItem
 import javafx.scene.paint.Color
-import view.props
 import java.io.File
 
 @ExperimentalStdlibApi
-class TopMenu(private val mainView: MainView, private val drawer: GraphDrawer, private val fileHandlerView: FileHandlerView) {
+class TopMenu(
+    private val mainView: MainView,
+    private val drawer: GraphDrawer,
+    private val fileHandlerView: FileHandlerView
+) {
 
     fun setupMenuBar(): MenuBar {
         val menuBar = MenuBar()
@@ -90,7 +95,8 @@ class TopMenu(private val mainView: MainView, private val drawer: GraphDrawer, p
             example.setOnAction {
                 when (exampleFileName.substringAfter(".")) {
                     "csv" -> mainView.graph = mainView.csvStrategy.open(File("$exampleDir\\$exampleFileName")).first
-                    "db" -> mainView.graph = mainView.SQliteFileHandlingStrategy.open(File("$exampleDir\\$exampleFileName")).first
+                    "db" -> mainView.graph =
+                        mainView.SQliteFileHandlingStrategy.open(File("$exampleDir\\$exampleFileName")).first
                 }
                 drawer.showGraphWithoutGraphView()
             }

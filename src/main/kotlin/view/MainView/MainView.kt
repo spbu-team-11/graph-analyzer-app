@@ -5,7 +5,6 @@ import controller.fileHandler.FileHandlingStrategy
 import controller.fileHandler.SQLiteFileHandlingStrategy
 import controller.highlighter.HighlightVerticesStrategy
 import controller.highlighter.HighlighterStrategy
-
 import controller.painting.PaintingByCommunitiesStrategy
 import controller.painting.PaintingStrategy
 import controller.placement.circular.CircularPlacementStrategy
@@ -13,11 +12,11 @@ import controller.placement.force.ForcePlacementStrategy
 import controller.placement.force.ForceRepresentationStrategy
 import controller.placement.circular.CircularRepresentationStrategy
 import model.UndirectedGraph
+import view.GraphView
+import view.props
 
 import javafx.scene.control.*
 import tornadofx.*
-import view.GraphView
-import view.props
 
 @ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {

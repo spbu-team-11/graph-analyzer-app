@@ -13,14 +13,15 @@ class Checkboxes : EventTarget {
     val checkboxes = arrayOf(
 
         checkbox {
-        isIndeterminate = false
-    },
+            isIndeterminate = false
+        },
 
-    checkbox {
-        isIndeterminate = false
-    },
+        checkbox {
+            isIndeterminate = false
+        },
 
-    checkbox {
-        isIndeterminate = false
-    })
+        checkbox {
+            isIndeterminate = false
+        }
+    )
 }

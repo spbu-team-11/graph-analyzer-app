@@ -5,7 +5,6 @@ import model.Edge
 import javafx.scene.shape.Line
 import tornadofx.text
 
-
 class EdgeView(
 
     edge: Edge,

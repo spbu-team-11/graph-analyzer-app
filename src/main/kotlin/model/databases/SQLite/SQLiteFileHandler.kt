@@ -9,14 +9,13 @@ import model.databases.SQLite.dao.vertices.Vertex
 import model.databases.SQLite.dao.vertices.Vertices
 import model.databases.SQLite.dao.verticesView.VertexView
 import model.databases.SQLite.dao.verticesView.VerticesView
+import utils.Alerter
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
 import com.example.demo.logger.log
 import javafx.scene.paint.Color
-import javafx.scene.text.Text
-import utils.Alerter
 
 class SQLiteFileHandler {
     fun save(file: File, graph: Graph, graphView: GraphView) {

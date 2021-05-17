@@ -18,5 +18,4 @@ class Styles : Stylesheet() {
             baseColor = Color.WHITE
         }
     }
-
 }

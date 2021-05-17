@@ -30,7 +30,7 @@ class PaintingByCommunitiesStrategy : Controller(), PaintingStrategy {
             }
         graphView.edges()
             .onEach {
-                if(it.first.color == it.second.color)
+                if (it.first.color == it.second.color)
                     it.stroke = it.first.color
             }
     }

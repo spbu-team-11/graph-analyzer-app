@@ -12,5 +12,4 @@ class Alerter {
     fun alertIncorrectArgs(message: String) {
         alert(Alert.AlertType.ERROR, "$message, for details click [Help]")
     }
-
 }

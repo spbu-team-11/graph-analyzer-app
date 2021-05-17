@@ -18,7 +18,16 @@ class ForcePlacementStrategy : Controller(), ForceRepresentationStrategy {
         height: Double
     ) {
         val forcePlacement = ForceLayout()
-        if(!forcePlacement.canLayout(graphView)) return
-        forcePlacement.layout(graphView, nIterations, gravity, isLinLogMode, isOutboundAttraction, isStrongGravity, width, height)
+        if (!forcePlacement.canLayout(graphView)) return
+        forcePlacement.layout(
+            graphView,
+            nIterations,
+            gravity,
+            isLinLogMode,
+            isOutboundAttraction,
+            isStrongGravity,
+            width,
+            height
+        )
     }
 }

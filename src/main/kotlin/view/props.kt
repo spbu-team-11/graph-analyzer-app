@@ -1,12 +1,10 @@
 package view
 
-
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.paint.Color
 import tornadofx.booleanProperty
 import tornadofx.doubleProperty
 import tornadofx.stringProperty
-import kotlin.random.Random
 
 @Suppress("ClassName")
 object props {

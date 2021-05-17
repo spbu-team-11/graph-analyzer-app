@@ -1,11 +1,11 @@
 package model.centrality
 
+import view.props
 import view.GraphView
 
 import com.example.demo.logger.log
 import org.jgrapht.alg.scoring.HarmonicCentrality
 import org.jgrapht.graph.*
-import view.props
 import kotlin.math.pow
 
 class HarmonicCentrality(graphView: GraphView) {
@@ -29,7 +29,8 @@ class HarmonicCentrality(graphView: GraphView) {
 
         graphView.vertices().onEach {
             val cent = (centrality.scores[it.vertex.element]!!)
-            it.radius = props.vertex.radius.value * ( (2.7 + value).pow(cent) - (2.7 + value / 2).pow(cent) ) / (value / 2) * 5
+            it.radius =
+                props.vertex.radius.value * ((2.7 + value).pow(cent) - (2.7 + value / 2).pow(cent)) / (value / 2) * 5
         }
     }
 
