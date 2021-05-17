@@ -1,5 +1,5 @@
 import styles.Styles
-import view.MainView
+import view.MainView.MainView
 
 import javafx.stage.Stage
 import javafx.stage.StageStyle

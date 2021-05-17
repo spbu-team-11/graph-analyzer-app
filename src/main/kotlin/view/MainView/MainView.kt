@@ -1,6 +1,5 @@
-package view
+package view.MainView
 
-import com.example.demo.logger.log
 import controller.fileHandler.CSVFileHandlingStrategy
 import controller.fileHandler.FileHandlingStrategy
 import controller.fileHandler.SQLiteFileHandlingStrategy
@@ -14,35 +13,30 @@ import controller.placement.force.ForcePlacementStrategy
 import controller.placement.force.ForceRepresentationStrategy
 import controller.placement.circular.CircularRepresentationStrategy
 import model.UndirectedGraph
-import utils.Alerter
 
 import javafx.scene.control.*
-import javafx.scene.paint.Color
 import javafx.stage.FileChooser
 import tornadofx.*
-import java.io.File
+import view.GraphView
+import view.props
 
 @ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {
 
-    private val defaultMinWidthLeft = 155.0
-    private val defaultMinWidthBottom = 80.0
-    private val alerter = Alerter()
+    internal val defaultMinWidthLeft = 155.0
 
-    private var graph = UndirectedGraph()
-    private var graphView = GraphView(graph)
-    private var startGraph = graph
-    private var startGraphView = graphView
+    internal var graph = UndirectedGraph()
+    internal var graphView = GraphView(graph)
 
-    private val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
-    private val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
-    private val highlightVerticesStrategy: HighlightVerticesStrategy by inject<HighlighterStrategy>()
-    private val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
+    internal val circularPlacementStrategy: CircularRepresentationStrategy by inject<CircularPlacementStrategy>()
+    internal val forcePlacementStrategy: ForceRepresentationStrategy by inject<ForcePlacementStrategy>()
+    internal val highlightVerticesStrategy: HighlightVerticesStrategy by inject<HighlighterStrategy>()
+    internal val paintingStrategy: PaintingStrategy by inject<PaintingByCommunitiesStrategy>()
 
-    private val SQliteFileHandlingStrategy: FileHandlingStrategy by inject<SQLiteFileHandlingStrategy>()
-    private val csvStrategy: FileHandlingStrategy by inject<CSVFileHandlingStrategy>()
+    internal val SQliteFileHandlingStrategy: FileHandlingStrategy by inject<SQLiteFileHandlingStrategy>()
+    internal val csvStrategy: FileHandlingStrategy by inject<CSVFileHandlingStrategy>()
 
-    private var nIterationLeiden = slider {
+    internal var nIterationLeiden = slider {
         min = 0.0
         max = 1000.0
         value = 50.0
@@ -52,7 +46,7 @@ class MainView : View("Graph visualizer") {
         minWidth = 150.0
     }
 
-    private var resolution = slider {
+    internal var resolution = slider {
         min = 0.0
         max = 1.0
         value = 0.5
@@ -62,7 +56,7 @@ class MainView : View("Graph visualizer") {
         minWidth = 150.0
     }
 
-    private var nIteration2 = slider {
+    internal var nIteration2 = slider {
         min = 0.0
         max = 20000.0
         value = 50.0
@@ -72,7 +66,7 @@ class MainView : View("Graph visualizer") {
         minWidth = 150.0
     }
 
-    private var gravity = slider {
+    internal var gravity = slider {
         min = 0.0
         max = 100.0
         value = 1.0
@@ -82,7 +76,7 @@ class MainView : View("Graph visualizer") {
         minWidth = 150.0
     }
 
-    private var highlightValue = slider {
+    internal var highlightValue = slider {
         min = 0.0
         max = 10.0
         value = 10.0
@@ -92,33 +86,24 @@ class MainView : View("Graph visualizer") {
         minWidth = 150.0
     }
 
-    private var isLinLogMode = checkbox {
+    internal var isLinLogMode = checkbox {
         isIndeterminate = false
     }
 
-    private var isOutboundAttraction = checkbox {
+    internal var isOutboundAttraction = checkbox {
         isIndeterminate = false
     }
 
-    private var isStrongGravity = checkbox {
+    internal var isStrongGravity = checkbox {
         isIndeterminate = false
     }
 
-    private var texts = arrayOf(
-        text(" Iteration: "),
-        text(" Resolution:"),
-        text(" Iteration:"),
-        text(" Gravity:  "),
-        text(" Logarithmic attraction mode:    "),
-        text(" Outbound attraction mode:       "),
-        text(" Strong gravity mode:            "),
-        text(" SR-coef: ")
-    )
+    internal var texts = Texts().texts
 
-    private var graphInfo = text(" Vertices: - \n Edges: - \n Communities: -")
+    internal var graphInfo = text(" Vertices: - \n Edges: - \n Communities: -")
 
     override val root = borderpane {
-        top = setupMenuBar()
+        top = TopMenu(this@MainView).setupMenuBar()
 
         left = vbox(10) {
             hbox(10) {
@@ -182,17 +167,15 @@ class MainView : View("Graph visualizer") {
                 }
             }
         }
+
         bottom = graphInfo
 
         left.visibleProperty().bind(props.GUI.leftMenu)
         graphInfo.fillProperty().bind(props.GUI.darkThemeText)
-        for(i in texts){
-            i.fillProperty().bind(props.GUI.darkThemeText)
-        }
         this.styleProperty().bind(props.GUI.darkTheme)
     }
 
-    private fun arrangeVertices() {
+    internal fun arrangeVertices() {
         currentStage?.apply {
             circularPlacementStrategy.place(
                 width - props.vertex.radius.get() * 10,
@@ -202,7 +185,7 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun forceLayout(
+    internal fun forceLayout(
         nIteration: String,
         gravity: String?,
         isLinLogMode: Boolean,
@@ -223,20 +206,20 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun highlight(value: Double) {
+    internal fun highlight(value: Double) {
         currentStage?.apply {
             highlightVerticesStrategy.highlight(graphView, value)
         }
     }
 
-    private fun showCommunities(nIteration: String, resolution: String) {
+    internal fun showCommunities(nIteration: String, resolution: String) {
         currentStage?.apply {
             paintingStrategy.showCommunities(graph, graphView, nIteration, resolution)
             updateGraphInfo()
         }
     }
 
-    private fun updateGraphInfo() {
+    internal fun updateGraphInfo() {
         var maxCommunity = -1
         graph.vertices().forEach {
             if (it.community > maxCommunity) maxCommunity = it.community
@@ -245,7 +228,7 @@ class MainView : View("Graph visualizer") {
                 "\n Communities: ${if (maxCommunity == -1) "-" else (maxCommunity + 1)}"
     }
 
-    private fun showGraphWithGraphView() {
+    internal fun showGraphWithGraphView() {
         graphView.edges()
             .onEach {
                 if (it.first.color == it.second.color)
@@ -257,7 +240,7 @@ class MainView : View("Graph visualizer") {
         updateGraphInfo()
     }
 
-    private fun showGraphWithoutGraphView() {
+    internal fun showGraphWithoutGraphView() {
         graphView = GraphView(graph)
         root.center {
             add(graphView)
@@ -266,7 +249,7 @@ class MainView : View("Graph visualizer") {
         updateGraphInfo()
     }
 
-    private fun openGraph() {
+    internal fun openGraph() {
         val chooser = FileChooser()
         with(chooser) {
             title = "Open graph"
@@ -307,7 +290,7 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun saveGraph() {
+    internal fun saveGraph() {
         val chooser = FileChooser()
         with(chooser) {
             title = "Save graph"
@@ -322,126 +305,5 @@ class MainView : View("Graph visualizer") {
                 "csv" -> csvStrategy.save(file, graph, graphView)
             }
         }
-    }
-
-    private fun setupMenuBar(): MenuBar {
-        val menuBar = MenuBar()
-
-        with(menuBar.menus) {
-            add(setupFileMenu())
-            add(setupExamplesMenu())
-            add(setupShowMenu())
-            add(setupSettingsMenu())
-            add(setupHelpMenu())
-        }
-
-        return menuBar
-    }
-
-    private fun setupShowMenu(): Menu {
-        val showMenu = Menu("Labels")
-
-        val checkShowVertexLabel = CheckMenuItem("Vertex")
-        checkShowVertexLabel.setOnAction { props.vertex.label.set(!props.vertex.label.value) }
-
-        val checkShowEdgesLabel = CheckMenuItem("Edge")
-        checkShowEdgesLabel.setOnAction { props.edge.label.set(!props.edge.label.value) }
-
-        val checkShowCommunitiesLabel = CheckMenuItem("Community")
-        checkShowCommunitiesLabel.setOnAction { props.vertex.community.set(!props.vertex.community.value) }
-
-        with(showMenu.items) {
-            add(checkShowVertexLabel)
-            add(checkShowEdgesLabel)
-            add(checkShowCommunitiesLabel)
-        }
-
-        return showMenu
-    }
-
-    private fun setupFileMenu(): Menu {
-        val fileMenu = Menu("File")
-
-        val open = MenuItem("Open")
-        open.setOnAction { openGraph() }
-
-        val save = MenuItem("Save")
-        save.setOnAction { saveGraph() }
-        with(fileMenu.items) {
-            add(open)
-            add(save)
-        }
-
-        return fileMenu
-    }
-
-    private fun setupHelpMenu(): Menu {
-        val helpMenu = Menu("Help")
-
-        val help = MenuItem("Help")
-        help.setOnAction {
-            hostServices.showDocument(File("help.pdf").absolutePath)
-        }
-
-        val exit = MenuItem("Exit")
-        exit.setOnAction { close() }
-
-        helpMenu.items.add(help)
-        helpMenu.items.add(exit)
-
-        return helpMenu
-    }
-
-    private fun setupExamplesMenu(): Menu {
-        val examplesMenu = Menu("Examples")
-
-        val exampleDir = "examples"
-        for (exampleFileName in File(exampleDir).list()) {
-            val example = MenuItem(exampleFileName.substringBefore("."))
-            log(exampleFileName)
-            example.setOnAction {
-                when (exampleFileName.substringAfter(".")) {
-                    "csv" -> graph = csvStrategy.open(File("$exampleDir\\$exampleFileName")).first
-                    "db" -> graph = SQliteFileHandlingStrategy.open(File("$exampleDir\\$exampleFileName")).first
-                }
-                showGraphWithoutGraphView()
-            }
-
-            examplesMenu.items.add(example)
-        }
-        return examplesMenu
-    }
-
-    private fun setupSettingsMenu(): Menu {
-        val settingsMenu = Menu("Settings")
-
-        val checkLeftMenu = CheckMenuItem("Hide menu")
-        checkLeftMenu.setOnAction {
-            props.GUI.leftMenu.set(!props.GUI.leftMenu.value)
-
-        }
-
-        val checkDarkTheme = CheckMenuItem("Dark theme")
-        checkDarkTheme.setOnAction {
-            if (props.GUI.darkTheme.value == "-fx-base:black") {
-                props.GUI.darkTheme.set("-fx-base:white")
-                props.GUI.darkThemeText.set(Color.BLACK)
-            } else {
-                props.GUI.darkTheme.set("-fx-base:black")
-                props.GUI.darkThemeText.set(Color.WHITE)
-            }
-//            root.style = if (props.GUI.darkTheme.value) "-fx-base:black" else ""
-//            for(text in texts){
-//                text.fill = if (props.GUI.darkTheme.value) Color.WHITE else Color.BLACK
-//            }
-//            graphInfo.fill =  if (props.GUI.darkTheme.value) Color.WHITE else Color.BLACK
-        }
-
-        with(settingsMenu.items) {
-            add(checkLeftMenu)
-            add(checkDarkTheme)
-        }
-
-        return settingsMenu
     }
 }
