@@ -1,9 +1,11 @@
 package view
 
-import model.UndirectedGraph
 
+import javafx.beans.property.SimpleObjectProperty
+import javafx.scene.paint.Color
 import tornadofx.booleanProperty
 import tornadofx.doubleProperty
+import tornadofx.stringProperty
 import kotlin.random.Random
 
 @Suppress("ClassName")
@@ -24,7 +26,8 @@ object props {
     }
 
     object GUI {
-        val darkTheme = booleanProperty(false)
+        val darkThemeText = SimpleObjectProperty(Color.BLACK)
+        val darkTheme = stringProperty("-fx-base:white")
         val leftMenu = booleanProperty(true)
     }
 }

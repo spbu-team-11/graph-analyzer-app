@@ -181,20 +181,15 @@ class MainView : View("Graph visualizer") {
                     highlight(highlightValue.value)
                 }
             }
-
-//            button("Reset default properties") {
-//                minWidth = defaultMinWidthLeft
-//                action {
-//                    graph = startGraph
-//                    graphView = startGraphView
-//                    showGraphWithGraphView()
-//                }
-//            }
-
         }
-        left.visibleProperty().bind(props.GUI.leftMenu)
-
         bottom = graphInfo
+
+        left.visibleProperty().bind(props.GUI.leftMenu)
+        graphInfo.fillProperty().bind(props.GUI.darkThemeText)
+        for(i in texts){
+            i.fillProperty().bind(props.GUI.darkThemeText)
+        }
+        this.styleProperty().bind(props.GUI.darkTheme)
     }
 
     private fun arrangeVertices() {
@@ -212,7 +207,7 @@ class MainView : View("Graph visualizer") {
         gravity: String?,
         isLinLogMode: Boolean,
         isOutboundAttraction: Boolean,
-        isStrongGravity: Boolean
+        isStrongGravity: Boolean,
     ) {
         currentStage?.apply {
             forcePlacementStrategy.place(
@@ -228,8 +223,8 @@ class MainView : View("Graph visualizer") {
         }
     }
 
-    private fun highlight(value: Double){
-        currentStage?.apply{
+    private fun highlight(value: Double) {
+        currentStage?.apply {
             highlightVerticesStrategy.highlight(graphView, value)
         }
     }
@@ -428,12 +423,18 @@ class MainView : View("Graph visualizer") {
 
         val checkDarkTheme = CheckMenuItem("Dark theme")
         checkDarkTheme.setOnAction {
-            props.GUI.darkTheme.set(!props.GUI.darkTheme.value)
-            root.style = if (props.GUI.darkTheme.value) "-fx-base:black" else ""
-            for(text in texts){
-                text.fill = if (props.GUI.darkTheme.value) Color.WHITE else Color.BLACK
+            if (props.GUI.darkTheme.value == "-fx-base:black") {
+                props.GUI.darkTheme.set("-fx-base:white")
+                props.GUI.darkThemeText.set(Color.BLACK)
+            } else {
+                props.GUI.darkTheme.set("-fx-base:black")
+                props.GUI.darkThemeText.set(Color.WHITE)
             }
-            graphInfo.fill =  if (props.GUI.darkTheme.value) Color.WHITE else Color.BLACK
+//            root.style = if (props.GUI.darkTheme.value) "-fx-base:black" else ""
+//            for(text in texts){
+//                text.fill = if (props.GUI.darkTheme.value) Color.WHITE else Color.BLACK
+//            }
+//            graphInfo.fill =  if (props.GUI.darkTheme.value) Color.WHITE else Color.BLACK
         }
 
         with(settingsMenu.items) {
