@@ -70,4 +70,20 @@ class Test : ApplicationTest() {
             assertFalse(view.graphView.vertices().isEmpty())
         }
     }
+
+    @Test
+    fun openExampleAndDetectCentrality() {
+        val menuExamples = lookup("Examples").query<MenuBarButton>()
+        clickOn(menuExamples)
+
+        val example = lookup("Dolphin social network").query<Label>()
+        clickOn(example)
+
+        val findCommunity = lookup("Highlight vertices").query<Button>()
+        clickOn(findCommunity)
+
+        for (vertex in view.graphView.vertices()) {
+            assertNotEquals(vertex.radius, 5.0)
+        }
+    }
 }
