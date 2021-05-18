@@ -1,21 +1,19 @@
 package view
 
 import model.Vertex
-import javafx.beans.property.DoubleProperty
+
 import javafx.scene.paint.Color
 import javafx.scene.shape.Circle
 import tornadofx.text
 
-class VertexView<V>(
-    val vertex: Vertex<V>,
+class VertexView(
+
+    val vertex: Vertex,
     x: Double,
     y: Double,
-    r: DoubleProperty,
+    radius: Double,
     color: Color,
-) : Circle(x, y, r.get(), color) {
-    init {
-        radiusProperty().bind(r)
-    }
+) : Circle(x, y, radius, color) {
 
     var position: Pair<Double, Double>
         get() = centerX to centerY
@@ -36,9 +34,9 @@ class VertexView<V>(
         yProperty().bind(centerYProperty().add(radiusProperty()).add(layoutBounds.height))
     }
 
-    val community = text(vertex.community.toString()){
+    var community = text {
         visibleProperty().bind(props.vertex.community)
-        xProperty().bind(centerXProperty().subtract(layoutBounds.width / 2 + 10))
-        yProperty().bind(centerYProperty().add(radiusProperty()).add(layoutBounds.height))
+        xProperty().bind(centerXProperty().subtract(layoutBounds.width / 2 + 15))
+        yProperty().bind(centerYProperty().add(radiusProperty()).add(layoutBounds.height + 15))
     }
 }

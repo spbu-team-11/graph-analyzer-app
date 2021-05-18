@@ -1,9 +1,10 @@
 package view
 
-import model.Graph
-import model.UndirectedGraph
+import javafx.beans.property.SimpleObjectProperty
+import javafx.scene.paint.Color
 import tornadofx.booleanProperty
 import tornadofx.doubleProperty
+import tornadofx.stringProperty
 
 @Suppress("ClassName")
 object props {
@@ -12,8 +13,8 @@ object props {
     }
 
     object vertex {
-        var radius = doubleProperty(10.0)
-        val bigRadius = doubleProperty(20.0)
+        val radius = doubleProperty(5.0)
+        val pressedRadius = doubleProperty(15.0)
         val label = booleanProperty()
         val community = booleanProperty()
     }
@@ -22,37 +23,10 @@ object props {
         val label = booleanProperty()
     }
 
-    val SAMPLE_GRAPH: Graph<String, Long> = UndirectedGraph<String, Long>().apply {
-        addVertex("A")
-        addVertex("B")
-        addVertex("C")
-        addVertex("D")
-        addVertex("E")
-        addVertex("F")
-        addVertex("G")
-
-        addEdge("A", "B", 1)
-        addEdge("A", "C", 2)
-        addEdge("A", "D", 3)
-        addEdge("A", "E", 4)
-        addEdge("A", "F", 5)
-        addEdge("A", "G", 6)
-
-        addVertex("H")
-        addVertex("I")
-        addVertex("J")
-        addVertex("K")
-        addVertex("L")
-        addVertex("M")
-        addVertex("N")
-
-        addEdge("H", "I", 7)
-        addEdge("H", "J", 8)
-        addEdge("H", "K", 9)
-        addEdge("H", "L", 10)
-        addEdge("H", "M", 11)
-        addEdge("H", "N", 12)
-
-        addEdge("A", "H", 0)
+    object GUI {
+        val darkThemeText = SimpleObjectProperty(Color.BLACK)
+        val darkTheme = stringProperty("-fx-base:white")
+        val leftMenu = booleanProperty(true)
     }
 }
+

@@ -7,12 +7,23 @@ plugins {
 }
 
 repositories {
-    //mavenLocal()
+    mavenCentral()
     jcenter()
     flatDir {
         dirs("libs")
     }
 }
+
+/*repositories {
+    maven {
+        // Look for POMs and artifacts, such as JARs, here
+        url = uri("https://github.com/klarman-cell-observatory/forceatlas2")
+        // Look for artifacts here if not found at the above location
+        artifactUrls("https://github.com/klarman-cell-observatory/forceatlas2/releases/download/1.0.3")
+        //artifactUrls("http://repo.mycompany.com/jars2")
+    }
+}*/
+
 
 val `tornadofx-version`: String by project
 
@@ -29,13 +40,32 @@ dependencies {
         exclude("org.jetbrains.kotlin")
     }
 
+    implementation("org.jetbrains.exposed", "exposed-core", "0.31.1")
+    implementation("org.jetbrains.exposed", "exposed-dao", "0.31.1")
+    implementation("org.jetbrains.exposed", "exposed-jdbc", "0.31.1")
+    implementation("org.xerial", "sqlite-jdbc", "3.34.0")
+    implementation("org.slf4j", "slf4j-simple", "1.7.29")
+
+    //implementation("org.gephi:gephi-toolkit:0.9.2")
     implementation("nl.cwts", "networkanalysis", "1.1.0-5-ga3f342d.dirty")
-  
     implementation(files("libs/force-atlas2.jar", "libs/force-atlas2-tools.jar"))
+    //implementation("com.github.kco:forceatlas2")
+    implementation("org.jgrapht", "jgrapht-core", "1.5.1")
+    implementation("org.xerial", "sqlite-jdbc", "3.8.11.2")
+
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
+    implementation("io.github.blackmo18:kotlin-grass-jvm:0.7.1")
+
+    testImplementation("org.testfx:testfx-core:4.0.16-alpha")
+    testImplementation("org.testfx:testfx-junit5:4.0.16-alpha")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.5.1")
+    testImplementation("org.hamcrest", "hamcrest", "2.1")
+
 }
 
 application {
-    mainClass.set("com.example.demo.MainApp")
+    mainClass.set("MainApp")
 }
 
 val `javafx-version`: String by project
@@ -45,6 +75,13 @@ javafx {
     modules("javafx.controls")
 }
 
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
+}
+
+tasks{
+    test{
+        useJUnitPlatform()
+    }
 }
