@@ -1,14 +1,8 @@
-package view.main
+package view.main.targets
 
-import javafx.event.EventDispatchChain
-import javafx.event.EventTarget
 import tornadofx.checkbox
 
-class Checkboxes : EventTarget {
-
-    override fun buildEventDispatchChain(tail: EventDispatchChain?): EventDispatchChain {
-        throw UnsupportedOperationException("not implemented")
-    }
+class Checkboxes : Targets {
 
     val checkboxes = mapOf(
 

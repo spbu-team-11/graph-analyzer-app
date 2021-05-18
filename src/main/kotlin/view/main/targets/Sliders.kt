@@ -1,14 +1,8 @@
-package view.main
+package view.main.targets
 
-import javafx.event.EventDispatchChain
-import javafx.event.EventTarget
 import tornadofx.slider
 
-class Sliders : EventTarget {
-
-    override fun buildEventDispatchChain(tail: EventDispatchChain?): EventDispatchChain {
-        throw UnsupportedOperationException("not implemented")
-    }
+class Sliders : Targets {
 
     val sliders = hashMapOf(
         "Communities iterations" to slider {

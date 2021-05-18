@@ -1,17 +1,10 @@
-package view.main
+package view.main.targets
 
 import view.props
 
-import javafx.event.EventDispatchChain
-import javafx.event.EventTarget
-import javafx.scene.text.Text
 import tornadofx.*
 
-class Texts : EventTarget {
-
-    override fun buildEventDispatchChain(tail: EventDispatchChain?): EventDispatchChain {
-        throw UnsupportedOperationException("not implemented")
-    }
+class Texts : Targets {
 
     var texts = mapOf(
         "Communities iterations" to text(" Iteration: "),

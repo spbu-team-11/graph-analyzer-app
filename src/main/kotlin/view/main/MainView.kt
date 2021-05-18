@@ -17,6 +17,9 @@ import view.props
 
 import javafx.scene.control.*
 import tornadofx.*
+import view.main.targets.Checkboxes
+import view.main.targets.Sliders
+import view.main.targets.Texts
 
 @ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {
