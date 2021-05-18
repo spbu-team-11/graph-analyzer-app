@@ -9,6 +9,7 @@ import javafx.scene.paint.Color
 import javafx.scene.text.Text
 import javafx.stage.Stage
 import javafx.stage.StageStyle
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.testfx.framework.junit5.ApplicationTest
 import view.GraphView
@@ -37,6 +38,7 @@ class Test : ApplicationTest() {
 
         val menuExamples = lookup("Examples").query<MenuBarButton>()
         clickOn(menuExamples)
+
         val example = lookup("Zachary karate club").query<Label>()
         clickOn(example)
 
@@ -46,8 +48,6 @@ class Test : ApplicationTest() {
         for( vertex in view.graphView.vertices()){
             assert(vertex.color != Color.BLACK)
         }
-
-        sleep(5000)
     }
 
     @Test
