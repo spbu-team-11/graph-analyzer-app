@@ -42,7 +42,7 @@ class Test : ApplicationTest() {
         clickOn(findCommunity)
 
         for (vertex in view.graphView.vertices()) {
-            assertNotEquals(vertex.color,Color.BLACK)
+            assertNotEquals(vertex.color, Color.BLACK)
         }
     }
 
