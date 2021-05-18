@@ -49,27 +49,30 @@ class MainView : View("Graph visualizer") {
         left = vbox(10) {
             hbox(10) {
                 add(texts[0])
-                add(sliders[0])
+                add(sliders["Communities iterations"]!!)
             }
             hbox(10) {
                 add(texts[1])
-                add(sliders[1])
+                add(sliders["Communities resolution"]!!)
             }
 
             button("Detect communities") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    drawer.showCommunities(sliders[0].value.toInt().toString(), sliders[1].value.toString())
+                    drawer.showCommunities(
+                        sliders["Communities iterations"]!!.value.toInt().toString(),
+                        sliders["Communities resolution"]!!.value.toString()
+                    )
                 }
             }
 
             hbox(10) {
                 add(texts[2])
-                add(sliders[2])
+                add(sliders["Layout iterations"]!!)
             }
             hbox(10) {
                 add(texts[3])
-                add(sliders[3])
+                add(sliders["Layout gravity"]!!)
             }
             hbox(10) {
                 add(texts[4])
@@ -88,8 +91,8 @@ class MainView : View("Graph visualizer") {
                 minWidth = defaultMinWidthLeft
                 action {
                     drawer.forceLayout(
-                        sliders[2].value.toInt().toString(),
-                        sliders[3].value.toString(),
+                        sliders["Layout iterations"]!!.value.toInt().toString(),
+                        sliders["Layout gravity"]!!.value.toString(),
                         checkboxes[0].isSelected,
                         checkboxes[1].isSelected,
                         checkboxes[2].isSelected
@@ -98,13 +101,13 @@ class MainView : View("Graph visualizer") {
             }
             hbox(10) {
                 add(texts[7])
-                add(sliders[4])
+                add(sliders["SR-coefficient"]!!)
             }
 
             button("Highlight vertices") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    drawer.highlight(sliders[4].value)
+                    drawer.highlight(sliders["SR-coefficient"]!!.value)
                 }
             }
         }

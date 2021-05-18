@@ -10,7 +10,8 @@ class Sliders : EventTarget {
         throw UnsupportedOperationException("not implemented")
     }
 
-    val sliders = arrayOf(slider {
+    val sliders = hashMapOf(
+        "Communities iterations" to slider {
         min = 0.0
         max = 1000.0
         value = 50.0
@@ -20,7 +21,7 @@ class Sliders : EventTarget {
         minWidth = 150.0
     },
 
-        slider {
+        "Communities resolution" to slider {
             min = 0.0
             max = 1.0
             value = 0.5
@@ -30,7 +31,7 @@ class Sliders : EventTarget {
             minWidth = 150.0
         },
 
-        slider {
+        "Layout iterations" to slider {
             min = 0.0
             max = 20000.0
             value = 50.0
@@ -40,7 +41,7 @@ class Sliders : EventTarget {
             minWidth = 150.0
         },
 
-        slider {
+        "Layout gravity" to slider {
             min = 0.0
             max = 100.0
             value = 1.0
@@ -50,7 +51,7 @@ class Sliders : EventTarget {
             minWidth = 150.0
         },
 
-        slider {
+        "SR-coefficient" to slider {
             min = 0.0
             max = 10.0
             value = 10.0
