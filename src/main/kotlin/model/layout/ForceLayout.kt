@@ -1,5 +1,6 @@
 package model.layout
 
+import ForceLayoutLogger
 import view.GraphView
 import view.VertexView
 import view.EdgeView
@@ -16,10 +17,13 @@ import kotlin.math.abs
 
 class ForceLayout {
 
+    private val logger = ForceLayoutLogger(this::class.java)
+
     fun canLayout(graphView: GraphView): Boolean {
-//        if (graphView.vertices().isEmpty())
-//            log("Force Atlas 2: there is nothing to place")
-//        else log("Force Atlas 2 has started")
+        if(graphView.vertices().isEmpty())
+            logger.logCantPlace()
+        else logger.logStart()
+
         return !graphView.vertices().isEmpty()
     }
 
@@ -52,9 +56,7 @@ class ForceLayout {
         val graphVertices = mutableSetOf<VertexView>()
 
         graphModel.translateFromGraphView(graphVertices, vertices, edges, center)
-
         forcePlacement.runAlgo(initIterations(nIterations))
-
         graphModel.translateToGraphView(graphVertices, center)
     }
 
@@ -67,12 +69,11 @@ class ForceLayout {
         var i = 0
         while (i < countOfIterations) {
             goAlgo()
-            i++
-//            log("Force Atlas 2: $i iteration" + (if (i > 1) "s" else "") + " behind")
+            logger.logIteration(++i)
         }
 
         endAlgo()
-//        log("Force Atlas 2 has finished")
+        logger.logFinish()
     }
 
     private fun ForceAtlas2.initLayout(
@@ -86,9 +87,11 @@ class ForceLayout {
         setGraphModel(graphModel)
         this.gravity = gravity
         this.isLinLogMode = isLinLogMode
-        isStrongGravityMode = isStrongGravity
-        isOutboundAttractionDistribution = isOutboundAttraction
+        this.isStrongGravityMode = isStrongGravity
+        this.isOutboundAttractionDistribution = isOutboundAttraction
         if (countOfVertices >= 1000) isBarnesHutOptimize = true
+
+        logger.logInitialisation()
     }
 
     private fun GraphModelImpl.translateToGraphView(graphVertices: MutableCollection<VertexView>, center: Point2D) {
@@ -104,7 +107,6 @@ class ForceLayout {
         }
 
         val max = maxX to maxY
-//        log("$max $center")
         val coefficient =
             maxOf(calcCoefficient(max.first.toFloat(), center.x), calcCoefficient(max.second.toFloat(), center.y))
 
