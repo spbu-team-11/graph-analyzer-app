@@ -1,5 +1,6 @@
 package model.community
 
+import FinderLogger
 import model.UndirectedGraph
 import model.Vertex
 import utils.Alerter
@@ -13,25 +14,29 @@ import kotlin.collections.HashMap
 
 class CommunitiesFinder {
 
+    private val logger = FinderLogger(javaClass)
+
     fun findCommunity(graph: UndirectedGraph, nIterations: String, resolution: String): Boolean {
         val doubleResolution = resolution.toDoubleOrNull()
         val intNIterations = nIterations.toIntOrNull()
         if (doubleResolution == null || intNIterations == null) {
             Alerter().alertIncorrectArgs("Incorrect arguments for find community")
+            logger.logCantFind()
             return false
         }
-//        log("community finding started $doubleResolution, $intNIterations")
+        logger.logStart()
         val network = graph.toNetwork()
 
         val algorithm = LeidenAlgorithm(doubleResolution, intNIterations, LeidenAlgorithm.DEFAULT_RANDOMNESS, Random())
+        logger.logInitialisation()
         val ans = algorithm.findClustering(network)
 
         graph.setCommunity(ans)
-//        log("community finding finished...")
+        logger.logFinish()
         return true
     }
 
-    private fun UndirectedGraph.toNetwork(): Network { // Затычка
+    private fun UndirectedGraph.toNetwork(): Network {
 
         val dict = makeDict()
 
