@@ -1,23 +1,14 @@
 package view.main
 
-import controller.fileHandler.CSVFileHandlingStrategy
-import controller.fileHandler.FileHandlingStrategy
-import controller.fileHandler.SQLiteFileHandlingStrategy
-import controller.highlighter.HighlightVerticesStrategy
-import controller.highlighter.HighlighterStrategy
-import controller.painting.PaintingByCommunitiesStrategy
-import controller.painting.PaintingStrategy
-import controller.placement.circular.CircularPlacementStrategy
-import controller.placement.force.ForcePlacementStrategy
-import controller.placement.force.ForceRepresentationStrategy
-import controller.placement.circular.CircularRepresentationStrategy
+import controller.fileHandler.*
+import controller.highlighter.*
+import controller.painting.*
+import controller.placement.circular.*
+import controller.placement.force.*
 import model.UndirectedGraph
 import view.GraphView
 import view.props
-import view.main.targets.Checkboxes
-import view.main.targets.Constants
-import view.main.targets.Sliders
-import view.main.targets.Texts
+import view.main.targets.*
 
 import javafx.scene.control.*
 import tornadofx.*
