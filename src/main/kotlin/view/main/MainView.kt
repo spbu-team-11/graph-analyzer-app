@@ -16,7 +16,7 @@ import tornadofx.*
 @ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {
 
-    internal val defaultMinWidthLeft = 155.0
+    private val defaultMinWidthLeft = 155.0
 
     internal var graph = UndirectedGraph()
     internal var graphView = GraphView(graph)

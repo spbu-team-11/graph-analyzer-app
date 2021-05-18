@@ -8,10 +8,6 @@ import tornadofx.stringProperty
 
 @Suppress("ClassName")
 object props {
-    object layout {
-        val auto = booleanProperty()
-    }
-
     object vertex {
         val radius = doubleProperty(5.0)
         val pressedRadius = doubleProperty(15.0)

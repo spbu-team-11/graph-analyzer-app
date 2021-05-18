@@ -8,8 +8,6 @@ interface Vertex {
 interface Edge {
     var element: String
     val vertices: Pair<Vertex, Vertex>
-
-    fun incident(v: Vertex) = v == vertices.first || v == vertices.second
 }
 
 interface Graph {
