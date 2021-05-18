@@ -15,7 +15,7 @@ import org.testfx.framework.junit5.ApplicationTest
 @ExperimentalStdlibApi
 class Test : ApplicationTest() {
 
-    lateinit var view: MainView
+    private lateinit var view: MainView
 
     override fun start(stage: Stage) {
         view = MainView()
