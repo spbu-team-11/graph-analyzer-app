@@ -9,6 +9,8 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation("ch.qos.logback", "logback-classic", "1.2.3")
+    implementation("ch.qos.logback", "logback-core", "1.2.3")
 }
 
 // uncomment following lines to publish 'logger' jar to local maven repository with command 'gradle :logger:publishToMavenLocal'

@@ -4,7 +4,6 @@ import view.GraphView
 import view.VertexView
 import view.EdgeView
 
-import com.example.demo.logger.log
 import javafx.geometry.Point2D
 import kco.forceatlas2.ForceAtlas2
 import kco.forceatlas2.ForceAtlas2Builder
@@ -18,9 +17,9 @@ import kotlin.math.abs
 class ForceLayout {
 
     fun canLayout(graphView: GraphView): Boolean {
-        if (graphView.vertices().isEmpty())
-            log("Force Atlas 2: there is nothing to place")
-        else log("Force Atlas 2 has started")
+//        if (graphView.vertices().isEmpty())
+//            log("Force Atlas 2: there is nothing to place")
+//        else log("Force Atlas 2 has started")
         return !graphView.vertices().isEmpty()
     }
 
@@ -69,11 +68,11 @@ class ForceLayout {
         while (i < countOfIterations) {
             goAlgo()
             i++
-            log("Force Atlas 2: $i iteration" + (if (i > 1) "s" else "") + " behind")
+//            log("Force Atlas 2: $i iteration" + (if (i > 1) "s" else "") + " behind")
         }
 
         endAlgo()
-        log("Force Atlas 2 has finished")
+//        log("Force Atlas 2 has finished")
     }
 
     private fun ForceAtlas2.initLayout(
@@ -105,7 +104,7 @@ class ForceLayout {
         }
 
         val max = maxX to maxY
-        log("$max $center")
+//        log("$max $center")
         val coefficient =
             maxOf(calcCoefficient(max.first.toFloat(), center.x), calcCoefficient(max.second.toFloat(), center.y))
 

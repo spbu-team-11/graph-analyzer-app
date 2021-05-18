@@ -4,7 +4,6 @@ import view.GraphView
 import model.UndirectedGraph
 import model.community.CommunitiesFinder
 
-import com.example.demo.logger.log
 import javafx.scene.paint.Color
 import tornadofx.Controller
 import kotlin.random.Random
@@ -17,7 +16,7 @@ class PaintingByCommunitiesStrategy : Controller(), PaintingStrategy {
         nIteration: String,
         resolution: String
     ) {
-        log("community finding starting...")
+//        log("community finding starting...")
 
         val finder = CommunitiesFinder()
         val returnCode = finder.findCommunity(graph, nIteration, resolution)

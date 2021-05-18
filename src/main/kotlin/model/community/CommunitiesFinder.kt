@@ -7,7 +7,6 @@ import utils.Alerter
 import nl.cwts.networkanalysis.Clustering
 import nl.cwts.networkanalysis.LeidenAlgorithm
 import nl.cwts.networkanalysis.Network
-import com.example.demo.logger.log
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -21,14 +20,14 @@ class CommunitiesFinder {
             Alerter().alertIncorrectArgs("Incorrect arguments for find community")
             return false
         }
-        log("community finding started $doubleResolution, $intNIterations")
+//        log("community finding started $doubleResolution, $intNIterations")
         val network = graph.toNetwork()
 
         val algorithm = LeidenAlgorithm(doubleResolution, intNIterations, LeidenAlgorithm.DEFAULT_RANDOMNESS, Random())
         val ans = algorithm.findClustering(network)
 
         graph.setCommunity(ans)
-        log("community finding finished...")
+//        log("community finding finished...")
         return true
     }
 

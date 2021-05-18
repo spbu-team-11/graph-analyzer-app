@@ -14,7 +14,6 @@ import utils.Alerter
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
-import com.example.demo.logger.log
 import javafx.scene.paint.Color
 
 class SQLiteFileHandler {
@@ -28,7 +27,7 @@ class SQLiteFileHandler {
                 Vertex.new {
                     element = it.element
                     community = it.community
-                    log(community.toString())
+//                    log(community.toString())
                 }
             }
             graph.edges().forEach {
@@ -86,7 +85,7 @@ class SQLiteFileHandler {
             }
         } catch (e: Exception) {
             Alerter().alertIncorrectArgs("Incorrect database")
-            log(e.message!!)
+//            log(e.message!!)
             return UndirectedGraph() to null
         }
 

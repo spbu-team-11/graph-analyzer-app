@@ -2,7 +2,6 @@ package view.main
 
 import view.props
 
-import com.example.demo.logger.log
 import javafx.scene.control.CheckMenuItem
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuBar
@@ -91,7 +90,7 @@ class TopMenu(
         val exampleDir = "examples"
         for (exampleFileName in File(exampleDir).list()) {
             val example = MenuItem(exampleFileName.substringBefore("."))
-            log(exampleFileName)
+//            log(exampleFileName)
             example.setOnAction {
                 when (exampleFileName.substringAfter(".")) {
                     "csv" -> mainView.graph = mainView.csvStrategy.open(File("$exampleDir\\$exampleFileName")).first

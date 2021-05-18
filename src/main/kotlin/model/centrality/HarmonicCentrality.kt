@@ -3,7 +3,6 @@ package model.centrality
 import view.props
 import view.GraphView
 
-import com.example.demo.logger.log
 import org.jgrapht.alg.scoring.HarmonicCentrality
 import org.jgrapht.graph.*
 import kotlin.math.pow
@@ -15,9 +14,9 @@ class HarmonicCentrality(graphView: GraphView) {
 
     fun canSelect(graphView: GraphView): Boolean {
 
-        if (graphView.vertices().isEmpty())
-            log("Harmonic Centrality: graph is empty")
-        else log("Key Vertices Selector started")
+//        if (graphView.vertices().isEmpty())
+//            log("Harmonic Centrality: graph is empty")
+//        else log("Key Vertices Selector started")
 
         return !graphView.vertices().isEmpty()
     }

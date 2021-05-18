@@ -5,13 +5,12 @@ import javafx.stage.Stage
 import javafx.stage.StageStyle
 import tornadofx.App
 import tornadofx.launch
-import com.example.demo.logger.log
 
 @ExperimentalStdlibApi
 class MainApp : App(MainView::class, Styles::class) {
 
     override fun start(stage: Stage) {
-        log("Starting the application...")
+//        log("Starting the application...")
 
         with(stage) {
             initStyle(StageStyle.UNDECORATED)
@@ -22,7 +21,7 @@ class MainApp : App(MainView::class, Styles::class) {
 
         super.start(stage)
 
-        log("The application has started")
+//        log("The application has started")
     }
 }
 
