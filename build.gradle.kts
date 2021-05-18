@@ -14,25 +14,10 @@ repositories {
     }
 }
 
-/*repositories {
-    maven {
-        // Look for POMs and artifacts, such as JARs, here
-        url = uri("https://github.com/klarman-cell-observatory/forceatlas2")
-        // Look for artifacts here if not found at the above location
-        artifactUrls("https://github.com/klarman-cell-observatory/forceatlas2/releases/download/1.0.3")
-        //artifactUrls("http://repo.mycompany.com/jars2")
-    }
-}*/
-
-
 val `tornadofx-version`: String by project
 
 dependencies {
-    implementation(project("logger")) // import our sub-project
-    //implementation("com.example.demo:logger:0.0.1")
-    // import artifact from remote/local repository
-    // or gradle will substitute this dependency with local 'logger' sources
-    //  if we add 'includeBuild("logger")' to our 'settings.gradle.kts' file
+    implementation(project("logger"))
 
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
@@ -44,7 +29,6 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-dao", "0.31.1")
     implementation("org.jetbrains.exposed", "exposed-jdbc", "0.31.1")
     implementation("org.xerial", "sqlite-jdbc", "3.34.0")
-    implementation("org.slf4j", "slf4j-simple", "1.7.29")
 
     //implementation("org.gephi:gephi-toolkit:0.9.2")
     implementation("nl.cwts", "networkanalysis", "1.1.0-5-ga3f342d.dirty")
