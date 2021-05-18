@@ -9,6 +9,8 @@ import tornadofx.launch
 @ExperimentalStdlibApi
 class MainApp : App(MainView::class, Styles::class) {
 
+    private val logger = MainLogger(javaClass)
+
     override fun start(stage: Stage) {
         with(stage) {
             initStyle(StageStyle.UNDECORATED)
@@ -18,6 +20,12 @@ class MainApp : App(MainView::class, Styles::class) {
         }
 
         super.start(stage)
+        logger.logStart()
+    }
+
+    override fun stop() {
+        super.stop()
+        logger.logFinish()
     }
 }
 
