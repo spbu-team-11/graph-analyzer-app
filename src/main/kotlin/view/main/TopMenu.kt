@@ -1,12 +1,11 @@
 package view.main
 
-import view.props
-
 import javafx.scene.control.CheckMenuItem
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuBar
 import javafx.scene.control.MenuItem
 import javafx.scene.paint.Color
+import view.props
 import java.io.File
 
 @ExperimentalStdlibApi
@@ -90,12 +89,15 @@ class TopMenu(
         val exampleDir = "examples"
         for (exampleFileName in File(exampleDir).list()) {
             val example = MenuItem(exampleFileName.substringBefore("."))
-//            log(exampleFileName)
             example.setOnAction {
                 when (exampleFileName.substringAfter(".")) {
-                    "csv" -> mainView.graph = mainView.csvStrategy.open(File("$exampleDir\\$exampleFileName")).first
+                    "csv" -> mainView.graph = mainView.csvStrategy.open(
+                        File(exampleDir).resolve(exampleFileName)
+                    ).first
                     "db" -> mainView.graph =
-                        mainView.SQliteFileHandlingStrategy.open(File("$exampleDir\\$exampleFileName")).first
+                        mainView.SQliteFileHandlingStrategy.open(
+                            File(exampleDir).resolve(exampleFileName)
+                    ).first
                 }
                 drawer.showGraphWithoutGraphView()
             }
