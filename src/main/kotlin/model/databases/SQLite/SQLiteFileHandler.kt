@@ -1,5 +1,6 @@
 package model.databases.SQLite
 
+import HandlerLogger
 import view.GraphView
 import model.Graph
 import model.UndirectedGraph
@@ -17,6 +18,9 @@ import java.io.File
 import javafx.scene.paint.Color
 
 class SQLiteFileHandler {
+
+    private val logger = HandlerLogger(javaClass)
+
     fun save(file: File, graph: Graph, graphView: GraphView) {
         Database.connect("jdbc:sqlite:$file", driver = "org.sqlite.JDBC")
         transaction {
@@ -27,7 +31,6 @@ class SQLiteFileHandler {
                 Vertex.new {
                     element = it.element
                     community = it.community
-//                    log(community.toString())
                 }
             }
             graph.edges().forEach {
@@ -47,6 +50,8 @@ class SQLiteFileHandler {
                 }
             }
         }
+
+        logger.logSave()
     }
 
     fun open(file: File): Pair<UndirectedGraph, GraphView?> {
@@ -77,15 +82,15 @@ class SQLiteFileHandler {
                         it.color = Color.color(rgb[0], rgb[1], rgb[2])
                         it.radius = tmp.r
                     }
-
                 }
+                logger.logSave()
                 return newGraph to newGraphView
             } else {
+                logger.logSave()
                 return newGraph to null
             }
         } catch (e: Exception) {
             Alerter().alertIncorrectArgs("Incorrect database")
-//            log(e.message!!)
             return UndirectedGraph() to null
         }
 
