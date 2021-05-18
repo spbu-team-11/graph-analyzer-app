@@ -76,15 +76,15 @@ class MainView : View("Graph visualizer") {
             }
             hbox(10) {
                 add(texts["Is linLog"]!!)
-                add(checkboxes[0])
+                add(checkboxes["Is linLog"]!!)
             }
             hbox(10) {
                 add(texts["Is outbound attraction"]!!)
-                add(checkboxes[1])
+                add(checkboxes["Is outbound attraction"]!!)
             }
             hbox(10) {
                 add(texts["Is strong gravity"]!!)
-                add(checkboxes[2])
+                add(checkboxes["Is strong gravity"]!!)
             }
 
             button("Layout") {
@@ -93,9 +93,9 @@ class MainView : View("Graph visualizer") {
                     drawer.forceLayout(
                         sliders["Layout iterations"]!!.value.toInt().toString(),
                         sliders["Layout gravity"]!!.value.toString(),
-                        checkboxes[0].isSelected,
-                        checkboxes[1].isSelected,
-                        checkboxes[2].isSelected
+                        checkboxes["Is linLog"]!!.isSelected,
+                        checkboxes["Is outbound attraction"]!!.isSelected,
+                        checkboxes["Is strong gravity"]!!.isSelected
                     )
                 }
             }

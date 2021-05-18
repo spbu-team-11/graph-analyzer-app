@@ -10,17 +10,16 @@ class Checkboxes : EventTarget {
         throw UnsupportedOperationException("not implemented")
     }
 
-    val checkboxes = arrayOf(
+    val checkboxes = mapOf(
 
-        checkbox {
+        "Is linLog" to checkbox {
+            isIndeterminate = false
+        },
+        "Is outbound attraction" to checkbox {
             isIndeterminate = false
         },
 
-        checkbox {
-            isIndeterminate = false
-        },
-
-        checkbox {
+        "Is strong gravity" to checkbox {
             isIndeterminate = false
         }
     )
