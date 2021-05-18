@@ -47,7 +47,7 @@ class Test : ApplicationTest() {
     }
 
     @Test
-    fun openAllExamples() {
+    fun openAllExamplesTest() {
         val menuExamples = lookup("Examples").query<MenuBarButton>()
 
         clickOn(menuExamples)
@@ -70,7 +70,7 @@ class Test : ApplicationTest() {
     }
 
     @Test
-    fun openExampleAndDetectCentrality() {
+    fun openExampleAndDetectCentralityTest() {
         val menuExamples = lookup("Examples").query<MenuBarButton>()
         clickOn(menuExamples)
 
