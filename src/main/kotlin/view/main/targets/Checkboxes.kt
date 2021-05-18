@@ -6,14 +6,14 @@ class Checkboxes : Targets {
 
     val checkboxes = mapOf(
 
-        "Is linLog" to checkbox {
+        Constants.linLog to checkbox {
             isIndeterminate = false
         },
-        "Is outbound attraction" to checkbox {
+        Constants.outboundAttraction to checkbox {
             isIndeterminate = false
         },
 
-        "Is strong gravity" to checkbox {
+        Constants.strongGravity to checkbox {
             isIndeterminate = false
         }
     )

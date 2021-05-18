@@ -7,14 +7,14 @@ import tornadofx.*
 class Texts : Targets {
 
     var texts = mapOf(
-        "Communities iterations" to text(" Iteration: "),
-        "Communities resolution" to text(" Resolution:"),
-        "Layout iterations" to text(" Iteration:"),
-        "Layout gravity" to text(" Gravity:  "),
-        "Is linLog" to text(" Logarithmic attraction mode:    "),
-        "Is outbound attraction" to text(" Outbound attraction mode:       "),
-        "Is strong gravity" to text(" Strong gravity mode:            "),
-        "SR-coefficient" to text(" SR-coef: ")
+        Constants.communitiesIterations to text(" Iteration: "),
+        Constants.communitiesResolution to text(" Resolution:"),
+        Constants.layoutIterations to text(" Iteration:"),
+        Constants.layoutGravity to text(" Gravity:  "),
+        Constants.linLog to text(" Logarithmic attraction mode:    "),
+        Constants.outboundAttraction to text(" Outbound attraction mode:       "),
+        Constants.strongGravity to text(" Strong gravity mode:            "),
+        Constants.srCoefficient to text(" SR-coef: ")
     )
 
     init {

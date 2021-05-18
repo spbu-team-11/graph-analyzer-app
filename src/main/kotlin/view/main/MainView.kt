@@ -14,12 +14,13 @@ import controller.placement.circular.CircularRepresentationStrategy
 import model.UndirectedGraph
 import view.GraphView
 import view.props
+import view.main.targets.Checkboxes
+import view.main.targets.Constants
+import view.main.targets.Sliders
+import view.main.targets.Texts
 
 import javafx.scene.control.*
 import tornadofx.*
-import view.main.targets.Checkboxes
-import view.main.targets.Sliders
-import view.main.targets.Texts
 
 @ExperimentalStdlibApi
 class MainView : View("Graph visualizer") {
@@ -51,66 +52,66 @@ class MainView : View("Graph visualizer") {
 
         left = vbox(10) {
             hbox(10) {
-                add(texts["Communities iterations"]!!)
-                add(sliders["Communities iterations"]!!)
+                add(texts[Constants.communitiesIterations]!!)
+                add(sliders[Constants.communitiesIterations]!!)
             }
             hbox(10) {
-                add(texts["Communities resolution"]!!)
-                add(sliders["Communities resolution"]!!)
+                add(texts[Constants.communitiesResolution]!!)
+                add(sliders[Constants.communitiesResolution]!!)
             }
 
             button("Detect communities") {
                 minWidth = defaultMinWidthLeft
                 action {
                     drawer.showCommunities(
-                        sliders["Communities iterations"]!!.value.toInt().toString(),
-                        sliders["Communities resolution"]!!.value.toString()
+                        sliders[Constants.communitiesIterations]!!.value.toInt().toString(),
+                        sliders[Constants.communitiesResolution]!!.value.toString()
                     )
                 }
             }
 
             hbox(10) {
-                add(texts["Layout iterations"]!!)
-                add(sliders["Layout iterations"]!!)
+                add(texts[Constants.layoutIterations]!!)
+                add(sliders[Constants.layoutIterations]!!)
             }
             hbox(10) {
-                add(texts["Layout gravity"]!!)
-                add(sliders["Layout gravity"]!!)
+                add(texts[Constants.layoutGravity]!!)
+                add(sliders[Constants.layoutGravity]!!)
             }
             hbox(10) {
-                add(texts["Is linLog"]!!)
-                add(checkboxes["Is linLog"]!!)
+                add(texts[Constants.linLog]!!)
+                add(checkboxes[Constants.linLog]!!)
             }
             hbox(10) {
-                add(texts["Is outbound attraction"]!!)
-                add(checkboxes["Is outbound attraction"]!!)
+                add(texts[Constants.outboundAttraction]!!)
+                add(checkboxes[Constants.outboundAttraction]!!)
             }
             hbox(10) {
-                add(texts["Is strong gravity"]!!)
-                add(checkboxes["Is strong gravity"]!!)
+                add(texts[Constants.strongGravity]!!)
+                add(checkboxes[Constants.strongGravity]!!)
             }
 
             button("Layout") {
                 minWidth = defaultMinWidthLeft
                 action {
                     drawer.forceLayout(
-                        sliders["Layout iterations"]!!.value.toInt().toString(),
-                        sliders["Layout gravity"]!!.value.toString(),
-                        checkboxes["Is linLog"]!!.isSelected,
-                        checkboxes["Is outbound attraction"]!!.isSelected,
-                        checkboxes["Is strong gravity"]!!.isSelected
+                        sliders[Constants.layoutIterations]!!.value.toInt().toString(),
+                        sliders[Constants.layoutGravity]!!.value.toString(),
+                        checkboxes[Constants.linLog]!!.isSelected,
+                        checkboxes[Constants.outboundAttraction]!!.isSelected,
+                        checkboxes[Constants.strongGravity]!!.isSelected
                     )
                 }
             }
             hbox(10) {
-                add(texts["SR-coefficient"]!!)
-                add(sliders["SR-coefficient"]!!)
+                add(texts[Constants.srCoefficient]!!)
+                add(sliders[Constants.srCoefficient]!!)
             }
 
             button("Highlight vertices") {
                 minWidth = defaultMinWidthLeft
                 action {
-                    drawer.highlight(sliders["SR-coefficient"]!!.value)
+                    drawer.highlight(sliders[Constants.srCoefficient]!!.value)
                 }
             }
         }
