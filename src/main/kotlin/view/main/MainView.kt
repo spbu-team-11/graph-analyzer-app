@@ -48,11 +48,11 @@ class MainView : View("Graph visualizer") {
 
         left = vbox(10) {
             hbox(10) {
-                add(texts[0])
+                add(texts["Communities iterations"]!!)
                 add(sliders["Communities iterations"]!!)
             }
             hbox(10) {
-                add(texts[1])
+                add(texts["Communities resolution"]!!)
                 add(sliders["Communities resolution"]!!)
             }
 
@@ -67,23 +67,23 @@ class MainView : View("Graph visualizer") {
             }
 
             hbox(10) {
-                add(texts[2])
+                add(texts["Layout iterations"]!!)
                 add(sliders["Layout iterations"]!!)
             }
             hbox(10) {
-                add(texts[3])
+                add(texts["Layout gravity"]!!)
                 add(sliders["Layout gravity"]!!)
             }
             hbox(10) {
-                add(texts[4])
+                add(texts["Is linLog"]!!)
                 add(checkboxes[0])
             }
             hbox(10) {
-                add(texts[5])
+                add(texts["Is outbound attraction"]!!)
                 add(checkboxes[1])
             }
             hbox(10) {
-                add(texts[6])
+                add(texts["Is strong gravity"]!!)
                 add(checkboxes[2])
             }
 
@@ -100,7 +100,7 @@ class MainView : View("Graph visualizer") {
                 }
             }
             hbox(10) {
-                add(texts[7])
+                add(texts["SR-coefficient"]!!)
                 add(sliders["SR-coefficient"]!!)
             }
 

@@ -13,20 +13,20 @@ class Texts : EventTarget {
         throw UnsupportedOperationException("not implemented")
     }
 
-    var texts: Array<Text> = arrayOf(
-        text(" Iteration: "),
-        text(" Resolution:"),
-        text(" Iteration:"),
-        text(" Gravity:  "),
-        text(" Logarithmic attraction mode:    "),
-        text(" Outbound attraction mode:       "),
-        text(" Strong gravity mode:            "),
-        text(" SR-coef: ")
+    var texts = mapOf(
+        "Communities iterations" to text(" Iteration: "),
+        "Communities resolution" to text(" Resolution:"),
+        "Layout iterations" to text(" Iteration:"),
+        "Layout gravity" to text(" Gravity:  "),
+        "Is linLog" to text(" Logarithmic attraction mode:    "),
+        "Is outbound attraction" to text(" Outbound attraction mode:       "),
+        "Is strong gravity" to text(" Strong gravity mode:            "),
+        "SR-coefficient" to text(" SR-coef: ")
     )
 
     init {
         for (i in texts) {
-            i.fillProperty().bind(props.GUI.darkThemeText)
+            i.value.fillProperty().bind(props.GUI.darkThemeText)
         }
     }
 }
