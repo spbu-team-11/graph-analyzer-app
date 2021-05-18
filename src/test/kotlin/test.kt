@@ -5,21 +5,24 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.MenuBar
 import javafx.scene.control.MenuItem
+import javafx.scene.paint.Color
 import javafx.scene.text.Text
 import javafx.stage.Stage
 import javafx.stage.StageStyle
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.testfx.framework.junit5.ApplicationTest
+import view.GraphView
 import view.main.MainView
 
 
 @ExperimentalStdlibApi
 class Test : ApplicationTest() {
 
+    lateinit var view: MainView
 
     override fun start(stage: Stage) {
-        stage.scene = Scene(MainView().root)
+        view = MainView()
+        stage.scene = Scene(view.root)
         with(stage) {
             initStyle(StageStyle.UNDECORATED)
             width = 800.0
@@ -29,21 +32,22 @@ class Test : ApplicationTest() {
         stage.show()
     }
 
-    @AfterEach
-    fun kek(){
-
-    }
-
     @Test
-    fun openExampleAndFindCommunityTest() {
-        val button = lookup("Detect communities").query<Button>()
-        val menuExamples = lookup("Examples").query<MenuBarButton>()
+    fun openExampleAndFindCommunityTest(){
 
+        val menuExamples = lookup("Examples").query<MenuBarButton>()
         clickOn(menuExamples)
         val example = lookup("Zachary karate club").query<Label>()
         clickOn(example)
-        clickOn(button)
-        sleep(1000)
+
+        val findCommunity = lookup("Detect communities").query<Button>()
+        clickOn(findCommunity)
+
+        for( vertex in view.graphView.vertices()){
+            assert(vertex.color != Color.BLACK)
+        }
+
+        sleep(5000)
     }
 
     @Test
