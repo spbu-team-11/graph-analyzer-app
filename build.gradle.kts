@@ -24,6 +24,7 @@ repositories {
     }
 }*/
 
+
 val `tornadofx-version`: String by project
 
 dependencies {
@@ -42,7 +43,7 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-core", "0.31.1")
     implementation("org.jetbrains.exposed", "exposed-dao", "0.31.1")
     implementation("org.jetbrains.exposed", "exposed-jdbc", "0.31.1")
-    implementation("org.xerial", "sqlite-jdbc","3.34.0")
+    implementation("org.xerial", "sqlite-jdbc", "3.34.0")
     implementation("org.slf4j", "slf4j-simple", "1.7.29")
 
     //implementation("org.gephi:gephi-toolkit:0.9.2")
@@ -54,10 +55,17 @@ dependencies {
 
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
     implementation("io.github.blackmo18:kotlin-grass-jvm:0.7.1")
+
+    testImplementation("org.testfx:testfx-core:4.0.16-alpha")
+    testImplementation("org.testfx:testfx-junit5:4.0.16-alpha")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.5.1")
+    testImplementation("org.hamcrest", "hamcrest", "2.1")
+
 }
 
 application {
-    mainClass.set("com.example.demo.MainApp")
+    mainClass.set("MainApp")
 }
 
 val `javafx-version`: String by project
@@ -67,6 +75,13 @@ javafx {
     modules("javafx.controls")
 }
 
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
+}
+
+tasks{
+    test{
+        useJUnitPlatform()
+    }
 }
