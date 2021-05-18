@@ -1,6 +1,6 @@
 package model.community
 
-import FinderLogger
+import CommunityLogger
 import model.UndirectedGraph
 import model.Vertex
 import utils.Alerter
@@ -11,10 +11,9 @@ import nl.cwts.networkanalysis.Network
 import java.util.*
 import kotlin.collections.HashMap
 
-
 class CommunitiesFinder {
 
-    private val logger = FinderLogger(javaClass)
+    private val logger = CommunityLogger(javaClass)
 
     fun findCommunity(graph: UndirectedGraph, nIterations: String, resolution: String): Boolean {
         val doubleResolution = resolution.toDoubleOrNull()

@@ -1,5 +1,6 @@
 package model.databases.CSV
 
+import HandlerLogger
 import view.GraphView
 import model.UndirectedGraph
 import model.databases.CSV.data.CSVGraphData
@@ -16,6 +17,8 @@ import java.io.File
 @ExperimentalStdlibApi
 class CSVFileHandler {
 
+    private val logger = HandlerLogger(javaClass)
+
     fun save(file: File, graphView: GraphView) {
         val data: MutableList<MutableList<String>> = mutableListOf(mutableListOf())
         graphView.addVerticesToData(data)
@@ -26,6 +29,7 @@ class CSVFileHandler {
 
         csvWriter.writeAll(listOf(header), file)
         csvWriter.writeAll(data, file, append = true)
+        logger.logSave()
     }
 
     fun open(file: File): Pair<UndirectedGraph, GraphView?> {
@@ -63,6 +67,8 @@ class CSVFileHandler {
                 it.radius = vertex.radius ?: 2.5
                 it.color = vertex.color
             }
+
+            logger.logOpen()
             return newGraph to newGraphView
         } catch (e: Exception) {
             Alerter().alertIncorrectArgs("Incorrect .csv file")

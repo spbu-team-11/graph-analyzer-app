@@ -5,7 +5,7 @@ open class AppLogger {
 
     protected fun getLogger(forClass: Class<*>): Logger = LoggerFactory.getLogger(forClass)
 
-    open val logger: Logger = getLogger(javaClass)
+    protected open val logger: Logger = getLogger(javaClass)
 
     fun logStart() = logger.info("Started")
 

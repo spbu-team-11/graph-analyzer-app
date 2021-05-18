@@ -1,6 +1,4 @@
-import org.slf4j.Logger
-
-class FinderLogger(clazz: Class<*>) : AppLogger() {
+class CommunityLogger(clazz: Class<*>) : AppLogger() {
 
     override val logger = getLogger(clazz)
 
