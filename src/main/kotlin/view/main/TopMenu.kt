@@ -1,11 +1,12 @@
 package view.main
 
+import view.props
+
 import javafx.scene.control.CheckMenuItem
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuBar
 import javafx.scene.control.MenuItem
 import javafx.scene.paint.Color
-import view.props
 import java.io.File
 
 @ExperimentalStdlibApi
