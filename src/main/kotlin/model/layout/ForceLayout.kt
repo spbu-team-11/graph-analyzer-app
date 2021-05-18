@@ -17,6 +17,13 @@ import kotlin.math.abs
 
 class ForceLayout {
 
+    object consts {
+        const val scalingCoefficient = 1.05
+        const val type = 1
+        const val weight = 1.0
+        const val minBurnestHut = 1000
+    }
+
     private val logger = LayoutLogger(javaClass)
 
     fun canLayout(graphView: GraphView): Boolean {
@@ -89,7 +96,7 @@ class ForceLayout {
         this.isLinLogMode = isLinLogMode
         this.isStrongGravityMode = isStrongGravity
         this.isOutboundAttractionDistribution = isOutboundAttraction
-        if (countOfVertices >= 1000) isBarnesHutOptimize = true
+        if (countOfVertices >= consts.minBurnestHut) isBarnesHutOptimize = true
 
         logger.logInitialisation()
     }
@@ -141,7 +148,7 @@ class ForceLayout {
                 i.label,
                 allNodes[i.first.vertex.element],
                 allNodes[i.second.vertex.element],
-                1, 1.0, false
+                consts.type, consts.weight, false
             )
             allEdges += edge
         }
@@ -153,5 +160,5 @@ class ForceLayout {
     }
 
     private fun calcCoefficient(first: Float, second: Double) =
-        if (first > second) first / second * 1.05 else 1.0
+        if (first > second) first / second * consts.scalingCoefficient else 1.0
 }
