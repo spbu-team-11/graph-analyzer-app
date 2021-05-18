@@ -1,20 +1,14 @@
-import com.sun.javafx.scene.control.ContextMenuContent
+import view.main.MainView
+
 import com.sun.javafx.scene.control.MenuBarButton
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.Label
-import javafx.scene.control.MenuBar
-import javafx.scene.control.MenuItem
 import javafx.scene.paint.Color
-import javafx.scene.text.Text
 import javafx.stage.Stage
 import javafx.stage.StageStyle
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.testfx.framework.junit5.ApplicationTest
-import view.GraphView
-import view.main.MainView
-
 
 @ExperimentalStdlibApi
 class Test : ApplicationTest() {
