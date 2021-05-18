@@ -9,7 +9,7 @@ import tornadofx.center
 @ExperimentalStdlibApi
 class GraphDrawer(private val mainView: MainView) {
 
-    internal fun arrangeVertices() {
+    private fun arrangeVertices() {
         mainView.currentStage?.apply {
             mainView.circularPlacementStrategy.place(
                 width - props.vertex.radius.get() * 10,

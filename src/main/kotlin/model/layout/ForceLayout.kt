@@ -17,7 +17,7 @@ import kotlin.math.abs
 
 class ForceLayout {
 
-    object consts {
+    private object consts {
         const val scalingCoefficient = 1.05
         const val type = 1
         const val weight = 1.0

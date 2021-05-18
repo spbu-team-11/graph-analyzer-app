@@ -28,7 +28,7 @@ class VertexView(
             fill = value
         }
 
-    val label = text(vertex.element.toString()) {
+    val label = text(vertex.element) {
         visibleProperty().bind(props.vertex.label)
         xProperty().bind(centerXProperty().subtract(layoutBounds.width / 2))
         yProperty().bind(centerYProperty().add(radiusProperty()).add(layoutBounds.height))

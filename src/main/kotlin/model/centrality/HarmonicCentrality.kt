@@ -1,5 +1,6 @@
 package model.centrality
 
+import CentralityLogger
 import view.props
 import view.GraphView
 
@@ -9,14 +10,16 @@ import kotlin.math.pow
 
 class HarmonicCentrality(graphView: GraphView) {
 
+    private val logger = CentralityLogger(javaClass)
+
     val vertices = graphView.vertices()
     val edges = graphView.edges()
 
     fun canSelect(graphView: GraphView): Boolean {
 
-//        if (graphView.vertices().isEmpty())
-//            log("Harmonic Centrality: graph is empty")
-//        else log("Key Vertices Selector started")
+        if (graphView.vertices().isEmpty())
+            logger.logEmptyGraph()
+        else logger.logStart()
 
         return !graphView.vertices().isEmpty()
     }
@@ -25,12 +28,14 @@ class HarmonicCentrality(graphView: GraphView) {
 
         val graph = addGraph()
         val centrality = HarmonicCentrality(graph)
+        logger.logInitialisation()
 
         graphView.vertices().onEach {
             val cent = (centrality.scores[it.vertex.element]!!)
             it.radius =
                 props.vertex.radius.value * ((2.7 + value).pow(cent) - (2.7 + value / 2).pow(cent)) / (value / 2) * 5
         }
+        logger.logFinish()
     }
 
     private fun addGraph(): SimpleGraph<String, DefaultEdge> {

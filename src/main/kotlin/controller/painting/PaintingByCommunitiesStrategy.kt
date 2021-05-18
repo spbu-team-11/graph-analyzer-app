@@ -16,7 +16,6 @@ class PaintingByCommunitiesStrategy : Controller(), PaintingStrategy {
         nIteration: String,
         resolution: String
     ) {
-//        log("community finding starting...")
 
         val finder = CommunitiesFinder()
         val returnCode = finder.findCommunity(graph, nIteration, resolution)
@@ -36,7 +35,7 @@ class PaintingByCommunitiesStrategy : Controller(), PaintingStrategy {
 
     private fun generateRandomColor(base: Int): Color {
         // This is the base color which will be mixed with the generated one
-        val mRandom = Random(base);
+        val mRandom = Random(base)
         val red: Int = (base + mRandom.nextInt(256)) / 2
         val green: Int = (base + mRandom.nextInt(256)) / 2
         val blue: Int = (base + mRandom.nextInt(256)) / 2

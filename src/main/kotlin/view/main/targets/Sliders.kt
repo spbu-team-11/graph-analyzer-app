@@ -48,7 +48,7 @@ class Sliders : Targets {
         Constants.srCoefficient to slider {
             min = 0.0
             max = 10.0
-            value = 10.0
+            value = 0.2
             isShowTickMarks = true
             isShowTickLabels = true
             majorTickUnit = 2.5
