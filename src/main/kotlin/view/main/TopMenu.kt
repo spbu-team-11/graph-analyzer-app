@@ -90,12 +90,15 @@ class TopMenu(
         val exampleDir = "examples"
         for (exampleFileName in File(exampleDir).list()) {
             val example = MenuItem(exampleFileName.substringBefore("."))
-//            log(exampleFileName)
             example.setOnAction {
                 when (exampleFileName.substringAfter(".")) {
-                    "csv" -> mainView.graph = mainView.csvStrategy.open(File("$exampleDir\\$exampleFileName")).first
+                    "csv" -> mainView.graph = mainView.csvStrategy.open(
+                        File(exampleDir).resolve(exampleFileName)
+                    ).first
                     "db" -> mainView.graph =
-                        mainView.SQliteFileHandlingStrategy.open(File("$exampleDir\\$exampleFileName")).first
+                        mainView.SQliteFileHandlingStrategy.open(
+                            File(exampleDir).resolve(exampleFileName)
+                    ).first
                 }
                 drawer.showGraphWithoutGraphView()
             }
