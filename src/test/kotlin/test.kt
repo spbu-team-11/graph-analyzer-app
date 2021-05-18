@@ -8,6 +8,8 @@ import javafx.scene.paint.Color
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 import model.UndirectedGraph
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import org.testfx.framework.junit5.ApplicationTest
 import view.GraphView
@@ -42,7 +44,7 @@ class Test : ApplicationTest() {
         clickOn(findCommunity)
 
         for (vertex in view.graphView.vertices()) {
-            assert(vertex.color != Color.BLACK)
+            assertNotEquals(vertex.color,Color.BLACK)
         }
     }
 
@@ -65,7 +67,7 @@ class Test : ApplicationTest() {
             MainView().root.isManaged
             sleep(1000)
             if (i < example.size) clickOn(menuExamples)
-            assert(view.graphView != GraphView(UndirectedGraph()))
+            assertFalse(view.graphView.vertices().isEmpty())
         }
     }
 }
