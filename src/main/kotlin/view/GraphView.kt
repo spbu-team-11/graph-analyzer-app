@@ -21,10 +21,8 @@ class GraphView(private val graph: Graph = UndirectedGraph()) : Pane() {
 
     private val edges by lazy {
         graph.edges().associateWith {
-            val first = vertices[it.vertices.first]
-                ?: throw IllegalStateException("VertexView for ${it.vertices.first} not found")
-            val second = vertices[it.vertices.second]
-                ?: throw IllegalStateException("VertexView for ${it.vertices.second} not found")
+            val first = vertices.getValue(it.vertices.first)
+            val second = vertices.getValue(it.vertices.second)
             EdgeView(it, first, second)
         }
     }
