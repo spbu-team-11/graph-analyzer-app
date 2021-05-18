@@ -3,7 +3,7 @@ import org.slf4j.LoggerFactory
 
 open class AppLogger {
 
-    fun getLogger(forClass: Class<*>): Logger = LoggerFactory.getLogger(forClass)
+    protected fun getLogger(forClass: Class<*>): Logger = LoggerFactory.getLogger(forClass)
 
     open val logger: Logger = getLogger(javaClass)
 

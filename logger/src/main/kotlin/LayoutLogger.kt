@@ -1,6 +1,4 @@
-import org.slf4j.LoggerFactory
-
-class ForceLayoutLogger(clazz: Class<*>) : AppLogger() {
+class LayoutLogger(clazz: Class<*>) : AppLogger() {
 
     override val logger = getLogger(clazz)
 

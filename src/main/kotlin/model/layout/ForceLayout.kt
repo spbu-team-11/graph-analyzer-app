@@ -1,6 +1,6 @@
 package model.layout
 
-import ForceLayoutLogger
+import LayoutLogger
 import view.GraphView
 import view.VertexView
 import view.EdgeView
@@ -17,7 +17,7 @@ import kotlin.math.abs
 
 class ForceLayout {
 
-    private val logger = ForceLayoutLogger(this::class.java)
+    private val logger = LayoutLogger(javaClass)
 
     fun canLayout(graphView: GraphView): Boolean {
         if(graphView.vertices().isEmpty())

@@ -1,5 +1,6 @@
 package model.layout
 
+import LayoutLogger
 import view.VertexView
 
 import javafx.geometry.Point2D
@@ -10,7 +11,15 @@ import kotlin.math.sin
 
 class CircularLayout {
 
-    fun canLayout(vertices: Collection<VertexView>) = !vertices.isEmpty()
+    private val logger = LayoutLogger(javaClass)
+
+    fun canLayout(vertices: Collection<VertexView>): Boolean {
+        if (vertices.isEmpty())
+            logger.logCantPlace()
+        else logger.logStart()
+
+        return !vertices.isEmpty()
+    }
 
     fun layout(width: Double, height: Double, vertices: Collection<VertexView>) {
         val center = Point2D(width / 2, height / 2)
@@ -18,12 +27,15 @@ class CircularLayout {
 
         val sortedVertices = vertices.sortedBy { it.vertex.element.toLowerCase() }
         var point = Point2D(center.x, center.y - min(width, height) / 2 + sortedVertices[0].radius * 2)
+        logger.logInitialisation()
 
         sortedVertices.onEach {
             it.position = point.x to point.y
             it.color = Color.BLACK
             point = point.rotate(center, angle)
         }
+
+        logger.logFinish()
     }
 
     private fun Point2D.rotate(pivot: Point2D, degrees: Double): Point2D {
