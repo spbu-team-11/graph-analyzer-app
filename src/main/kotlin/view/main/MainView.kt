@@ -1,4 +1,4 @@
-package view.MainView
+package view.main
 
 import controller.fileHandler.CSVFileHandlingStrategy
 import controller.fileHandler.FileHandlingStrategy

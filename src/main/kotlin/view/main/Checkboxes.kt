@@ -1,4 +1,4 @@
-package view.MainView
+package view.main
 
 import javafx.event.EventDispatchChain
 import javafx.event.EventTarget

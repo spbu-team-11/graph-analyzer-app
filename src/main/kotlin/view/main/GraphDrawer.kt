@@ -1,4 +1,4 @@
-package view.MainView
+package view.main
 
 import view.GraphView
 import view.props
