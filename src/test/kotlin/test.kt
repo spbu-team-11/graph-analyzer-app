@@ -7,17 +7,15 @@ import javafx.scene.control.Label
 import javafx.scene.paint.Color
 import javafx.stage.Stage
 import javafx.stage.StageStyle
-import model.UndirectedGraph
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import org.testfx.framework.junit5.ApplicationTest
-import view.GraphView
 
 @ExperimentalStdlibApi
 class Test : ApplicationTest() {
 
-    lateinit var view: MainView
+    private lateinit var view: MainView
 
     override fun start(stage: Stage) {
         view = MainView()
@@ -44,7 +42,7 @@ class Test : ApplicationTest() {
         clickOn(findCommunity)
 
         for (vertex in view.graphView.vertices()) {
-            assertNotEquals(vertex.color,Color.BLACK)
+            assertNotEquals(vertex.color, Color.BLACK)
         }
     }
 
