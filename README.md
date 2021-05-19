@@ -5,16 +5,37 @@
 ## Установка и запуск
  Приложение работает на Java SDK 15 версии. 
 
-Установка:
+- Установка:
 
 ```
 git clone https://github.com/spbu-team-11/graph-analyzer-app
 ```
 
-Запуск:
+- Запуск:
+
+#### Windows
+##### PowerShell
+
+```
+./gradlew run
+```
+
+##### Command Prompt
 
 ```
 gradlew run
+```
+
+#### Linux
+
+```
+./gradlew run
+```
+
+#### MacOS
+
+```
+./gradlew run
 ```
 
 
