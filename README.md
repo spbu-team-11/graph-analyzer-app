@@ -14,7 +14,7 @@ git clone https://github.com/spbu-team-11/graph-analyzer-app
 Запуск:
 
 ```
-gradlew run`
+gradlew run
 ```
 
 
@@ -33,8 +33,13 @@ gradlew run`
 
 ![](https://render.githubusercontent.com/render/math?math=R*\frac{2((e+k)^x-(e+\frac{k}{2})^x)}{k}&mode=inline)
 
-Где `x` - показатель centrality, `R` - стандартный размер вершины, 
-`k` - передаваемый параметр (Size-Ratio coefficient), чем он больше  тем больше отношение размеров вершин с разным значением centrality.
+`x` - показатель centrality, 
+
+`R` - стандартный размер вершины, 
+
+`k` - передаваемый параметр (Size-Ratio coefficient)
+
+> Чем больше `k`, тем больше отношение размеров вершин с разным значением centrality.
 
 
 ## Раскладка графа
