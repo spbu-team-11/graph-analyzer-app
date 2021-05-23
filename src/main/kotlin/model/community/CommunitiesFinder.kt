@@ -18,8 +18,7 @@ class CommunitiesFinder {
     fun findCommunity(graph: UndirectedGraph, nIterations: String, resolution: String): Boolean {
         val doubleResolution = resolution.toDoubleOrNull()
         val intNIterations = nIterations.toIntOrNull()
-        if (doubleResolution == null || intNIterations == null) {
-            Alerter().alertIncorrectArgs("Incorrect arguments for find community")
+        if (doubleResolution == null || intNIterations == null || graph.vertices().isEmpty()) {
             logger.logCantFind()
             return false
         }
