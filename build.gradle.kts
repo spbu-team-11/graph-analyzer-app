@@ -30,10 +30,8 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-jdbc", "0.31.1")
     implementation("org.xerial", "sqlite-jdbc", "3.34.0")
 
-    //implementation("org.gephi:gephi-toolkit:0.9.2")
     implementation("nl.cwts", "networkanalysis", "1.1.0-5-ga3f342d.dirty")
     implementation(files("libs/force-atlas2.jar", "libs/force-atlas2-tools.jar"))
-    //implementation("com.github.kco:forceatlas2")
     implementation("org.jgrapht", "jgrapht-core", "1.5.1")
     implementation("org.xerial", "sqlite-jdbc", "3.8.11.2")
 
@@ -68,4 +66,15 @@ tasks{
     test{
         useJUnitPlatform()
     }
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "MainAppKt"
+    }
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
 }
