@@ -1,5 +1,6 @@
 package view.main
 
+import MenuLogger
 import view.props
 
 import javafx.scene.control.CheckMenuItem
@@ -15,6 +16,8 @@ class TopMenu(
     private val drawer: GraphDrawer,
     private val fileHandlerView: FileHandlerView
 ) {
+
+    private val logger = MenuLogger(javaClass)
 
     fun setupMenuBar(): MenuBar {
         val menuBar = MenuBar()
@@ -86,25 +89,32 @@ class TopMenu(
 
     private fun setupExamplesMenu(): Menu {
         val examplesMenu = Menu("Examples")
-
         val exampleDir = "examples"
-        for (exampleFileName in File(exampleDir).list()) {
-            val example = MenuItem(exampleFileName.substringBefore("."))
-            example.setOnAction {
-                when (exampleFileName.substringAfter(".")) {
-                    "csv" -> mainView.graph = mainView.csvStrategy.open(
-                        File(exampleDir).resolve(exampleFileName)
-                    ).first
-                    "db" -> mainView.graph =
-                        mainView.SQliteFileHandlingStrategy.open(
-                            File(exampleDir).resolve(exampleFileName)
-                    ).first
-                }
-                drawer.showGraphWithoutGraphView()
-            }
 
-            examplesMenu.items.add(example)
+        try {
+            for (exampleFileName in File(exampleDir).list()) {
+                val example = MenuItem(exampleFileName.substringBefore("."))
+                example.setOnAction {
+                    when (exampleFileName.substringAfter(".")) {
+                        "csv" -> mainView.graph = mainView.csvStrategy.open(
+                            File(exampleDir).resolve(exampleFileName)
+                        ).first
+                        "db" -> mainView.graph =
+                            mainView.SQliteFileHandlingStrategy.open(
+                                File(exampleDir).resolve(exampleFileName)
+                            ).first
+                    }
+                    drawer.showGraphWithoutGraphView()
+                }
+
+                examplesMenu.items.add(example)
+            }
         }
+
+        catch(e: Exception) {
+            logger.logNoExampleDir()
+        }
+
         return examplesMenu
     }
 
