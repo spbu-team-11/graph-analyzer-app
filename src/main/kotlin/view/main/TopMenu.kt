@@ -1,5 +1,6 @@
 package view.main
 
+import MenuLogger
 import view.props
 
 import javafx.scene.control.CheckMenuItem
@@ -16,12 +17,16 @@ class TopMenu(
     private val fileHandlerView: FileHandlerView
 ) {
 
+    private val logger = MenuLogger(javaClass)
+
     fun setupMenuBar(): MenuBar {
         val menuBar = MenuBar()
 
         with(menuBar.menus) {
             add(setupFileMenu())
-            add(setupExamplesMenu())
+            setupExamplesMenu()?.let {
+                add(it)
+            }
             add(setupShowMenu())
             add(setupSettingsMenu())
             add(setupHelpMenu())
@@ -84,11 +89,18 @@ class TopMenu(
         return helpMenu
     }
 
-    private fun setupExamplesMenu(): Menu {
-        val examplesMenu = Menu("Examples")
+    private fun setupExamplesMenu(): Menu? {
 
+        val examplesMenu = Menu("Examples")
         val exampleDir = "examples"
-        for (exampleFileName in File(exampleDir).list()) {
+        val directory = File(exampleDir)
+
+        if (!directory.isDirectory || directory.list()?.isEmpty() == true) {
+            logger.logNoExampleDir()
+            return null
+        }
+
+        for (exampleFileName in directory.list()) {
             val example = MenuItem(exampleFileName.substringBefore("."))
             example.setOnAction {
                 when (exampleFileName.substringAfter(".")) {
@@ -98,13 +110,13 @@ class TopMenu(
                     "db" -> mainView.graph =
                         mainView.SQliteFileHandlingStrategy.open(
                             File(exampleDir).resolve(exampleFileName)
-                    ).first
+                        ).first
                 }
                 drawer.showGraphWithoutGraphView()
             }
-
             examplesMenu.items.add(example)
         }
+
         return examplesMenu
     }
 

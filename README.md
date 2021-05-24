@@ -39,6 +39,16 @@ gradlew run
 ```
 
 
+## Использование [релиза](https://github.com/spbu-team-11/graph-analyzer-app/releases)
+#### JAR
+
+ Приложение работает на Java SDK 15 версии. 
+
+```
+java -jar graph-analyzer-app.jar
+```
+
+
 ## Выделение сообществ 
  Для выделения сообществ используется [Leiden alghoritm](https://www.nature.com/articles/s41598-019-41695-z), в качестве параметров ему передаются:
 
