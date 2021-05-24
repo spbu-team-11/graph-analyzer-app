@@ -40,9 +40,6 @@ gradlew run
 
 
 ## Использование [релиза](https://github.com/spbu-team-11/graph-analyzer-app/releases)
-
-Для использования подготовленных примеров графов разорхивируйте examples.zip в папку с файлом
-
 #### JAR
 
  Приложение работает на Java SDK 15 версии. 
