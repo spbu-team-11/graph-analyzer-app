@@ -24,7 +24,9 @@ class TopMenu(
 
         with(menuBar.menus) {
             add(setupFileMenu())
-            add(setupExamplesMenu())
+            setupExamplesMenu()?.let {
+                add(it)
+            }
             add(setupShowMenu())
             add(setupSettingsMenu())
             add(setupHelpMenu())
@@ -87,32 +89,32 @@ class TopMenu(
         return helpMenu
     }
 
-    private fun setupExamplesMenu(): Menu {
+    private fun setupExamplesMenu(): Menu? {
+
         val examplesMenu = Menu("Examples")
         val exampleDir = "examples"
+        val directory = File(exampleDir)
 
-        try {
-            for (exampleFileName in File(exampleDir).list()) {
-                val example = MenuItem(exampleFileName.substringBefore("."))
-                example.setOnAction {
-                    when (exampleFileName.substringAfter(".")) {
-                        "csv" -> mainView.graph = mainView.csvStrategy.open(
-                            File(exampleDir).resolve(exampleFileName)
-                        ).first
-                        "db" -> mainView.graph =
-                            mainView.SQliteFileHandlingStrategy.open(
-                                File(exampleDir).resolve(exampleFileName)
-                            ).first
-                    }
-                    drawer.showGraphWithoutGraphView()
-                }
-
-                examplesMenu.items.add(example)
-            }
+        if (!directory.isDirectory || directory.list()?.isEmpty() == true) {
+            logger.logNoExampleDir()
+            return null
         }
 
-        catch(e: Exception) {
-            logger.logNoExampleDir()
+        for (exampleFileName in directory.list()) {
+            val example = MenuItem(exampleFileName.substringBefore("."))
+            example.setOnAction {
+                when (exampleFileName.substringAfter(".")) {
+                    "csv" -> mainView.graph = mainView.csvStrategy.open(
+                        File(exampleDir).resolve(exampleFileName)
+                    ).first
+                    "db" -> mainView.graph =
+                        mainView.SQliteFileHandlingStrategy.open(
+                            File(exampleDir).resolve(exampleFileName)
+                        ).first
+                }
+                drawer.showGraphWithoutGraphView()
+            }
+            examplesMenu.items.add(example)
         }
 
         return examplesMenu
