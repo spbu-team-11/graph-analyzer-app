@@ -14,16 +14,9 @@ git clone https://github.com/spbu-team-11/graph-analyzer-app
 - Запуск:
 
 #### Windows
-##### PowerShell
 
 ```
-./gradlew run
-```
-
-##### Command Prompt
-
-```
-gradlew run
+.\gradlew.bat run
 ```
 
 #### Linux
@@ -62,7 +55,7 @@ java -jar graph-analyzer-app.jar
  Для выделения ключевых вершин используется [Harmonic centrality](http://infoscience.epfl.ch/record/200525/files/%5bEN%5dASNA09.pdf)
 с алгоритмом Дейкстры и нормализованновым показателем centrality. Вершины выделяется размером, который считается по формуле: 
 
-![](https://render.githubusercontent.com/render/math?math=R*\frac{2((e+k)^x-(e+\frac{k}{2})^x)}{k}&mode=inline)
+![Formula](https://render.githubusercontent.com/render/math?math=R*\frac{2((e+k)^x-(e+\frac{k}{2})^x)}{k}&mode=inline)
 
  - _**`x`**_ - показатель centrality
  - _**`R`**_ - стандартный размер вершины
